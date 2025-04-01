@@ -6,9 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainWindow extends JFrame {
-    private JLabel welcomeMsg;
+    private JLabel welcomeLabel;
     private JMenuBar menuBar;
-    private JMenuItem welcomeMenu, command, product, dataBase;
+    private JMenuItem welcomeMenu, commandMenu, productMenu, dataBaseMenu;
     private Container container;
 
     // CONSTRUCTOR
@@ -23,34 +23,34 @@ public class MainWindow extends JFrame {
         container.setLayout(new BorderLayout());
 
         // Message d'accueil
-        welcomeMsg = new JLabel("Welcome to the terminal", SwingConstants.CENTER);
-        container.add(welcomeMsg, BorderLayout.CENTER);
+        welcomeLabel = new JLabel("Welcome to the terminal", SwingConstants.CENTER);
+        container.add(welcomeLabel, BorderLayout.CENTER);
 
         // Declaration variable du menu
         menuBar = new JMenuBar();
         welcomeMenu = new JMenuItem("Welcome");
-        command = new JMenuItem("Command");
-        product = new JMenuItem("Product");
-        dataBase = new JMenuItem("Database");
+        commandMenu = new JMenuItem("Command");
+        productMenu = new JMenuItem("Product");
+        dataBaseMenu = new JMenuItem("Database");
 
         // ItemMenu Listeners
         welcomeMenu.addActionListener(new WelcomeMenuListener());
+        commandMenu.addActionListener(new CommandMenuListener());
 
         // Ajout des variables a la barre
         menuBar.add(welcomeMenu);
-        menuBar.add(command);
-        menuBar.add(product);
-        menuBar.add(dataBase);
+        menuBar.add(commandMenu);
+        menuBar.add(productMenu);
+        menuBar.add(dataBaseMenu);
         this.setJMenuBar(menuBar);
-
         this.setVisible(true);
     }
-
+    // Tout faire dans un seul listener ou faire un pour chaque comme ici ?
+    // Implémentation listeners
     private class WelcomeMenuListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
-            container.add(welcomeMsg);
-
+            container.add(welcomeLabel);
             container.revalidate();
             container.repaint();
         }
@@ -60,7 +60,6 @@ public class MainWindow extends JFrame {
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
             container.add(new CommandPanel());
-
             container.revalidate();
             container.repaint();
         }
