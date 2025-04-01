@@ -1,0 +1,29 @@
+# Marche à suivre
+
+## Affichage
+
+1er Affichage : Prenom + nom + userId + demander pswd  --> bouton se connecter --> Si correct : SUIVANT // Si pas correct msg erreur + refresh la page.
+
+2ème Affichage : Liste des commandes de la journée (les non cloturée) + bouton créer commande (SOUTH) + bouton modifier commande (Une seule instance) + bouton valider commande (Une seule instance) + radio pour chaque commande
+
+- Bouton se connecter / se deconnecter
+- Orders management :
+    * Ajout bouton dans le menu (chercher liste des commandes non cloturées).
+
+- paymentMethod management :
+    * 3 instances (Carte, cash, pas payé)
+ 
+
+ ## CORRECTION
+
+Barre de menu : Accueil - Commande - Produits - DB
+
+Commande >>>> Liste des commandes  >>Quand sélectionné>> BOUTONS modifier/Clôturer : 
+                                                                                      >>modifier>> liste des orderLines + Bouton Ajouter orderLine + >>Quand sélectionné>> Bouton + && -
+                                                                                      >>cloturer>> setEnabledFalse + reafficher panel
+                                    >>Creer Commande>>
+
+Produits IDEM
+
+
+DB : ????
