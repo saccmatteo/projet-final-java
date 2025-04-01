@@ -1,4 +1,4 @@
-USE lps;
+USE db;
 
 CREATE TABLE product (
 id NUMERIC(10) PRIMARY KEY, 
