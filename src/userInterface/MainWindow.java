@@ -23,15 +23,15 @@ public class MainWindow extends JFrame {
         container.setLayout(new BorderLayout());
 
         // Message d'accueil
-        welcomeLabel = new JLabel("Welcome to the terminal", SwingConstants.CENTER);
+        welcomeLabel = new JLabel("Bienvenue sur le terminal", SwingConstants.CENTER);
         container.add(welcomeLabel, BorderLayout.CENTER);
 
         // Declaration variable du menu
         menuBar = new JMenuBar();
-        welcomeMenu = new JMenuItem("Welcome");
-        commandMenu = new JMenuItem("Command");
-        productMenu = new JMenuItem("Product");
-        dataBaseMenu = new JMenuItem("Database");
+        welcomeMenu = new JMenuItem("Accueil");
+        commandMenu = new JMenuItem("Commande");
+        productMenu = new JMenuItem("Produit");
+        dataBaseMenu = new JMenuItem("DB");
 
         // ItemMenu Listeners
         welcomeMenu.addActionListener(new WelcomeMenuListener());

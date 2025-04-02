@@ -3,6 +3,7 @@
 ## Affichage
 
 1er Affichage : Prenom + nom + userId + demander pswd  --> bouton se connecter --> Si correct : SUIVANT // Si pas correct msg erreur + refresh la page.
+ICI IL FAUDRA RAJOUTER LE TRUC POUR VERIFIER LES INFOS PRCQ LA CA OUVRE LA MAINWINDOW SANS VERIF + PAS DE JOPTIONPANE.
 
 2ème Affichage : Liste des commandes de la journée (les non cloturée) + bouton créer commande (SOUTH) + bouton modifier commande (Une seule instance) + bouton valider commande (Une seule instance) + radio pour chaque commande
 
@@ -27,3 +28,4 @@ Produits IDEM
 
 
 DB : ????
+
