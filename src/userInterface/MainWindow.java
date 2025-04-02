@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 public class MainWindow extends JFrame {
     private JLabel welcomeLabel;
     private JMenuBar menuBar;
-    private JMenuItem welcomeMenu, commandMenu, productMenu, dataBaseMenu;
+    private JMenuItem welcomeMenu, commandMenu, productMenu, dataBaseMenu, logOutMenu;
     private Container container;
 
     // CONSTRUCTOR
@@ -32,16 +32,19 @@ public class MainWindow extends JFrame {
         commandMenu = new JMenuItem("Commande");
         productMenu = new JMenuItem("Produit");
         dataBaseMenu = new JMenuItem("DB");
+        logOutMenu = new JMenuItem("Déconnexion");
 
         // ItemMenu Listeners
         welcomeMenu.addActionListener(new WelcomeMenuListener());
         commandMenu.addActionListener(new CommandMenuListener());
+        logOutMenu.addActionListener(new LogOutListener());
 
         // Ajout des variables a la barre
         menuBar.add(welcomeMenu);
         menuBar.add(commandMenu);
         menuBar.add(productMenu);
         menuBar.add(dataBaseMenu);
+        menuBar.add(logOutMenu);
         this.setJMenuBar(menuBar);
         this.setVisible(true);
     }
@@ -62,6 +65,15 @@ public class MainWindow extends JFrame {
             container.add(new CommandPanel());
             container.revalidate();
             container.repaint();
+        }
+    }
+
+    private class LogOutListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            dispose();
+            LoginWindow loginWindow = new LoginWindow();
+            JOptionPane.showMessageDialog(null, "A la pochaine fois !", "Déconnexion réussie", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }
