@@ -8,11 +8,17 @@ public class User {
     private Order [] orders;
     private static final Integer MAX_ORDERS_NB = 5;
 
+    // CONSTRUCTORS
     public User(Integer id, String lastName, String firstName, String passwordHash) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
         this.passwordHash = passwordHash;
+        orders = new Order[MAX_ORDERS_NB];
+    }
+        // Pour les selects
+    public User(Integer id, String lastName, String firstName){
+        this(id, lastName, firstName, null);
         orders = new Order[MAX_ORDERS_NB];
     }
 }

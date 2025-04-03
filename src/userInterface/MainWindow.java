@@ -14,6 +14,8 @@ public class MainWindow extends JFrame {
     // CONSTRUCTOR
     public MainWindow() {
         super("Terminal");
+        // Ouvrir en plein écran
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setBounds(0, 0, 1920, 1080);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());

@@ -7,20 +7,15 @@ import java.sql.SQLException;
 public class SingletonConnection {
     private static Connection connection;
 
-    // CONSTRUCTORS
-    private SingletonConnection(){
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/lps", "root", "Thang2010.TOTO");
-        }
-        catch (SQLException error){
-            error.getMessage();
-        }
-    }
-
     // GETTERS
-    public static Connection getConnection(){
+    public static Connection getInstance(){
         if (connection == null) {
-            new SingletonConnection();
+            try {
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db", "root", "Thang2010.TOTO");
+            }
+            catch (SQLException error){
+                error.getMessage();
+            }
         }
         return connection;
     }
