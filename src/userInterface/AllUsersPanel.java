@@ -22,19 +22,19 @@ public class AllUsersPanel extends JPanel {
 
         try {
             users = controller.getAllUsers();
-            for (User user : users) {
-                JLabel userInfos = new JLabel(user.getId() + " (" + user.getFirstName() + " " + user.getLastName() + ")");
-                usersList.add(userInfos);
-            }
-            usersList.setSelectedIndex(0);
-            this.add(usersList, BorderLayout.CENTER);
+            usersList = new JList(users.toArray()); // toArray => transforme l'objet en array
+
+            JScrollPane scrollPane = new JScrollPane(usersList);
+            usersList.setVisibleRowCount(2);
+            usersList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            this.add(scrollPane, BorderLayout.CENTER);
         }
         catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
-        } // Créer une classe AllUsersException
+        }
     }
 
-    // METHODES
+    // SETTERS
     public void setController(ApplicationController controller) {
         this.controller = controller;
     }
