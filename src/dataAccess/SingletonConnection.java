@@ -1,4 +1,4 @@
-package DataAccess;
+package dataAccess;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,7 +14,7 @@ public class SingletonConnection {
             }
             catch (SQLException error){
                 error.printStackTrace(); // Plus facile pour debug
-                error.getMessage();
+                System.out.println("Erreur de connexion : " + error.getMessage());
             }
         }
         return connection;

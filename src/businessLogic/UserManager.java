@@ -1,6 +1,6 @@
 package businessLogic;
 
-import DataAccess.*;
+import dataAccess.*;
 import model.User;
 
 import java.util.ArrayList;

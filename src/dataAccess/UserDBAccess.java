@@ -1,10 +1,9 @@
-package DataAccess;
+package dataAccess;
 
 import businessLogic.UserDataAccess;
 import model.*;
 
 import javax.swing.*;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
