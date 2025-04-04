@@ -47,8 +47,11 @@ public class MainWindow extends JFrame {
 
         // Ajout des variables a la barre
         menuBar.add(welcomeMenu);
+        menuBar.add(new JSeparator(SwingConstants.VERTICAL)); // Ajoute des barres verticales ;)
         menuBar.add(commandMenu);
+        menuBar.add(new JSeparator(SwingConstants.VERTICAL));
         menuBar.add(productMenu);
+        menuBar.add(new JSeparator(SwingConstants.VERTICAL));
         menuBar.add(dataBaseMenu);
         this.setJMenuBar(menuBar);
         this.setVisible(true);

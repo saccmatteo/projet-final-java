@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class AllUsersPanel extends JPanel {
     private JLabel connectionLabel;
+    private JComboBox connectionComboBox;
     private ApplicationController controller;
     private ArrayList<User> users;
     JList<User> usersList;
@@ -20,6 +21,7 @@ public class AllUsersPanel extends JPanel {
         this.add(connectionLabel, BorderLayout.NORTH);
         setController(new ApplicationController());
 
+        // Pas besoin du try ?????
         try {
             users = controller.getAllUsers();
             usersList = new JList(users.toArray()); // toArray => transforme l'objet en array
@@ -32,6 +34,11 @@ public class AllUsersPanel extends JPanel {
         catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         }
+        // CAS OU ON DOIT FAIRE UN COMBOBOX
+//        users = controller.getAllUsers();
+//        connectionComboBox = new JComboBox(users.toArray());
+//        connectionComboBox.setMaximumRowCount(1);
+//        this.add(connectionComboBox);
     }
 
     // SETTERS
