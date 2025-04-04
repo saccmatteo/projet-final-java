@@ -30,7 +30,7 @@ public class UserDBAccess implements UserDataAccess {
                                 data.getString("first_name"));
                 users.add(newUser);
             }
-            System.out.println("Nombre d'utilisateurs chargés : " + users.size());
+            System.out.println("Nombre d'utilisateurs chargés : " + users.size()); // debug
         }
         catch (SQLException error){
             JOptionPane.showMessageDialog(null, error.getMessage());

@@ -7,29 +7,37 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class AllUsersPanel extends JPanel {
+public class CommandPanel extends JPanel {
     private JLabel connectionLabel;
     private JComboBox connectionComboBox;
     private ApplicationController controller;
     private ArrayList<User> users;
-    JList<User> usersList;
+    private JList usersList;
+    private JPanel allUsersPanel;
 
     // CONSTRUCTORS
-    public AllUsersPanel() {
+    public CommandPanel() {
         this.setLayout(new BorderLayout());
-        connectionLabel = new JLabel("Utilisateur : ", SwingConstants.CENTER);
-        this.add(connectionLabel, BorderLayout.NORTH);
+        connectionLabel = new JLabel("Utilisateur : ");
+        //this.add(connectionLabel, BorderLayout.NORTH);
         setController(new ApplicationController());
+        allUsersPanel = new JPanel(new GridLayout(1, 2));
+        allUsersPanel.add(connectionLabel);
 
         // Pas besoin du try ?????
         try {
             users = controller.getAllUsers();
-            usersList = new JList(users.toArray()); // toArray => transforme l'objet en array
-
-            JScrollPane scrollPane = new JScrollPane(usersList);
-            usersList.setVisibleRowCount(2);
+            DefaultListModel<User> listModel = new DefaultListModel<>();
+            for (User user : users) {
+                listModel.addElement(user);
+            }
+            usersList = new JList<>(listModel); // toArray => transforme l'objet en array
+            usersList.setVisibleRowCount(1);
             usersList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            this.add(scrollPane, BorderLayout.CENTER);
+            JScrollPane scrollPane = new JScrollPane(usersList);
+            //this.add(scrollPane, BorderLayout.CENTER);
+            allUsersPanel.add(scrollPane);
+            this.add(allUsersPanel, BorderLayout.NORTH);
         }
         catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
