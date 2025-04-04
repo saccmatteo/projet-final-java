@@ -18,8 +18,8 @@ public class UserManager {
         this.dao = dao;
     }
 
-    public ArrayList<User> getUser() {
-        return dao.getUsers();
+    public ArrayList<User> getAllUsers() {
+        return dao.getAllUsers(); // à mettre dans une variable si l'on veut modifier
     }
 
 //    public void addUser(User user) {

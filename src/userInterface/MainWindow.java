@@ -61,7 +61,7 @@ public class MainWindow extends JFrame {
     private class CommandMenuListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
-            container.add(new CommandPanel());
+            container.add(new AllUsersPanel());
             container.revalidate();
             container.repaint();
         }

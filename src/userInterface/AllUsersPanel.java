@@ -1,29 +1,41 @@
 package userInterface;
 
-import DataAccess.*;
-import model.*;
+import controller.ApplicationController;
+import model.User;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
-public class ConnectionPanel extends JPanel {
-    private String sqlInstruction;
-    private User user;
-    private PreparedStatement preparedStatement;
-    private ArrayList<String> users = new ArrayList<>();
+public class AllUsersPanel extends JPanel {
     private JLabel connectionLabel;
-    private JList userList;
+    private ApplicationController controller;
+    private ArrayList<User> users;
+    JList<User> usersList;
 
     // CONSTRUCTORS
-    public ConnectionPanel() {
+    public AllUsersPanel() {
         this.setLayout(new BorderLayout());
+        connectionLabel = new JLabel("Utilisateur : ", SwingConstants.CENTER);
+        this.add(connectionLabel, BorderLayout.NORTH);
+        setController(new ApplicationController());
 
-        connectionLabel = new JLabel("Utilisateur : ");
-
+        try {
+            users = controller.getAllUsers();
+            for (User user : users) {
+                JLabel userInfos = new JLabel(user.getId() + " (" + user.getFirstName() + " " + user.getLastName() + ")");
+                usersList.add(userInfos);
+            }
+            usersList.setSelectedIndex(0);
+            this.add(usersList, BorderLayout.CENTER);
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        } // Créer une classe AllUsersException
     }
 
     // METHODES
-
+    public void setController(ApplicationController controller) {
+        this.controller = controller;
+    }
 }
