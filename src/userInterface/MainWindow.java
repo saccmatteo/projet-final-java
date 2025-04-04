@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class MainWindow extends JFrame {
     private JLabel welcomeLabel;
@@ -17,7 +19,11 @@ public class MainWindow extends JFrame {
         // Ouvrir en plein écran
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setBounds(0, 0, 1920, 1080);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        addWindowListener (new WindowAdapter() {
+            public void windowClosing (WindowEvent e) {
+                System.exit(0);
+            }
+        } );
         this.setLayout(new BorderLayout());
 
         // Container
@@ -33,7 +39,7 @@ public class MainWindow extends JFrame {
         welcomeMenu = new JMenuItem("Accueil");
         commandMenu = new JMenuItem("Commande");
         productMenu = new JMenuItem("Produit");
-        dataBaseMenu = new JMenuItem("DB");
+        dataBaseMenu = new JMenuItem("Base de donnees");
 
         // ItemMenu Listeners
         welcomeMenu.addActionListener(new WelcomeMenuListener());
@@ -41,8 +47,11 @@ public class MainWindow extends JFrame {
 
         // Ajout des variables a la barre
         menuBar.add(welcomeMenu);
+        menuBar.add(new JSeparator(SwingConstants.VERTICAL)); // Ajoute des barres verticales ;)
         menuBar.add(commandMenu);
+        menuBar.add(new JSeparator(SwingConstants.VERTICAL));
         menuBar.add(productMenu);
+        menuBar.add(new JSeparator(SwingConstants.VERTICAL));
         menuBar.add(dataBaseMenu);
         this.setJMenuBar(menuBar);
         this.setVisible(true);
@@ -61,7 +70,8 @@ public class MainWindow extends JFrame {
     private class CommandMenuListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
-            container.add(new CommandPanel());
+            CommandPanel allUsersPanel = new CommandPanel();
+            container.add(allUsersPanel, BorderLayout.CENTER);
             container.revalidate();
             container.repaint();
         }

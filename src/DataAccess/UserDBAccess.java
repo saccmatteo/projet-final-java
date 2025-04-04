@@ -16,14 +16,7 @@ public class UserDBAccess implements UserDataAccess {
     private PreparedStatement preparedStatement;
     private ResultSet data;
 
-    // GETTERS
-    @Override
-    public ArrayList<User> getUsers() {
-        return users;
-    }
-
-    // METHODES
-    public void FillInLists() throws AllUsersException{
+    public UserDBAccess(){
         try{
             sqlInstruction = "SELECT id, last_name, first_name FROM user";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
@@ -31,13 +24,26 @@ public class UserDBAccess implements UserDataAccess {
 
             while (data.next()) {
                 // Pas besoin de verifier car NOT NULL
-
-                // ?????????
+                User newUser =
+                        new User(data.getInt("id"),
+                                data.getString("last_name"),
+                                data.getString("first_name"));
+                users.add(newUser);
             }
+            System.out.println("Nombre d'utilisateurs chargés : " + users.size()); // debug
         }
         catch (SQLException error){
             JOptionPane.showMessageDialog(null, error.getMessage());
         }
-
     }
+    // GETTERS
+    @Override
+    public ArrayList<User> getAllUsers() {
+        return users;
+    }
+
+    // METHODES
+//    public void createUsers(){
+//
+//    }
 }
