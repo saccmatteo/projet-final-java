@@ -28,3 +28,6 @@ Produits IDEM
 
 DB : ????
 
+
+#À demander à la prof :
+- Changer le fait de payer plus tard à payer directement après chaque commande
