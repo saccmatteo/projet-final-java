@@ -18,7 +18,7 @@ public class UserDBAccess implements UserDataAccess {
     public UserDBAccess(){
         try{
             sqlInstruction = "SELECT id, last_name, first_name FROM user";
-            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+            preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             data = preparedStatement.executeQuery();
 
             while (data.next()) {

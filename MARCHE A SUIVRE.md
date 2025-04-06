@@ -28,3 +28,12 @@ Produits IDEM
 
 DB : ????
 
+
+# À demander à la prof :
+- Changer le fait de payer plus tard à payer directement après chaque commande
+
+
+# À faire :
+- Les boutons supprimer et modifier ne seront accessibles que quand une commande est sélectionnée
+- Bouton supprimer --> petite pop up "Vouslez vous supprimer" --> Si oui, remove de la liste des commandes
+- Bouton modifier
