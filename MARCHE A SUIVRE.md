@@ -37,3 +37,6 @@ DB : ????
 - Les boutons supprimer et modifier ne seront accessibles que quand une commande est sélectionnée
 - Bouton supprimer --> petite pop up "Vouslez vous supprimer" --> Si oui, remove de la liste des commandes
 - Bouton modifier
+
+- Pour la JList du panel :"
+   * Faire un toString de la commande --> Commande + id + prixTotal de la commande euros + "prise par " + nomUser + "le" + date  
