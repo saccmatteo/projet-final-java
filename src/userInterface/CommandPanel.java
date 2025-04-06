@@ -4,6 +4,7 @@ import controller.ApplicationController;
 import model.User;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -13,7 +14,8 @@ public class CommandPanel extends JPanel {
     private ApplicationController controller;
 
     private ArrayList<User> users;
-    private JPanel allUsersPanel;
+    private JPanel allUsersPanel, buttonsPanel;
+    private JButton removeCommand, createCommand, updateCommand;
     private JLabel userLabel;
     private JComboBox<User> usersComboList;
 
@@ -25,10 +27,11 @@ public class CommandPanel extends JPanel {
         try {
             userLabel = new JLabel("Utilisateur : ");
             allUsersPanel = new JPanel(new FlowLayout());
+            allUsersPanel.setBorder(new EmptyBorder(40, 0, 40, 0));
             users = controller.getAllUsers();
 
             usersComboList = new JComboBox<>(users.toArray(new User[0]));
-            usersComboList.setPreferredSize(new Dimension(200, 25));
+            usersComboList.setPreferredSize(new Dimension(300, 30));
                 //ComboBox Listener
             ComboBoxListener comboListener = new ComboBoxListener();
             usersComboList.addItemListener(comboListener);
@@ -36,6 +39,17 @@ public class CommandPanel extends JPanel {
             allUsersPanel.add(userLabel);
             allUsersPanel.add(usersComboList);
             this.add(allUsersPanel, BorderLayout.NORTH);
+
+            buttonsPanel = new JPanel(new FlowLayout());
+            buttonsPanel.setBorder(new EmptyBorder(0,0, 40, 0));
+            removeCommand = new JButton("Supprimer commande");
+            createCommand = new JButton("Prendre commande");
+            updateCommand = new JButton("Modifier commande");
+            buttonsPanel.add(updateCommand);
+            buttonsPanel.add(createCommand);
+            buttonsPanel.add(removeCommand);
+            this.add(buttonsPanel);
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         }
