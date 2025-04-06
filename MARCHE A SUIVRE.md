@@ -31,6 +31,8 @@ DB : ????
 
 # À demander à la prof :
 - Changer le fait de payer plus tard à payer directement après chaque commande
+- Mettre payment_date à null
+- Mettre la clé étrangère en facultative pour payment_label sur Order
 
 
 # À faire :
@@ -39,4 +41,4 @@ DB : ????
 - Bouton modifier
 
 - Pour la JList du panel :"
-   * Faire un toString de la commande --> Commande + id + prixTotal de la commande euros + "prise par " + nomUser + "le" + date  
+   * Faire un toString de la commande --> Commande + id + prixTotal de la commande euros + "prise par " + nomUser + "le" + date
