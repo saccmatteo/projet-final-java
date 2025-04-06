@@ -12,6 +12,8 @@ public class Order {
     private Status status;
     private PaymentMethod paymentMethod;
     private User user;
+    private OrderLine[] orderLines;
+    private static final int NB_MAX_PRODUCT = 30;
 
     public Order(Integer id, LocalDate date, LocalDate paymentDate, Integer discountPercentage, String comment, Boolean isHappyHour, Status status, PaymentMethod paymentMethod, User user) {
         this.id = id;
@@ -23,5 +25,21 @@ public class Order {
         this.status = status;
         this.paymentMethod = paymentMethod;
         this.user = user;
+        this.orderLines = new OrderLine[NB_MAX_PRODUCT];
+    }
+
+    public String totalPrice() { // Changer type si besoin
+        double totalPrice = 0;
+
+        for (OrderLine orderLine : orderLines) {
+             totalPrice += orderLine.getQuantity() * orderLine.getUnitPrice();
+        }
+        String formattedTotalPrice = String.format("%.2f", totalPrice);
+        return formattedTotalPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "Commande " + id + " : " + totalPrice() + "€ prise par " + user + " le " + date;
     }
 }
