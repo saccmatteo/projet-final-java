@@ -99,7 +99,7 @@ public class CommandPanel extends JPanel {
             allOrdersPanel.setPreferredSize(new Dimension(1000, 600));
             // Ajout clearButtonSelection + params affichage du bouton
             clearSelection = new JButton("Réinitialiser le choix");
-            clearSelection.addActionListener(new ClearSelectionListener());
+            clearSelection.addActionListener(new ButtonsListener());
             allOrdersPanel.add(clearSelection);
             this.add(allOrdersPanel, BorderLayout.SOUTH);
         } catch (Exception e) {
@@ -130,12 +130,14 @@ public class CommandPanel extends JPanel {
         }
     }
 
-    private class ClearSelectionListener implements ActionListener {
+    private class ButtonsListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            ordersList.clearSelection();
-            updateCommand.setEnabled(false);
-            removeCommand.setEnabled(false);
-            validateCommand.setEnabled(false);
+            if (e.getSource() == clearSelection) {
+                ordersList.clearSelection();
+                updateCommand.setEnabled(false);
+                removeCommand.setEnabled(false);
+                validateCommand.setEnabled(false);
+            }
         }
     }
 }
