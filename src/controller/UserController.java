@@ -5,10 +5,10 @@ import model.User;
 
 import java.util.ArrayList;
 
-public class ApplicationController {
+public class UserController {
     private UserManager manager;
 
-    public ApplicationController() {
+    public UserController() {
         setManager(new UserManager());
     }
 

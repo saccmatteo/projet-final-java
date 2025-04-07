@@ -22,19 +22,7 @@ public class User {
         orders = new Order[MAX_ORDERS_NB];
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String toString(){
+    public String toString() {
         return id + " (" + firstName + " " + lastName + ")";
     }
 }
