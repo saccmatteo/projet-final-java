@@ -46,11 +46,11 @@ public class CommandPanel extends JPanel {
             users = userController.getAllUsers();
             // ComboBox params
             usersComboList = new JComboBox<>(users.toArray(new User[0]));
+            usersComboList.setSelectedItem(null); // Ne prend en compte aucune valeur dans la comboBox
             usersComboList.setPreferredSize(new Dimension(300, 40));
             usersComboList.setFont(new Font("Arial", Font.BOLD, 20));
             // ComboBox Listener
-            ComboBoxListener comboListener = new ComboBoxListener();
-            usersComboList.addItemListener(comboListener);
+            usersComboList.addItemListener(new ComboBoxListener());
             // Ajout + params au Panel
             allUsersPanel.add(userLabel);
             allUsersPanel.add(usersComboList);
@@ -86,9 +86,18 @@ public class CommandPanel extends JPanel {
             ordersList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             ordersList.clearSelection();
             // Params affichage JList
-            ordersList.setFont(new Font("Arial", Font.PLAIN, 36)); // Agrandir la taille de la police
+            ordersList.setFont(new Font("Arial", Font.PLAIN, 30)); // Agrandir la taille de la police
             ordersList.setFixedCellHeight(60); // agrandir les lignes de la JList
             ordersList.setBorder(new EmptyBorder(10, 10, 10, 10));
+            ordersList.setCellRenderer(new DefaultListCellRenderer() {
+                public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                    JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+                    label.setHorizontalAlignment(SwingConstants.CENTER); // Centrage horizontal du texte
+                    label.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY)); // 👈 Ajoute une bordure grise en bas
+                    return label;
+                }
+            }); // À voir si on garde ou pas, essayer de tout comprendre
             ordersList.addListSelectionListener(new JListListener());
             // ScrollPane
             ordersScrollPane = new JScrollPane(ordersList);
@@ -102,6 +111,8 @@ public class CommandPanel extends JPanel {
             clearSelection.addActionListener(new ButtonsListener());
             allOrdersPanel.add(clearSelection);
             this.add(allOrdersPanel, BorderLayout.SOUTH);
+            ordersScrollPane.setVisible(false);
+            clearSelection.setVisible(false);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         }
@@ -118,7 +129,8 @@ public class CommandPanel extends JPanel {
     // SOUS-CLASSE LISTENERS
     private class ComboBoxListener implements ItemListener {
         public void itemStateChanged(ItemEvent e) {
-
+            ordersScrollPane.setVisible(true);
+            clearSelection.setVisible(true);
         }
     }
 

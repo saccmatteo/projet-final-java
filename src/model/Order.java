@@ -40,6 +40,6 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Commande " + id + " : x€ prise par" + user + " le " + date;
+        return "Commande " + id + " : x€ prise par n" + user + " le " + date;
     }
 }
