@@ -20,7 +20,9 @@ public class OrderDBAccess implements OrderDataAccess {
 
     public OrderDBAccess() {
         try {
-            sqlInstruction = "SELECT `order`.*, user.last_name, user.first_name FROM `order` JOIN user ON `order`.user_id = user.id WHERE `order`.status_label = 'En cours'";
+            sqlInstruction = "SELECT `order`.*, user.last_name, user.first_name " +
+                    "FROM `order` JOIN user ON `order`.user_id = user.id " +
+                    "WHERE `order`.status_label = 'En cours'";
             // sqlInstruction = "SELECT `order`.id, `order`.order_date, `order`.user_id, user.last_name, user.first_name FROM `order` JOIN user ON `order`.user_id = user.id WHERE `order`.status_label = 'En cours'";
             preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             data = preparedStatement.executeQuery();

@@ -15,11 +15,14 @@ import java.util.ArrayList;
 public class CommandPanel extends JPanel {
     private UserController userController;
     private OrderController orderController;
+
     private ArrayList<User> users;
     private ArrayList<Order> orders;
+
     private JPanel allUsersPanel, buttonsPanel, allOrdersPanel;
     private JButton removeCommand, createCommand, updateCommand;
     private JLabel userLabel;
+
     private JComboBox<User> usersComboList;
     private JList<Order> ordersList;
     private JScrollPane ordersScrollPane;
@@ -47,12 +50,13 @@ public class CommandPanel extends JPanel {
             this.add(allUsersPanel, BorderLayout.NORTH);
 
             // Orders buttons
-
             buttonsPanel = new JPanel(new FlowLayout());
             buttonsPanel.setBorder(new EmptyBorder(0,0, 40, 0));
+
             removeCommand = new JButton("Supprimer commande");
             createCommand = new JButton("Prendre commande");
             updateCommand = new JButton("Modifier commande");
+
             buttonsPanel.add(updateCommand);
             buttonsPanel.add(createCommand);
             buttonsPanel.add(removeCommand);
@@ -61,16 +65,17 @@ public class CommandPanel extends JPanel {
             // Orders list
             allOrdersPanel = new JPanel(new FlowLayout());
             setOrderController(new OrderController());
+
             this.orders = orderController.getAllOrders();
             ordersList = new JList<>(orders.toArray(new Order[0])); // Conversion en tableau
             ordersList.setVisibleRowCount(5);
             ordersList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             ordersList.clearSelection();
+
             ordersScrollPane = new JScrollPane(ordersList);
             allOrdersPanel.add(ordersScrollPane);
             allOrdersPanel.setBorder(new EmptyBorder(0,0, 40, 0));
             this.add(allOrdersPanel, BorderLayout.SOUTH);
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         }
