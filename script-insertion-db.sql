@@ -1,5 +1,6 @@
 -- 1. Tables de référence
-
+-- CREATE SCHEMA db DEFAULT CHARSET UTF8;
+-- DROP DATABASE db
 INSERT INTO category (label) VALUES
 ('Boissons'),
 ('Snacks'),

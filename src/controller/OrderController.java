@@ -19,4 +19,9 @@ public class OrderController {
     public ArrayList<Order> getAllOrders() {
         return manager.getAllOrders();
     }
+
+    public void deleteOrder(Order order) {
+        manager.deleteOrder(order);
+    }
 }
+

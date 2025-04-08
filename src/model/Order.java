@@ -38,6 +38,10 @@ public class Order {
         return formattedTotalPrice;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return "Commande " + id + " : x€ prise par n" + user + " le " + date;

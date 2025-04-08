@@ -32,6 +32,7 @@ public class MainWindow extends JFrame {
 
         // Message d'accueil
         welcomeLabel = new JLabel("Bienvenue sur le terminal", SwingConstants.CENTER);
+        welcomeLabel.setFont(new Font("Arial", Font.PLAIN, 30));
         container.add(welcomeLabel, BorderLayout.CENTER);
 
         // Declaration variable du menu
