@@ -1,0 +1,73 @@
+-- 1. Tables de référence
+
+INSERT INTO category (label) VALUES
+('Boissons'),
+('Snacks'),
+('Alcool'),
+('Sans Gluten');
+
+INSERT INTO supplier (label, phone_number) VALUES
+('CocaCola', '0123456789'),
+('PepsiCo', '0987654321'),
+('Nestlé', '0147258369');
+
+INSERT INTO `function` (label) VALUES
+('Barman'),
+('Manager'),
+('Serveur');
+
+INSERT INTO `status` (label) VALUES
+('En cours'),
+('Terminé');
+
+INSERT INTO paymentMethod (label) VALUES
+('Carte Bancaire'),
+('Espèces'),
+('Ticket Restaurant');
+
+-- 2. Utilisateurs
+
+INSERT INTO `user` (id, last_name, first_name, password_hash, function_label) VALUES
+(1, 'Dupont', 'Jean', 'hash1', 'Manager'),
+(2, 'Martin', 'Claire', 'hash2', 'Serveur'),
+(3, 'Durand', 'Paul', 'hash3', 'Barman');
+
+-- 3. Produits
+
+INSERT INTO product (id, label, price, nb_in_stock, min_treshold, is_gluten_free, alcohol_percentage, distribution_date, last_restock_date, description, category_label, supplier_label) VALUES
+(1, 'Coca Zéro', 1.50, 100, 10, TRUE, NULL, '2024-04-01', '2024-04-01', 'Soda sans sucre', 'Boissons', 'CocaCola'),
+(2, 'Pepsi Max', 1.40, 90, 10, TRUE, NULL, '2024-04-01', '2024-04-01', 'Soda sans sucre', 'Boissons', 'PepsiCo'),
+(3, 'Chips Paprika', 2.00, 50, 5, FALSE, NULL, '2024-03-25', '2024-03-25', 'Chips saveur paprika', 'Snacks', 'PepsiCo'),
+(4, 'Bière Blonde', 3.20, 70, 7, FALSE, 5.0, '2024-03-20', '2024-03-20', 'Bière artisanale', 'Alcool', 'Nestlé'),
+(5, 'Crackers Sans Gluten', 2.50, 30, 5, TRUE, NULL, '2024-03-15', '2024-03-15', 'Crackers pour allergiques', 'Sans Gluten', 'Nestlé');
+
+-- 4. Commandes (Order) et lignes de commande (orderLine)
+
+INSERT INTO `order` (id, order_date, payment_date, discount_percentage, `comment`, is_happy_hour, status_label, user_id, payment_method_label) VALUES
+(1, '2025-04-01', '2025-04-01', 0, 'RAS', FALSE, 'Terminé', 1, 'Carte Bancaire'),
+(2, '2025-04-01', '2025-04-01', 10, '', TRUE, 'Terminé', 2, 'Espèces'),
+(3, '2025-04-02', '2025-04-02', 5, 'Client fidèle', FALSE, 'Terminé', 1, 'Ticket Restaurant'),
+(4, '2025-04-02', '2025-04-02', 0, '', TRUE, 'Terminé', 3, 'Carte Bancaire'),
+(5, '2025-04-03', '2025-04-03', 0, '', FALSE, 'En cours', 2, 'Carte Bancaire'),
+(6, '2025-04-03', '2025-04-03', 20, 'Promo spéciale', TRUE, 'Terminé', 1, 'Espèces'),
+(7, '2025-04-04', '2025-04-04', 0, '', FALSE, 'Terminé', 3, 'Carte Bancaire'),
+(8, '2025-04-04', '2025-04-04', 15, '', TRUE, 'En cours', 2, 'Carte Bancaire'),
+(9, '2025-04-05', '2025-04-05', 0, 'Commande rapide', FALSE, 'Terminé', 1, 'Espèces'),
+(10, '2025-04-06', '2025-04-06', 0, '', FALSE, 'Terminé', 3, 'Carte Bancaire');
+
+-- Lignes de commande
+
+INSERT INTO orderLine (order_id, product_id, quantity, unit_price) VALUES
+(1, 1, 2, 1.50),
+(1, 3, 1, 2.00),
+(2, 2, 3, 1.40),
+(3, 4, 2, 3.20),
+(4, 1, 1, 1.50),
+(4, 5, 1, 2.50),
+(5, 2, 2, 1.40),
+(6, 3, 4, 2.00),
+(7, 1, 1, 1.50),
+(8, 5, 2, 2.50),
+(9, 4, 1, 3.20),
+(10, 2, 2, 1.40),
+(10, 3, 1, 2.00);
