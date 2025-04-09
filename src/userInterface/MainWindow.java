@@ -1,11 +1,13 @@
 package userInterface;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import beerThread.*;
 
 public class MainWindow extends JFrame {
     private JLabel welcomeLabel;
@@ -33,7 +35,10 @@ public class MainWindow extends JFrame {
         // Message d'accueil
         welcomeLabel = new JLabel("Bienvenue sur le terminal", SwingConstants.CENTER);
         welcomeLabel.setFont(new Font("Arial", Font.PLAIN, 30));
-        container.add(welcomeLabel, BorderLayout.CENTER);
+        welcomeLabel.setBorder(new EmptyBorder(200, 0, 100, 0));
+        container.add(welcomeLabel, BorderLayout.NORTH);
+        //Verre de choppe
+        container.add(new BeerGlass());
 
         // Declaration variable du menu
         menuBar = new JMenuBar();
@@ -62,7 +67,7 @@ public class MainWindow extends JFrame {
     private class WelcomeMenuListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
-            container.add(welcomeLabel);
+            container.add(welcomeLabel, BorderLayout.NORTH);
             container.revalidate();
             container.repaint();
         }
