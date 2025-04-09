@@ -7,6 +7,7 @@ public class User {
     private String passwordHash; // A voir, si on change réellement
     private Order [] orders;
     private static final Integer MAX_ORDERS_NB = 5;
+    private String functionLabel;
 
     // CONSTRUCTORS
     public User(Integer id, String lastName, String firstName, String passwordHash) {
@@ -25,4 +26,13 @@ public class User {
     public String toString() {
         return id + " (" + firstName + " " + lastName + ")";
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
 }
+

@@ -1,9 +1,7 @@
 package dataAccess;
 
-import businessLogic.OrderDataAccess;
+import model.OrderDataAccess;
 import model.Order;
-import model.PaymentMethod;
-import model.Status;
 import model.User;
 
 import javax.swing.*;
@@ -11,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class OrderDBAccess implements OrderDataAccess {
     private ArrayList<Order> orders = new ArrayList<>();
@@ -35,8 +34,8 @@ public class OrderDBAccess implements OrderDataAccess {
                         data.getInt("discount_percentage"),
                         data.getString("comment"),
                         data.getBoolean("is_happy_hour"),
-                        new Status(data.getString("status_label")),
-                        new PaymentMethod(data.getString("payment_method_label")),
+                        data.getString("status_label"),
+                        data.getString("payment_method_label"),
                         new User(data.getInt("user_id"), data.getString("user.last_name"), data.getString("user.first_name"))
                 );
                 orders.add(newOrder);
@@ -50,5 +49,47 @@ public class OrderDBAccess implements OrderDataAccess {
     @Override
     public ArrayList<Order> getAllOrders() {
         return orders;
+    }
+
+    public void removeCommand(int commandId) {
+        try {
+            sqlInstruction = "DElETE FROM orderline WHERE order_id = ?";
+            preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1, commandId);
+            preparedStatement.executeUpdate();
+            sqlInstruction = "DELETE FROM `order` WHERE id = ?;";
+            preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1, commandId);
+            preparedStatement.executeUpdate();
+
+            Iterator<Order> iterator = orders.iterator();
+            while (iterator.hasNext()) {
+                Order order = iterator.next();
+                if (order.getId() == commandId) {
+                    iterator.remove();
+                }
+            }
+            /*Order order = iterator.next();
+            while (iterator.hasNext() && order.getId() != commandId) {
+                order = iterator.next();
+            }
+            if (order.getId() == commandId) {
+                iterator.remove();
+            }*/
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+    public void updateStatus(int commandId) {
+        try {
+            sqlInstruction = "UPDATE `order` SET status_label = 'Terminé' WHERE id = ?";
+            preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1, commandId);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }
 }

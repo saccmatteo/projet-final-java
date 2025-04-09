@@ -1,4 +1,4 @@
-package businessLogic;
+package model;
 
 import model.User;
 

@@ -2,6 +2,7 @@ package businessLogic;
 
 import dataAccess.*;
 import model.User;
+import model.UserDataAccess;
 
 import java.util.ArrayList;
 

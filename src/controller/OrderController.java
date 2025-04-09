@@ -19,9 +19,11 @@ public class OrderController {
     public ArrayList<Order> getAllOrders() {
         return manager.getAllOrders();
     }
-
-    public void deleteOrder(Order order) {
-        manager.deleteOrder(order);
+    public void removeCommand(int commandId) {
+        manager.removeCommand(commandId);
+    }
+    public void updateStatus(int commandId) {
+        manager.updateStatus(commandId);
     }
 }
 

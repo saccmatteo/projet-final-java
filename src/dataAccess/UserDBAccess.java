@@ -1,6 +1,6 @@
 package dataAccess;
 
-import businessLogic.UserDataAccess;
+import model.UserDataAccess;
 import model.*;
 
 import javax.swing.*;

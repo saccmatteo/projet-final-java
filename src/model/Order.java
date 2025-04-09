@@ -9,21 +9,21 @@ public class Order {
     private Integer discountPercentage;
     private String comment;
     private Boolean isHappyHour;
-    private Status status;
-    private PaymentMethod paymentMethod;
+    private String statusLabel;
+    private String paymentMethodLabel;
     private User user;
     private OrderLine[] orderLines;
     private static final int NB_MAX_PRODUCT = 30;
 
-    public Order(Integer id, LocalDate date, LocalDate paymentDate, Integer discountPercentage, String comment, Boolean isHappyHour, Status status, PaymentMethod paymentMethod, User user) {
+    public Order(Integer id, LocalDate date, LocalDate paymentDate, Integer discountPercentage, String comment, Boolean isHappyHour, String statusLabel, String paymentMethodLabel, User user) {
         this.id = id;
         this.date = date;
         this.paymentDate = paymentDate;
         this.discountPercentage = discountPercentage;
         this.comment = comment;
         this.isHappyHour = isHappyHour;
-        this.status = status;
-        this.paymentMethod = paymentMethod;
+        this.statusLabel = statusLabel;
+        this.paymentMethodLabel = paymentMethodLabel;
         this.user = user;
         this.orderLines = new OrderLine[NB_MAX_PRODUCT];
     }
@@ -42,8 +42,12 @@ public class Order {
         return id;
     }
 
+    public void setStatusLabel(String statusLabel) {
+        this.statusLabel = statusLabel;
+    }
+
     @Override
     public String toString() {
-        return "Commande " + id + " : x€ prise par n" + user + " le " + date;
+        return "Commande " + id + " : x€ prise par " + user.getFirstName() + " " + user.getLastName() + " le " + date;
     }
 }

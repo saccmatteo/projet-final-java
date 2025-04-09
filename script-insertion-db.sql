@@ -45,16 +45,16 @@ INSERT INTO product (id, label, price, nb_in_stock, min_treshold, is_gluten_free
 -- 4. Commandes (Order) et lignes de commande (orderLine)
 
 INSERT INTO `order` (id, order_date, payment_date, discount_percentage, `comment`, is_happy_hour, status_label, user_id, payment_method_label) VALUES
-(1, '2025-04-01', '2025-04-01', 0, 'RAS', FALSE, 'Terminé', 1, 'Carte Bancaire'),
-(2, '2025-04-01', '2025-04-01', 10, '', TRUE, 'Terminé', 2, 'Espèces'),
-(3, '2025-04-02', '2025-04-02', 5, 'Client fidèle', FALSE, 'Terminé', 1, 'Ticket Restaurant'),
-(4, '2025-04-02', '2025-04-02', 0, '', TRUE, 'Terminé', 3, 'Carte Bancaire'),
+(1, '2025-04-01', '2025-04-01', 0, 'RAS', FALSE, 'En cours', 1, 'Carte Bancaire'),
+(2, '2025-04-01', '2025-04-01', 10, '', TRUE, 'En cours', 2, 'Espèces'),
+(3, '2025-04-02', '2025-04-02', 5, 'Client fidèle', FALSE, 'En cours', 1, 'Ticket Restaurant'),
+(4, '2025-04-02', '2025-04-02', 0, '', TRUE, 'En cours', 3, 'Carte Bancaire'),
 (5, '2025-04-03', '2025-04-03', 0, '', FALSE, 'En cours', 2, 'Carte Bancaire'),
-(6, '2025-04-03', '2025-04-03', 20, 'Promo spéciale', TRUE, 'Terminé', 1, 'Espèces'),
-(7, '2025-04-04', '2025-04-04', 0, '', FALSE, 'Terminé', 3, 'Carte Bancaire'),
+(6, '2025-04-03', '2025-04-03', 20, 'Promo spéciale', TRUE, 'En cours', 1, 'Espèces'),
+(7, '2025-04-04', '2025-04-04', 0, '', FALSE, 'En cours', 3, 'Carte Bancaire'),
 (8, '2025-04-04', '2025-04-04', 15, '', TRUE, 'En cours', 2, 'Carte Bancaire'),
-(9, '2025-04-05', '2025-04-05', 0, 'Commande rapide', FALSE, 'Terminé', 1, 'Espèces'),
-(10, '2025-04-06', '2025-04-06', 0, '', FALSE, 'Terminé', 3, 'Carte Bancaire');
+(9, '2025-04-05', '2025-04-05', 0, 'Commande rapide', FALSE, 'En cours', 1, 'Espèces'),
+(10, '2025-04-06', '2025-04-06', 0, '', FALSE, 'En cours', 3, 'Carte Bancaire');
 
 -- Lignes de commande
 
