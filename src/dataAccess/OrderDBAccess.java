@@ -62,7 +62,7 @@ public class OrderDBAccess implements OrderDataAccess {
             preparedStatement.setInt(1, commandId);
             preparedStatement.executeUpdate();
 
-            Iterator<Order> iterator = orders.iterator();
+            Iterator<Order> iterator = getAllOrders().iterator();
             while (iterator.hasNext()) {
                 Order order = iterator.next();
                 if (order.getId() == commandId) {

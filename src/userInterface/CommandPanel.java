@@ -19,14 +19,11 @@ import java.util.ArrayList;
 public class CommandPanel extends JPanel {
     private UserController userController;
     private OrderController orderController;
-
     private ArrayList<User> users;
     private ArrayList<Order> orders;
-
     private JPanel allUsersPanel, buttonsPanel, allOrdersPanel;
     private JButton removeCommand, createCommand, updateCommand, validateCommand, clearSelection;
     private JLabel userLabel, listLabel;
-
     private JComboBox<User> usersComboList;
     private JList<Order> ordersList;
     private JScrollPane ordersScrollPane;

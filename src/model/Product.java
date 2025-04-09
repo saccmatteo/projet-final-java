@@ -18,7 +18,7 @@ public class Product {
     private int supplierPhoneNumber;
     private String categoryLabel;
 
-    public Product(Integer id, String label, Double price, Integer nbInStock, Integer minTreshold, Boolean isGlutenFree, Double alcoholPercentage, LocalDate distributionDate, String description, String supplierLabel, int supplierPhoneNumber, String categoryLabel) {
+    public Product(Integer id, String label, Double price, Integer nbInStock, Integer minTreshold, Boolean isGlutenFree, Double alcoholPercentage, LocalDate distributionDate, LocalDate lastRestockDate, String description, String supplierLabel, int supplierPhoneNumber, String categoryLabel) {
         this.id = id;
         this.label = label;
         this.price = price;
@@ -29,6 +29,11 @@ public class Product {
         this.distributionDate = distributionDate;
         this.description = description;
         this.supplierLabel = supplierLabel;
+        this.supplierPhoneNumber = supplierPhoneNumber;
         this.categoryLabel = categoryLabel;
+    }
+
+    public String getLabel() {
+        return label;
     }
 }

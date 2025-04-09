@@ -50,6 +50,7 @@ public class MainWindow extends JFrame {
         // ItemMenu Listeners
         welcomeMenu.addActionListener(new WelcomeMenuListener());
         commandMenu.addActionListener(new CommandMenuListener());
+        productMenu.addActionListener(new ProductMenuListener());
 
         // Ajout des variables a la barre
         menuBar.add(welcomeMenu);
@@ -79,6 +80,17 @@ public class MainWindow extends JFrame {
             container.removeAll();
             CommandPanel commandPanel = new CommandPanel();
             container.add(commandPanel, BorderLayout.CENTER);
+            container.revalidate();
+            container.repaint();
+        }
+    }
+
+    private class ProductMenuListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            container.removeAll();
+            ProductPanel productPanel = new ProductPanel();
+            container.add(productPanel, BorderLayout.CENTER);
             container.revalidate();
             container.repaint();
         }

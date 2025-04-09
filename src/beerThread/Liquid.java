@@ -22,7 +22,7 @@ public class Liquid {
     public void fillIn() {
         liquid.height -= heightIncrement;
         if (liquid.height == BeerGlass.getMaxLiquidHeight() || liquid.intersects(beerGlass.getHorizontalsBeerGlassBorders().getFirst().rectangle)) {
-                heightIncrement *= -1;
+                heightIncrement = -heightIncrement;
         }
     }
 }
