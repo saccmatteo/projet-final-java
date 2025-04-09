@@ -68,6 +68,7 @@ public class MainWindow extends JFrame {
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
             container.add(welcomeLabel, BorderLayout.NORTH);
+            container.add(new BeerGlass());
             container.revalidate();
             container.repaint();
         }
