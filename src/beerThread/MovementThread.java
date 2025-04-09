@@ -8,11 +8,12 @@ public class MovementThread extends Thread{
     public MovementThread (BeerGlass beerGlass) {
         this.beerGlass = beerGlass;
     }
+
     public void run() {
         while (true) {
-            beerGlass.getLiquid().fillIn();
-            beerGlass.repaint();
             try {
+                beerGlass.getLiquid().fillIn();
+                beerGlass.repaint();
                 Thread.sleep(15);
             }
             catch (InterruptedException e) {

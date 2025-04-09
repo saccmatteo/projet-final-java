@@ -4,6 +4,7 @@ import java.awt.*;
 
 public class BeerGlassBorder {
     Rectangle rectangle;
+
     public BeerGlassBorder(int x, int y, int width, int height) {
         this.rectangle = new Rectangle(x, y, width, height);
     }

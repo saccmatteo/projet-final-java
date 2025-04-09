@@ -13,12 +13,16 @@ public class BeerGlass extends JPanel {
     private final static int MAX_LIQUID_HEIGHT = -380;
 
     public BeerGlass() {
+        // Verre
         horizontalsBeerGlassBorders.add(new BeerGlassBorder(800, 500, 300, 10));
         verticalsBeerGlassBorder.add(new BeerGlassBorder(800, 100, 10, 400));
         verticalsBeerGlassBorder.add(new BeerGlassBorder(1090, 100, 10, 400));
+
+        // Manche
         horizontalsBeerGlassBorders.add(new BeerGlassBorder(1100, 350, 60, 10));
         horizontalsBeerGlassBorders.add(new BeerGlassBorder(1100, 170, 60, 10));
         verticalsBeerGlassBorder.add(new BeerGlassBorder(1150, 170, 10, 180));
+
         liquid = new Liquid(810, 500, 280, 0, this);
         MovementThread movementThread = new MovementThread(this);
         movementThread.start();
