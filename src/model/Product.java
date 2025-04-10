@@ -38,10 +38,6 @@ public class Product {
         return label + " - " + price + "€ - " + nbInStock + " en stock";
     }
 
-    public Integer getId() {
-        return id;
-    }
-
     public String getCategoryLabel() {
         return categoryLabel;
     }
