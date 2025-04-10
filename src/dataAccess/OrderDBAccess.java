@@ -66,13 +66,6 @@ public class OrderDBAccess implements OrderDataAccess {
                     iterator.remove();
                 }
             }
-            /*Order order = iterator.next();
-            while (iterator.hasNext() && order.getId() != commandId) {
-                order = iterator.next();
-            }
-            if (order.getId() == commandId) {
-                iterator.remove();
-            }*/
         }
         catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());

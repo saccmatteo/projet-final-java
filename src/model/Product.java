@@ -35,14 +35,14 @@ public class Product {
 
     @Override
     public String toString() {
-        return label + " - " + price + "€";
+        return label + " - " + price + "€ - " + nbInStock + " en stock";
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getCategoryLabel() {
         return categoryLabel;
-    }
-
-    public String getLabel() {
-        return label;
     }
 }

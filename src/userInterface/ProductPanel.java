@@ -1,6 +1,7 @@
 package userInterface;
 
 import controller.ProductController;
+import model.Order;
 import model.Product;
 
 import javax.sql.StatementEventListener;
@@ -141,14 +142,16 @@ public class ProductPanel extends JPanel {
     private class ButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            alcoolList.clearSelection();
-            softList.clearSelection();
-            snackList.clearSelection();
-            glutenFreeList.clearSelection();
-            hotDrinkList.clearSelection();
-            iceCreamList.clearSelection();
-            deleteButton.setEnabled(false);
-            editButton.setEnabled(false);
+            if (e.getSource() == resetButton) {
+                alcoolList.clearSelection();
+                softList.clearSelection();
+                snackList.clearSelection();
+                glutenFreeList.clearSelection();
+                hotDrinkList.clearSelection();
+                iceCreamList.clearSelection();
+                deleteButton.setEnabled(false);
+                editButton.setEnabled(false);
+            }
         }
     }
 }

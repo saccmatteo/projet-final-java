@@ -1,4 +1,5 @@
 package dataAccess;
+import model.Order;
 import model.Product;
 import model.ProductDataAccess;
 import userInterface.ProductPanel;
@@ -8,15 +9,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ProductDBAccess implements ProductDataAccess {
-    private ArrayList<Product> products;
     private String sqlInstruction;
     private PreparedStatement preparedStatement;
     private ResultSet data;
 
-    public ProductDBAccess() {
-        this.products = new ArrayList<>();
+    public ArrayList<Product> getAllProducts() {
+        ArrayList<Product> products = new ArrayList<>();
         try {
             sqlInstruction = "SELECT product.*, supplier.phone_number FROM product INNER JOIN supplier ON supplier.label = product.supplier_label INNER JOIN category ON category.label = product.category_label";
             preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
@@ -44,9 +45,6 @@ public class ProductDBAccess implements ProductDataAccess {
         catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-    }
-
-    public ArrayList<Product> getAllProducts() {
         return products;
     }
 }
