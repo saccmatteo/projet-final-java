@@ -135,6 +135,16 @@ public class ProductPanel extends JPanel {
     private class ListListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent e) {
+            Object source = e.getSource();
+
+            //Au moins 5 if qui s'executent à chaque fois
+            if (source != alcoolList) alcoolList.clearSelection();
+            if (source != softList) softList.clearSelection();
+            if (source != snackList) snackList.clearSelection();
+            if (source != glutenFreeList) glutenFreeList.clearSelection();
+            if (source != hotDrinkList) hotDrinkList.clearSelection();
+            if (source != iceCreamList) iceCreamList.clearSelection();
+
             deleteButton.setEnabled(true);
             editButton.setEnabled(true);
         }
