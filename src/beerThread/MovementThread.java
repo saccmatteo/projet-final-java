@@ -14,7 +14,7 @@ public class MovementThread extends Thread{
             try {
                 beerGlass.getLiquid().fillIn();
                 beerGlass.repaint();
-                Thread.sleep(15);
+                Thread.sleep(10);
             }
             catch (InterruptedException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
