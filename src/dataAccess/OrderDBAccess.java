@@ -12,17 +12,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class OrderDBAccess implements OrderDataAccess {
-    private ArrayList<Order> orders = new ArrayList<>();
     private String sqlInstruction;
     private PreparedStatement preparedStatement;
     private ResultSet data;
 
-    public OrderDBAccess() {
+    @Override
+    public ArrayList<Order> getAllOrders() {
+        ArrayList<Order> orders = new ArrayList<>();
         try {
             sqlInstruction = "SELECT `order`.*, user.last_name, user.first_name " +
                     "FROM `order` JOIN user ON `order`.user_id = user.id " +
                     "WHERE `order`.status_label = 'En cours'";
-            // sqlInstruction = "SELECT `order`.id, `order`.order_date, `order`.user_id, user.last_name, user.first_name FROM `order` JOIN user ON `order`.user_id = user.id WHERE `order`.status_label = 'En cours'";
             preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             data = preparedStatement.executeQuery();
 
@@ -44,10 +44,7 @@ public class OrderDBAccess implements OrderDataAccess {
         catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-    }
 
-    @Override
-    public ArrayList<Order> getAllOrders() {
         return orders;
     }
 

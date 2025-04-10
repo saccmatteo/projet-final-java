@@ -42,6 +42,10 @@ public class Order {
         return id;
     }
 
+    public String getStatusLabel() {
+        return statusLabel;
+    }
+
     public void setStatusLabel(String statusLabel) {
         this.statusLabel = statusLabel;
     }

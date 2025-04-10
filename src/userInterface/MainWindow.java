@@ -20,7 +20,7 @@ public class MainWindow extends JFrame {
         super("Terminal");
         // Ouvrir en plein écran
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.setBounds(0, 0, 1920, 1080);
+        this.setBounds(0, 0, 1280, 720);
         addWindowListener (new WindowAdapter() {
             public void windowClosing (WindowEvent e) {
                 System.exit(0);

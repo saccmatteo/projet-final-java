@@ -112,9 +112,10 @@ public class CommandPanel extends JPanel {
             // ScrollPane
             ordersScrollPane = new JScrollPane(ordersList);
             ordersScrollPane.setMaximumSize(new Dimension(800, 400));
-            ordersScrollPane.setBorder(new EmptyBorder(40, 0, 40, 0));
+            ordersScrollPane.setBorder(new EmptyBorder(40, 0, 60, 0));
             ordersScrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
             ordersScrollPane.setVisible(false);
+            ordersScrollPane.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
             // Ajoute + params au Panel
             allOrdersPanel.add(ordersScrollPane, BorderLayout.CENTER);
             allOrdersPanel.setBorder(new EmptyBorder(0,0, 40, 0));
@@ -176,8 +177,10 @@ public class CommandPanel extends JPanel {
                 }
             } else if (e.getSource() == validateCommand) {
                 orderController.updateStatus(ordersList.getSelectedValue().getId());
-                ordersList.getSelectedValue().setStatusLabel("Terminé");
                 orders = orderController.getAllOrders();
+                for (Order order : orders) {
+                    System.out.println(order.getStatusLabel());
+                }
                 ordersList.setListData(orders.toArray(new Order[0]));
                 JOptionPane.showMessageDialog(null, "Commande clôturée !", "Confirmation", JOptionPane.INFORMATION_MESSAGE );
             }
