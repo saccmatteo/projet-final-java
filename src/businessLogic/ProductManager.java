@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class ProductManager {
     private ProductDataAccess dao;
+
     public ProductManager() {
         setDao(new ProductDBAccess());
     }

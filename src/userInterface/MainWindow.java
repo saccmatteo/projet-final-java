@@ -37,6 +37,7 @@ public class MainWindow extends JFrame {
         welcomeLabel.setFont(new Font("Arial", Font.PLAIN, 30));
         welcomeLabel.setBorder(new EmptyBorder(200, 0, 100, 0));
         container.add(welcomeLabel, BorderLayout.NORTH);
+
         //Verre de choppe
         container.add(new BeerGlass());
 
@@ -70,6 +71,7 @@ public class MainWindow extends JFrame {
             container.removeAll();
             container.add(welcomeLabel, BorderLayout.NORTH);
             container.add(new BeerGlass());
+
             container.revalidate();
             container.repaint();
         }
@@ -80,6 +82,7 @@ public class MainWindow extends JFrame {
             container.removeAll();
             CommandPanel commandPanel = new CommandPanel();
             container.add(commandPanel, BorderLayout.CENTER);
+
             container.revalidate();
             container.repaint();
         }
@@ -91,6 +94,7 @@ public class MainWindow extends JFrame {
             container.removeAll();
             ProductPanel productPanel = new ProductPanel();
             container.add(productPanel, BorderLayout.CENTER);
+
             container.revalidate();
             container.repaint();
         }

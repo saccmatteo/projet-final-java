@@ -20,9 +20,11 @@ public class OrderManager {
     public ArrayList<Order> getAllOrders() {
         return dao.getAllOrders();
     }
+
     public void removeCommand(int commandId) {
         dao.removeCommand(commandId);
     }
+
     public void updateStatus(int commandId) {
         dao.updateStatus(commandId);
     }

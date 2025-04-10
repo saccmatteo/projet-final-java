@@ -19,6 +19,7 @@ public class OrderDBAccess implements OrderDataAccess {
 
     public OrderDBAccess() {
         try {
+            Order newOrder;
             sqlInstruction = "SELECT `order`.*, user.last_name, user.first_name " +
                     "FROM `order` JOIN user ON `order`.user_id = user.id " +
                     "WHERE `order`.status_label = 'En cours'";
@@ -27,7 +28,7 @@ public class OrderDBAccess implements OrderDataAccess {
             data = preparedStatement.executeQuery();
 
             while (data.next()) {
-                Order newOrder = new Order(
+                newOrder = new Order(
                         data.getInt("id"),
                         data.getDate("order_date").toLocalDate(),
                         data.getDate("payment_date").toLocalDate(),

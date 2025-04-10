@@ -84,18 +84,20 @@ public class CommandPanel extends JPanel {
             allOrdersPanel.setLayout(new BoxLayout(allOrdersPanel, BoxLayout.Y_AXIS));
             setOrderController(new OrderController());
             listLabel = new JLabel("<html><u><b>Sélectionnez une commande :</u></b></html>");
+                // Affichage
             listLabel.setFont(new Font("Arial", Font.PLAIN, 25));
             listLabel.setHorizontalAlignment(SwingConstants.CENTER);
             listLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             listLabel.setVisible(false);
             allOrdersPanel.add(listLabel, BorderLayout.NORTH);
+
+            // Params JList
             this.orders = orderController.getAllOrders();
             ordersList = new JList<>(orders.toArray(new Order[0])); // Conversion en tableau
-            // Params JList
             ordersList.setVisibleRowCount(5);
             ordersList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             ordersList.clearSelection();
-            // Params affichage JList
+                // Affichage
             ordersList.setFont(new Font("Arial", Font.PLAIN, 22)); // Agrandir la taille de la police
             ordersList.setFixedCellHeight(50); // agrandir les lignes de la JList
             ordersList.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -108,23 +110,28 @@ public class CommandPanel extends JPanel {
                     return label;
                 }
             }); // À voir si on garde ou pas, essayer de tout comprendre
+                // Listeners
             ordersList.addListSelectionListener(new JListListener());
+
             // ScrollPane
             ordersScrollPane = new JScrollPane(ordersList);
+                // Affichage
             ordersScrollPane.setMaximumSize(new Dimension(800, 400));
             ordersScrollPane.setBorder(new EmptyBorder(40, 0, 40, 0));
             ordersScrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
             ordersScrollPane.setVisible(false);
+
             // Ajoute + params au Panel
             allOrdersPanel.add(ordersScrollPane, BorderLayout.CENTER);
             allOrdersPanel.setBorder(new EmptyBorder(0,0, 40, 0));
             allOrdersPanel.setPreferredSize(new Dimension(900, 550));
             // Ajout clearButtonSelection + params affichage du bouton
             clearSelection = new JButton("Réinitialiser le choix");
-            clearSelection.addActionListener(new ButtonsListener());
             clearSelection.setAlignmentX(Component.CENTER_ALIGNMENT);
             clearSelection.setPreferredSize(new Dimension(250, 45));
             clearSelection.setMaximumSize(new Dimension(250, 45));
+                // Listeners
+            clearSelection.addActionListener(new ButtonsListener());
             clearSelection.setVisible(false);
             allOrdersPanel.add(clearSelection, BorderLayout.SOUTH);
             this.add(allOrdersPanel, BorderLayout.SOUTH);
@@ -169,6 +176,7 @@ public class CommandPanel extends JPanel {
                 int reponse = JOptionPane.showOptionDialog(null, "Voulez-vous supprimer cette commande ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Oui", "Non"}, null);
                 if (reponse == JOptionPane.YES_OPTION) {
                     int selectedOrderId = ordersList.getSelectedValue().getId();
+
                     orderController.removeCommand(selectedOrderId);
                     orders = orderController.getAllOrders();
                     ordersList.setListData(orders.toArray(new Order[0]));
