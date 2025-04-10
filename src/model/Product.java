@@ -33,6 +33,15 @@ public class Product {
         this.categoryLabel = categoryLabel;
     }
 
+    @Override
+    public String toString() {
+        return label + " - " + price + "€";
+    }
+
+    public String getCategoryLabel() {
+        return categoryLabel;
+    }
+
     public String getLabel() {
         return label;
     }

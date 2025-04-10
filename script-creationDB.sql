@@ -3,7 +3,7 @@ USE db;
 CREATE TABLE product (
 id NUMERIC(10) PRIMARY KEY, 
 label VARCHAR(20) NOT NULL, 
-price NUMERIC(3, 2) NOT NULL, 
+price NUMERIC(10, 2) NOT NULL,
 nb_in_stock NUMERIC(3) NOT NULL, 
 min_treshold NUMERIC(4) NOT NULL, 
 is_gluten_free bool NOT NULL, 
