@@ -13,7 +13,7 @@ public class MainWindow extends JFrame {
     private JLabel welcomeLabel;
     private JMenuBar menuBar;
     private JMenu welcomeMenu, commandMenu, productMenu, dataBaseMenu;
-    private JMenuItem welcomeMenuItem, deleteCommandrMenuItem, addCommandMenuItem, viewCommandMenuItem, updateCommandMenuItem, closeCommandMenuItem, deleteProductMenuItem, addProductMenuItem, viewProductMenuItem, updateProductMenuItem;
+    private JMenuItem welcomeMenuItem, deleteCommandMenuItem, addCommandMenuItem, viewCommandMenuItem, updateCommandMenuItem, closeCommandMenuItem, deleteProductMenuItem, addProductMenuItem, viewProductMenuItem, updateProductMenuItem;
     private Container container;
 
     // CONSTRUCTOR
@@ -55,17 +55,19 @@ public class MainWindow extends JFrame {
         welcomeMenu.add(welcomeMenuItem);
 
         // itemMenu commande
-        deleteCommandrMenuItem = new JMenuItem("Supprimer");
+        deleteCommandMenuItem = new JMenuItem("Supprimer");
+        deleteCommandMenuItem.addActionListener(new deleteCommandListener());
         addCommandMenuItem = new JMenuItem("Ajouter");
         viewCommandMenuItem = new JMenuItem("En cours");
         viewCommandMenuItem.addActionListener(new viewCommandListener());
         updateCommandMenuItem = new JMenuItem("Modifier");
         closeCommandMenuItem = new JMenuItem("Clôturer");
+        closeCommandMenuItem.addActionListener(new closeCommandListener());
         commandMenu.add(viewCommandMenuItem);
         commandMenu.add(addCommandMenuItem);
         commandMenu.add(updateCommandMenuItem);
         commandMenu.add(closeCommandMenuItem);
-        commandMenu.add(deleteCommandrMenuItem);
+        commandMenu.add(deleteCommandMenuItem);
 
         // itemMenu produit
         deleteProductMenuItem = new JMenuItem("Supprimer");
@@ -117,11 +119,21 @@ public class MainWindow extends JFrame {
             container.repaint();
         }
     }
-    private class removeCommandListener implements ActionListener {
+    private class deleteCommandListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
             container.add(new CommandDeleterPanel(), BorderLayout.CENTER);
+            container.revalidate();
+            container.repaint();
+        }
+    }
+
+    private class closeCommandListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            container.removeAll();
+            container.add(new CommandCloserPanel(), BorderLayout.CENTER);
             container.revalidate();
             container.repaint();
         }

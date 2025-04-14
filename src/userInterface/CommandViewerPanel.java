@@ -68,10 +68,6 @@ public class CommandViewerPanel extends JPanel {
         return orderController;
     }
 
-    public ArrayList<Order> getOrders() {
-        return orders;
-    }
-
     public void setOrderController(OrderController orderController) {
         this.orderController = orderController;
     }
