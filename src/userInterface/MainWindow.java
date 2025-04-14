@@ -12,7 +12,8 @@ import beerThread.*;
 public class MainWindow extends JFrame {
     private JLabel welcomeLabel;
     private JMenuBar menuBar;
-    private JMenuItem welcomeMenu, commandMenu, productMenu, dataBaseMenu;
+    private JMenu welcomeMenu, commandMenu, productMenu, dataBaseMenu;
+    private JMenuItem welcomeMenuItem, deleteCommandrMenuItem, addCommandMenuItem, viewCommandMenuItem, updateCommandMenuItem, closeCommandMenuItem, deleteProductMenuItem, addProductMenuItem, viewProductMenuItem, updateProductMenuItem;
     private Container container;
 
     // CONSTRUCTOR
@@ -21,11 +22,11 @@ public class MainWindow extends JFrame {
         // Ouvrir en plein écran
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setBounds(0, 0, 1920, 1080);
-        addWindowListener (new WindowAdapter() {
-            public void windowClosing (WindowEvent e) {
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
-        } );
+        });
         this.setLayout(new BorderLayout());
 
         // Container
@@ -43,15 +44,39 @@ public class MainWindow extends JFrame {
 
         // Declaration variable du menu
         menuBar = new JMenuBar();
-        welcomeMenu = new JMenuItem("Accueil");
-        commandMenu = new JMenuItem("Commande");
-        productMenu = new JMenuItem("Produit");
-        dataBaseMenu = new JMenuItem("Base de donnees");
+        welcomeMenu = new JMenu("Buvette");
+        commandMenu = new JMenu("Commande");
+        productMenu = new JMenu("Produit");
+        dataBaseMenu = new JMenu("Base de donnees");
 
-        // ItemMenu Listeners
-        welcomeMenu.addActionListener(new WelcomeMenuListener());
-        commandMenu.addActionListener(new CommandMenuListener());
-        productMenu.addActionListener(new ProductMenuListener());
+        // ItemMenu accueil
+        welcomeMenuItem = new JMenuItem("Accueil");
+        welcomeMenuItem.addActionListener(new WelcomeMenuItemListener());
+        welcomeMenu.add(welcomeMenuItem);
+
+        // itemMenu commande
+        deleteCommandrMenuItem = new JMenuItem("Supprimer");
+        addCommandMenuItem = new JMenuItem("Ajouter");
+        viewCommandMenuItem = new JMenuItem("En cours");
+        viewCommandMenuItem.addActionListener(new viewCommandListener());
+        updateCommandMenuItem = new JMenuItem("Modifier");
+        closeCommandMenuItem = new JMenuItem("Clôturer");
+        commandMenu.add(viewCommandMenuItem);
+        commandMenu.add(addCommandMenuItem);
+        commandMenu.add(updateCommandMenuItem);
+        commandMenu.add(closeCommandMenuItem);
+        commandMenu.add(deleteCommandrMenuItem);
+
+        // itemMenu produit
+        deleteProductMenuItem = new JMenuItem("Supprimer");
+        addProductMenuItem = new JMenuItem("Ajouter");
+        addProductMenuItem.addActionListener(new addProductListener());
+        viewProductMenuItem = new JMenuItem("Nos produits");
+        updateProductMenuItem = new JMenuItem("Modifier");
+        productMenu.add(viewProductMenuItem);
+        productMenu.add(addProductMenuItem);
+        productMenu.add(updateProductMenuItem);
+        productMenu.add(deleteProductMenuItem);
 
         // Ajout des variables a la barre
         menuBar.add(welcomeMenu);
@@ -64,9 +89,10 @@ public class MainWindow extends JFrame {
         this.setJMenuBar(menuBar);
         this.setVisible(true);
     }
+
     // Tout faire dans un seul listener ou faire un pour chaque comme ici ?
     // Implémentation listeners
-    private class WelcomeMenuListener implements ActionListener {
+    private class WelcomeMenuItemListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
             container.add(welcomeLabel, BorderLayout.NORTH);
@@ -76,25 +102,26 @@ public class MainWindow extends JFrame {
             container.repaint();
         }
     }
-
-    private class CommandMenuListener implements ActionListener {
+    private class addProductListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new FormAddProduct();
+        }
+    }
+    private class viewCommandListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
-            CommandPanel commandPanel = new CommandPanel();
-            container.add(commandPanel, BorderLayout.CENTER);
-
+            container.add(new CommandViewerPanel(), BorderLayout.CENTER);
             container.revalidate();
             container.repaint();
         }
     }
-
-    private class ProductMenuListener implements ActionListener {
+    private class removeCommandListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
-            ProductPanel productPanel = new ProductPanel();
-            container.add(productPanel, BorderLayout.CENTER);
-
+            container.add(new CommandDeleterPanel(), BorderLayout.CENTER);
             container.revalidate();
             container.repaint();
         }

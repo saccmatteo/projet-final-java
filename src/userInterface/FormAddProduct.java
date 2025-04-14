@@ -14,9 +14,7 @@ import java.time.LocalDate;
 public class FormAddProduct extends JFrame {
     private String[] categories = {"Boisson alcoolisée", "Soft", "Snacks", "Sans gluten", "Boisson chaude", "Glace"};
     private ProductController productController;
-
     private Container container;
-
     private JPanel formPanel, buttonsPanel;
     private JTextField label, price, alcoholPercentage, treshold, supplierName, supplierPhone, nbStock;
     private JComboBox category;
