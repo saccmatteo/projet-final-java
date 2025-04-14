@@ -20,4 +20,8 @@ public class ProductManager {
     public ArrayList<Product> getAllProducts (){
         return dao.getAllProducts();
     }
+
+    public void addProduct(Product product) {
+        dao.addProduct(product);
+    }
 }

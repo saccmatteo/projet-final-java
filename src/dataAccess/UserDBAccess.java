@@ -10,12 +10,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class UserDBAccess implements UserDataAccess {
-    private ArrayList<User> users = new ArrayList<>();
+    private ArrayList<User> users;
     private String sqlInstruction;
     private PreparedStatement preparedStatement;
     private ResultSet data;
 
-    public UserDBAccess(){
+    public ArrayList<User> getAllUsers() {
+        ArrayList<User> users = new ArrayList<>();
         try{
             sqlInstruction = "SELECT id, last_name, first_name FROM user";
             preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
@@ -33,15 +34,7 @@ public class UserDBAccess implements UserDataAccess {
         catch (SQLException error){
             JOptionPane.showMessageDialog(null, error.getMessage());
         }
-    }
-    // GETTERS
-    @Override
-    public ArrayList<User> getAllUsers() {
         return users;
     }
 
-    // METHODES
-//    public void createUsers(){
-//
-//    }
 }

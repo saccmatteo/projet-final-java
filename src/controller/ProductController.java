@@ -18,4 +18,8 @@ public class ProductController {
     public void setManager(ProductManager manager) {
         this.manager = manager;
     }
+
+    public void addProduct(Product product) {
+        manager.addProduct(product);
+    }
 }

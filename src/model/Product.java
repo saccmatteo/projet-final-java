@@ -33,16 +33,65 @@ public class Product {
         this.categoryLabel = categoryLabel;
     }
 
-    @Override
-    public String toString() {
-        return label + " - " + price + "€";
+    // GETTERS
+    public Integer getId() {
+        if (id == null)
+            return -1;
+        return id;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public Integer getNbInStock() {
+        return nbInStock;
+    }
+
+    public Integer getMinTreshold() {
+        return minTreshold;
+    }
+
+    public Boolean getGlutenFree() {
+        return isGlutenFree;
+    }
+
+    public LocalDate getDistributionDate() {
+        return distributionDate;
+    }
+
+    public LocalDate getLastRestockDate() {
+        return lastRestockDate;
+    }
+
+    public Double getAlcoholPercentage() {
+        if (alcoholPercentage == null)
+            return 0.0;
+        return alcoholPercentage;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getSupplierLabel(){
+        return supplierLabel;
+    }
+
+    public int getSupplierPhoneNumber(){
+        return supplierPhoneNumber;
     }
 
     public String getCategoryLabel() {
         return categoryLabel;
     }
 
-    public String getLabel() {
-        return label;
+    @Override
+    public String toString() {
+        return label + " - " + price + "€";
     }
 }
