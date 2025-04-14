@@ -114,7 +114,7 @@ public class MainWindow extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
-            container.add(new CommandViewerPanel(), BorderLayout.CENTER);
+            container.add(new OrderViewerPanel(), BorderLayout.CENTER);
             container.revalidate();
             container.repaint();
         }
@@ -123,7 +123,7 @@ public class MainWindow extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
-            container.add(new CommandDeleterPanel(), BorderLayout.CENTER);
+            container.add(new OrderDeleterPanel(), BorderLayout.CENTER);
             container.revalidate();
             container.repaint();
         }
@@ -133,7 +133,7 @@ public class MainWindow extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
-            container.add(new CommandCloserPanel(), BorderLayout.CENTER);
+            container.add(new OrderCloserPanel(), BorderLayout.CENTER);
             container.revalidate();
             container.repaint();
         }

@@ -8,7 +8,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class CommandViewerPanel extends JPanel {
+public class OrderViewerPanel extends JPanel {
     private OrderController orderController;
     private JLabel commandLabel;
     private ArrayList<Order> orders;
@@ -16,7 +16,7 @@ public class CommandViewerPanel extends JPanel {
     private JScrollPane ordersScrollPane;
 
     // CONSTRUCTORS
-    public CommandViewerPanel() {
+    public OrderViewerPanel() {
         this.setLayout(new BorderLayout());
 
         try {
@@ -51,6 +51,7 @@ public class CommandViewerPanel extends JPanel {
             ordersScrollPane.setVisible(true);
 
             commandLabel = new JLabel("Liste des commandes en cours : ");
+            commandLabel.setFont(new Font("Arial", Font.PLAIN, 22));
             commandLabel.setHorizontalAlignment(SwingConstants.CENTER);
             this.add(commandLabel, BorderLayout.NORTH);
             // Ajoute + params au Panel

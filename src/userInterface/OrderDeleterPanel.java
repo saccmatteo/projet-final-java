@@ -8,13 +8,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class CommandDeleterPanel extends JPanel {
-    private CommandViewerPanel commandViewerPanel;
+public class OrderDeleterPanel extends JPanel {
+    private OrderViewerPanel commandViewerPanel;
     private JButton deleteButton;
 
-    public CommandDeleterPanel() {
+    public OrderDeleterPanel() {
         this.setLayout(new BorderLayout());
-        this.commandViewerPanel = new CommandViewerPanel();
+        this.commandViewerPanel = new OrderViewerPanel();
         this.add(commandViewerPanel, BorderLayout.CENTER);
         deleteButton = new JButton("Supprimer la commande");
         deleteButton.addActionListener(new deleteButtonListener());
