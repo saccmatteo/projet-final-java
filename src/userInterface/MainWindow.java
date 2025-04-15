@@ -58,7 +58,7 @@ public class MainWindow extends JFrame {
         deleteCommandMenuItem = new JMenuItem("Supprimer");
         deleteCommandMenuItem.addActionListener(new deleteCommandListener());
         addCommandMenuItem = new JMenuItem("Ajouter");
-        viewCommandMenuItem = new JMenuItem("En cours");
+        viewCommandMenuItem = new JMenuItem("Commandes en cours");
         viewCommandMenuItem.addActionListener(new viewCommandListener());
         updateCommandMenuItem = new JMenuItem("Modifier");
         closeCommandMenuItem = new JMenuItem("Clôturer");

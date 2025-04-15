@@ -9,13 +9,14 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class CloseOrderPanel extends JPanel {
-    private ListOrderPanel commandViewerPanel;
+    private ListOrderPanel listOrderPanel;
     private JButton closeButton;
 
     public CloseOrderPanel() {
         this.setLayout(new BorderLayout());
-        commandViewerPanel = new ListOrderPanel();
-        this.add(commandViewerPanel, BorderLayout.CENTER); // ou NORTH, voir avec tout le monde
+        listOrderPanel = new ListOrderPanel();
+        this.add(listOrderPanel, BorderLayout.CENTER);
+
         closeButton = new JButton("Clôturer la commande");
         closeButton.addActionListener(new closeButtonListener());
         this.add(closeButton, BorderLayout.SOUTH);
@@ -24,9 +25,17 @@ public class CloseOrderPanel extends JPanel {
     private class closeButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            commandViewerPanel.getOrderController().updateStatus(commandViewerPanel.getOrdersList().getSelectedValue().getId());
-            ArrayList<Order> orders = commandViewerPanel.getOrderController().getAllOrders();
-            commandViewerPanel.getOrdersList().setListData(orders.toArray(new Order[0]));
+            Order selected = listOrderPanel.getOrdersList().getSelectedValue();
+            if (selected == null) {
+                JOptionPane.showMessageDialog(null, "Aucune commande sélectionnée.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            listOrderPanel.getOrderController().updateStatus(selected.getId());
+
+            //refraichir list via methode
+            listOrderPanel.refreshOrders();
+
             JOptionPane.showMessageDialog(null, "Commande clôturée !", "Confirmation", JOptionPane.INFORMATION_MESSAGE );
         }
     }

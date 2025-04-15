@@ -24,6 +24,12 @@ public class ListOrderPanel extends JPanel {
             setOrderController(new OrderController());
             // Params JList
             this.orders = orderController.getAllOrders();
+
+            //cas où la ArrayList est vide
+            if (orders == null || orders.isEmpty()) {
+                commandLabel.setText("Aucune commande à afficher.");
+            }
+
             ordersList = new JList<>(orders.toArray(new Order[0])); // Conversion en tableau
             ordersList.setVisibleRowCount(5);
             ordersList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -61,6 +67,11 @@ public class ListOrderPanel extends JPanel {
         }
     }
 
+    //utiliser cette méthode pr refresh dans l'affichage
+    public void refreshOrders() {
+        this.orders = orderController.getAllOrders();
+        ordersList.setListData(orders.toArray(new Order[0]));
+    }
     public JList<Order> getOrdersList() {
         return ordersList;
     }

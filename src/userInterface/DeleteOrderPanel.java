@@ -9,13 +9,14 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class DeleteOrderPanel extends JPanel {
-    private ListOrderPanel commandViewerPanel;
+    private ListOrderPanel listOrderPanel;
     private JButton deleteButton;
 
     public DeleteOrderPanel() {
         this.setLayout(new BorderLayout());
-        this.commandViewerPanel = new ListOrderPanel();
-        this.add(commandViewerPanel, BorderLayout.CENTER);
+        this.listOrderPanel = new ListOrderPanel();
+        this.add(listOrderPanel, BorderLayout.CENTER);
+
         deleteButton = new JButton("Supprimer la commande");
         deleteButton.addActionListener(new deleteButtonListener());
         this.add(deleteButton, BorderLayout.SOUTH);
@@ -24,12 +25,28 @@ public class DeleteOrderPanel extends JPanel {
     private class deleteButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int reponse = JOptionPane.showOptionDialog(null, "Voulez-vous supprimer cette commande ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Oui", "Non"}, null);
+            Order selected = listOrderPanel.getOrdersList().getSelectedValue();
+            if (selected == null) {
+                JOptionPane.showMessageDialog(null, "Aucune commande sélectionnée.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            int reponse = JOptionPane.showOptionDialog(
+                    null,
+                    "Voulez-vous supprimer cette commande ?",
+                    "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    new Object[]{"Oui", "Non"},
+                    null
+            );
+
             if (reponse == JOptionPane.YES_OPTION) {
-                int selectedOrderId = commandViewerPanel.getOrdersList().getSelectedValue().getId();
-                commandViewerPanel.getOrderController().removeCommand(selectedOrderId);
-                ArrayList<Order> orders = commandViewerPanel.getOrderController().getAllOrders();
-                commandViewerPanel.getOrdersList().setListData(orders.toArray(new Order[0]));
+                listOrderPanel.getOrderController().removeCommand(selected.getId());
+
+                //refraichir list via methode
+                listOrderPanel.refreshOrders();
+
                 JOptionPane.showMessageDialog(null, "Commande supprimée !", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
             }
         }
