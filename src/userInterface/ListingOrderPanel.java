@@ -8,7 +8,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class ListOrderPanel extends JPanel {
+public class ListingOrderPanel extends JPanel {
     private OrderController orderController;
     private JLabel commandLabel;
     private ArrayList<Order> orders;
@@ -16,13 +16,12 @@ public class ListOrderPanel extends JPanel {
     private JScrollPane ordersScrollPane;
 
     // CONSTRUCTORS
-    public ListOrderPanel() {
+    public ListingOrderPanel() {
         this.setLayout(new BorderLayout());
 
         try {
-            // Orders list
             setOrderController(new OrderController());
-            // Params JList
+
             this.orders = orderController.getAllOrders();
 
             //cas où la ArrayList est vide
@@ -30,14 +29,14 @@ public class ListOrderPanel extends JPanel {
                 commandLabel.setText("Aucune commande à afficher.");
             }
 
-            ordersList = new JList<>(orders.toArray(new Order[0])); // Conversion en tableau
-            ordersList.setVisibleRowCount(5);
+            ordersList = new JList<>(orders.toArray(new Order[0]));
             ordersList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             ordersList.clearSelection();
-                // Affichage
-            ordersList.setFont(new Font("Arial", Font.PLAIN, 22)); // Agrandir la taille de la police
+
+            //apparenceJList
+            ordersList.setFont(new Font("Arial", Font.BOLD, 28)); // Agrandir la taille de la police
             ordersList.setFixedCellHeight(50); // agrandir les lignes de la JList
-            ordersList.setBorder(new EmptyBorder(10, 10, 10, 10));
+            ordersList.setBorder(new EmptyBorder(10, 20, 10, 20));
             ordersList.setCellRenderer(new DefaultListCellRenderer() {
                 public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                     JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
@@ -48,17 +47,19 @@ public class ListOrderPanel extends JPanel {
                 }
             });
 
-            // ScrollPane
             ordersScrollPane = new JScrollPane(ordersList);
-                // Affichage
+
+            //apparence scrollPane
             ordersScrollPane.setMaximumSize(new Dimension(800, 400));
             ordersScrollPane.setBorder(new EmptyBorder(40, 0, 40, 0));
             ordersScrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
             ordersScrollPane.setVisible(true);
 
+            //petit texte pour indiquer les listes en cours
             commandLabel = new JLabel("Liste des commandes en cours : ");
-            commandLabel.setFont(new Font("Arial", Font.PLAIN, 22));
+            commandLabel.setFont(new Font("Arial", Font.BOLD, 30));
             commandLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            commandLabel.setBorder(new EmptyBorder(20, 0, 10, 0));
             this.add(commandLabel, BorderLayout.NORTH);
             // Ajoute + params au Panel
             this.add(ordersScrollPane, BorderLayout.CENTER);
@@ -67,7 +68,7 @@ public class ListOrderPanel extends JPanel {
         }
     }
 
-    //utiliser cette méthode pr refresh dans l'affichage
+    //utiliser cette méthode pour refresh dans l'affichage
     public void refreshOrders() {
         this.orders = orderController.getAllOrders();
         ordersList.setListData(orders.toArray(new Order[0]));

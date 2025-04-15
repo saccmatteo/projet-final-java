@@ -45,8 +45,8 @@ public class MainWindow extends JFrame {
         // Declaration variable du menu
         menuBar = new JMenuBar();
         welcomeMenu = new JMenu("Buvette");
-        commandMenu = new JMenu("Commande");
-        productMenu = new JMenu("Produit");
+        commandMenu = new JMenu("Commandes");
+        productMenu = new JMenu("Produits");
         dataBaseMenu = new JMenu("Base de donnees");
 
         // ItemMenu accueil
@@ -56,13 +56,14 @@ public class MainWindow extends JFrame {
 
         // itemMenu commande
         deleteCommandMenuItem = new JMenuItem("Supprimer");
-        deleteCommandMenuItem.addActionListener(new deleteCommandListener());
+        deleteCommandMenuItem.addActionListener(new DeleteOrderListener());
         addCommandMenuItem = new JMenuItem("Ajouter");
-        viewCommandMenuItem = new JMenuItem("Commandes en cours");
-        viewCommandMenuItem.addActionListener(new viewCommandListener());
+        addCommandMenuItem.addActionListener(new AddOrderListener());
+        viewCommandMenuItem = new JMenuItem("Voir les commandes");
+        viewCommandMenuItem.addActionListener(new ViewOrderListener());
         updateCommandMenuItem = new JMenuItem("Modifier");
-        closeCommandMenuItem = new JMenuItem("Clôturer");
-        closeCommandMenuItem.addActionListener(new closeCommandListener());
+        closeCommandMenuItem = new JMenuItem("Finaliser une commande");
+        closeCommandMenuItem.addActionListener(new CloseOrderListener());
         commandMenu.add(viewCommandMenuItem);
         commandMenu.add(addCommandMenuItem);
         commandMenu.add(updateCommandMenuItem);
@@ -71,9 +72,11 @@ public class MainWindow extends JFrame {
 
         // itemMenu produit
         deleteProductMenuItem = new JMenuItem("Supprimer");
+        deleteProductMenuItem.addActionListener(new DeleteProductListener());
         addProductMenuItem = new JMenuItem("Ajouter");
-        addProductMenuItem.addActionListener(new addProductListener());
+        addProductMenuItem.addActionListener(new AddProductListener());
         viewProductMenuItem = new JMenuItem("Nos produits");
+        viewProductMenuItem.addActionListener(new ListingProductListener());
         updateProductMenuItem = new JMenuItem("Modifier");
         productMenu.add(viewProductMenuItem);
         productMenu.add(addProductMenuItem);
@@ -81,12 +84,10 @@ public class MainWindow extends JFrame {
         productMenu.add(deleteProductMenuItem);
 
         // Ajout des variables a la barre
+        menuBar.setLayout(new GridLayout(1,4));
         menuBar.add(welcomeMenu);
-        menuBar.add(new JSeparator(SwingConstants.VERTICAL)); // Ajoute des barres verticales ;)
         menuBar.add(commandMenu);
-        menuBar.add(new JSeparator(SwingConstants.VERTICAL));
         menuBar.add(productMenu);
-        menuBar.add(new JSeparator(SwingConstants.VERTICAL));
         menuBar.add(dataBaseMenu);
         this.setJMenuBar(menuBar);
         this.setVisible(true);
@@ -104,22 +105,22 @@ public class MainWindow extends JFrame {
             container.repaint();
         }
     }
-    private class addProductListener implements ActionListener {
+    private class AddProductListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             new AddProductForm();
         }
     }
-    private class viewCommandListener implements ActionListener {
+    private class ViewOrderListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
-            container.add(new ListOrderPanel(), BorderLayout.CENTER);
+            container.add(new ListingOrderPanel(), BorderLayout.CENTER);
             container.revalidate();
             container.repaint();
         }
     }
-    private class deleteCommandListener implements ActionListener {
+    private class DeleteOrderListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
@@ -129,11 +130,38 @@ public class MainWindow extends JFrame {
         }
     }
 
-    private class closeCommandListener implements ActionListener {
+    private class CloseOrderListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
             container.add(new CloseOrderPanel(), BorderLayout.CENTER);
+            container.revalidate();
+            container.repaint();
+        }
+    }
+    private class AddOrderListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            container.removeAll();
+            container.add(new AddCommandPanel(), BorderLayout.CENTER);
+            container.revalidate();
+            container.repaint();
+        }
+    }
+    private class ListingProductListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            container.removeAll();
+            container.add(new ListingProductPanel(), BorderLayout.CENTER);
+            container.revalidate();
+            container.repaint();
+        }
+    }
+    private class DeleteProductListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            container.removeAll();
+            container.add(new DeleteProductPanel(), BorderLayout.CENTER);
             container.revalidate();
             container.repaint();
         }

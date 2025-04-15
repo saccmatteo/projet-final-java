@@ -92,6 +92,6 @@ public class Product {
 
     @Override
     public String toString() {
-        return label + " - " + price + "€";
+        return label + " - " + price + "€ - " + nbInStock + " en stock";
     }
 }

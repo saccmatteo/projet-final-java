@@ -25,5 +25,8 @@ public class OrderController {
     public void updateStatus(int commandId) {
         manager.updateStatus(commandId);
     }
+    public void updatePaymentMethod(int commandId, char method) {
+        manager.updatePaymentMethod(commandId, method);
+    }
 }
 

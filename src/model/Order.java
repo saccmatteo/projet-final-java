@@ -42,10 +42,6 @@ public class Order {
         return id;
     }
 
-    public void setStatusLabel(String statusLabel) {
-        this.statusLabel = statusLabel;
-    }
-
     @Override
     public String toString() {
         return "Commande " + id + " : x€ prise par " + user.getFirstName() + " " + user.getLastName() + " le " + date;

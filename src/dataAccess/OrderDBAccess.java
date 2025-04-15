@@ -66,13 +66,6 @@ public class OrderDBAccess implements OrderDataAccess {
                     iterator.remove();
                 }
             }
-            /*Order order = iterator.next();
-            while (iterator.hasNext() && order.getId() != commandId) {
-                order = iterator.next();
-            }
-            if (order.getId() == commandId) {
-                iterator.remove();
-            }*/
         }
         catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -84,6 +77,25 @@ public class OrderDBAccess implements OrderDataAccess {
             preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             preparedStatement.setInt(1, commandId);
             preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+    public void updatePaymentMethod(int commandId, char method) {
+        try {
+            if (method == 'c') {
+                sqlInstruction = "UPDATE `order` SET payment_method_label = 'Carte bancaire' WHERE id = ?";
+                preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+                preparedStatement.setInt(1, commandId);
+                preparedStatement.executeUpdate();
+            }
+            else {
+                sqlInstruction = "UPDATE `order` SET payment_method_label = 'Espèces' WHERE id = ?";
+                preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+                preparedStatement.setInt(1, commandId);
+                preparedStatement.executeUpdate();
+            }
         }
         catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());

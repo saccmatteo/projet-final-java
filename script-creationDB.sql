@@ -39,13 +39,13 @@ label VARCHAR(20) PRIMARY KEY
 CREATE TABLE `order` (
 id NUMERIC(10) AUTO_INCREMENT PRIMARY KEY,
 order_date DATE NOT NULL,
-payment_date DATE NOT NULL, 
+payment_date DATE,
 discount_percentage NUMERIC(3),
-`comment` VARCHAR(200), 
+`comment` VARCHAR(200),
 is_happy_hour bool NOT NULL, 
 status_label VARCHAR(20) NOT NULL REFERENCES `status`(label),
 user_id NUMERIC(5) NOT NULL REFERENCES `user`(id),
-payment_method_label VARCHAR(20) NOT NULL REFERENCES paymentMethod(label)
+payment_method_label VARCHAR(20) REFERENCES paymentMethod(label)
 );
 
 CREATE TABLE `status` (

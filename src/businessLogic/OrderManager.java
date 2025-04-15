@@ -28,4 +28,6 @@ public class OrderManager {
     public void updateStatus(int commandId) {
         dao.updateStatus(commandId);
     }
+
+    public void updatePaymentMethod(int commandId, char method) {dao.updatePaymentMethod(commandId, method);}
 }

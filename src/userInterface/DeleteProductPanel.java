@@ -1,6 +1,7 @@
 package userInterface;
 
 import model.Order;
+import model.Product;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -8,36 +9,35 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DeleteOrderPanel extends JPanel {
-    private ListingOrderPanel listOrderPanel;
+public class DeleteProductPanel extends JPanel {
+    private ListingProductPanel listingProductPanel;
     private JButton deleteButton;
 
-    public DeleteOrderPanel() {
+    public DeleteProductPanel() {
         this.setLayout(new BorderLayout());
-        this.listOrderPanel = new ListingOrderPanel();
-        this.add(listOrderPanel, BorderLayout.CENTER);
+        this.listingProductPanel = new ListingProductPanel();
+        this.add(listingProductPanel, BorderLayout.CENTER);
 
-        deleteButton = new JButton("Supprimer la commande");
+        deleteButton = new JButton("Supprimer le produit");
         deleteButton.setFont(new Font("Arial", Font.BOLD, 20));
         deleteButton.setBorder(new EmptyBorder(10, 15, 10, 15));
 
         deleteButton.addActionListener(new DeleteButtonListener());
         this.add(deleteButton, BorderLayout.SOUTH);
     }
-
     private class DeleteButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Order selected = listOrderPanel.getOrdersList().getSelectedValue();
+            Product selected = listingProductPanel.getProductJList().getSelectedValue();
 
             if (selected == null) {
-                JOptionPane.showMessageDialog(null, "Aucune commande sélectionnée.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Aucun produit sélectionnée.", "Erreur", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             int reponse = JOptionPane.showOptionDialog(
                     null,
-                    "Voulez-vous supprimer cette commande ?",
+                    "Voulez-vous supprimer ce produit ?",
                     "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.WARNING_MESSAGE,
                     null,
@@ -46,10 +46,10 @@ public class DeleteOrderPanel extends JPanel {
             );
 
             if (reponse == JOptionPane.YES_OPTION) {
-                listOrderPanel.getOrderController().removeCommand(selected.getId());
-                listOrderPanel.refreshOrders();
+                listingProductPanel.getProductController().removeProduct(selected.getId());
+                listingProductPanel.refreshAndFilter();
 
-                JOptionPane.showMessageDialog(null, "Commande supprimée avec succès", "Suppression confirmée", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Produit supprimée avec succès", "Suppression confirmée", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }

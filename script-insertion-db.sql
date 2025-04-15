@@ -27,8 +27,7 @@ INSERT INTO `status` (label) VALUES
 
 INSERT INTO paymentMethod (label) VALUES
 ('Carte Bancaire'),
-('Espèces'),
-('Ticket Restaurant');
+('Espèces');
 
 
 INSERT INTO `user` (id, last_name, first_name, password_hash, function_label) VALUES

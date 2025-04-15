@@ -1,4 +1,5 @@
 package dataAccess;
+import model.Order;
 import model.Product;
 import model.ProductDataAccess;
 
@@ -9,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ProductDBAccess implements ProductDataAccess {
     private ArrayList<Product> products;
@@ -48,6 +50,25 @@ public class ProductDBAccess implements ProductDataAccess {
         return products;
     }
 
+    public void removeProduct(int productId) {
+        try {
+            sqlInstruction = "DELETE FROM product WHERE id = ?";
+            preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1, productId);
+            preparedStatement.executeUpdate();
+            Iterator<Product> iterator = getAllProducts().iterator();
+            while (iterator.hasNext()) {
+                Product product = iterator.next();
+                if (product.getId() == productId) {
+                    iterator.remove();
+                }
+            }
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
+    }
     public void addProduct(Product product) {
         try{
             // Product
