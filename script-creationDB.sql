@@ -1,7 +1,7 @@
 USE db;
 
 CREATE TABLE product (
-id NUMERIC(10) AUTO_INCREMENT PRIMARY KEY,
+id INT AUTO_INCREMENT PRIMARY KEY,
 label VARCHAR(20) NOT NULL, 
 price NUMERIC(10, 2) NOT NULL,
 nb_in_stock NUMERIC(3) NOT NULL, 
@@ -37,7 +37,7 @@ label VARCHAR(20) PRIMARY KEY
 );
 
 CREATE TABLE `order` (
-id NUMERIC(10) AUTO_INCREMENT PRIMARY KEY,
+id INT AUTO_INCREMENT PRIMARY KEY,
 order_date DATE NOT NULL,
 payment_date DATE,
 discount_percentage NUMERIC(3),
@@ -45,7 +45,7 @@ discount_percentage NUMERIC(3),
 is_happy_hour bool NOT NULL, 
 status_label VARCHAR(20) NOT NULL REFERENCES `status`(label),
 user_id NUMERIC(5) NOT NULL REFERENCES `user`(id),
-payment_method_label VARCHAR(20) REFERENCES paymentMethod(label)
+payment_method_label VARCHAR(20) NOT NULL REFERENCES paymentMethod(label)
 );
 
 CREATE TABLE `status` (
@@ -57,8 +57,8 @@ label VARCHAR(20) PRIMARY KEY
 );
 
 CREATE TABLE orderLine (
-order_id NUMERIC(10),
-product_id NUMERIC(10),
+order_id INT,
+product_id INT,
 quantity NUMERIC(5) NOT NULL,
 unit_price NUMERIC(5, 2) NOT NULL,
 PRIMARY KEY(order_id, product_id),
