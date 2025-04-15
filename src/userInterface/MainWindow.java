@@ -107,14 +107,14 @@ public class MainWindow extends JFrame {
     private class addProductListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            new FormAddProduct();
+            new AddProductForm();
         }
     }
     private class viewCommandListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
-            container.add(new OrderViewerPanel(), BorderLayout.CENTER);
+            container.add(new ListOrderPanel(), BorderLayout.CENTER);
             container.revalidate();
             container.repaint();
         }
@@ -123,7 +123,7 @@ public class MainWindow extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
-            container.add(new OrderDeleterPanel(), BorderLayout.CENTER);
+            container.add(new DeleteOrderPanel(), BorderLayout.CENTER);
             container.revalidate();
             container.repaint();
         }
@@ -133,7 +133,7 @@ public class MainWindow extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
-            container.add(new OrderCloserPanel(), BorderLayout.CENTER);
+            container.add(new CloseOrderPanel(), BorderLayout.CENTER);
             container.revalidate();
             container.repaint();
         }

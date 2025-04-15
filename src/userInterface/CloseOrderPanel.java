@@ -8,13 +8,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class OrderCloserPanel extends JPanel {
-    private OrderViewerPanel commandViewerPanel;
+public class CloseOrderPanel extends JPanel {
+    private ListOrderPanel commandViewerPanel;
     private JButton closeButton;
 
-    public OrderCloserPanel() {
+    public CloseOrderPanel() {
         this.setLayout(new BorderLayout());
-        commandViewerPanel = new OrderViewerPanel();
+        commandViewerPanel = new ListOrderPanel();
         this.add(commandViewerPanel, BorderLayout.CENTER); // ou NORTH, voir avec tout le monde
         closeButton = new JButton("Clôturer la commande");
         closeButton.addActionListener(new closeButtonListener());

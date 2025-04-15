@@ -11,7 +11,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.time.LocalDate;
 
-public class FormAddProduct extends JFrame {
+public class AddProductForm extends JFrame {
     private String[] categories = {"Boisson alcoolisée", "Soft", "Snacks", "Sans gluten", "Boisson chaude", "Glace"};
     private ProductController productController;
     private Container container;
@@ -21,7 +21,7 @@ public class FormAddProduct extends JFrame {
     private JCheckBox glutenFree, isAlcohol;
     private JButton cancelButton, submitButton, resetButton;
 
-    public FormAddProduct() {
+    public AddProductForm() {
         setTitle("Formulaire d'ajout de produit");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(800, 300, 500, 500);
@@ -90,7 +90,7 @@ public class FormAddProduct extends JFrame {
         resetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new FormAddProduct();
+                new AddProductForm();
             }
         });
         submitButton.addActionListener(new SubmitButtonListener());

@@ -8,7 +8,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class OrderViewerPanel extends JPanel {
+public class ListOrderPanel extends JPanel {
     private OrderController orderController;
     private JLabel commandLabel;
     private ArrayList<Order> orders;
@@ -16,7 +16,7 @@ public class OrderViewerPanel extends JPanel {
     private JScrollPane ordersScrollPane;
 
     // CONSTRUCTORS
-    public OrderViewerPanel() {
+    public ListOrderPanel() {
         this.setLayout(new BorderLayout());
 
         try {
