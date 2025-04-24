@@ -50,7 +50,7 @@ public class ProductDBAccess implements ProductDataAccess {
         return products;
     }
 
-    public void removeProduct(int productId) {
+    public void deleteProduct(int productId) {
         try {
             sqlInstruction = "DELETE FROM product WHERE id = ?";
             preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);

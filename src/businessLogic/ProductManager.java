@@ -24,7 +24,7 @@ public class ProductManager {
     public void addProduct(Product product) {
         dao.addProduct(product);
     }
-    public void removeProduct(int productId) {
-        dao.removeProduct(productId);
+    public void deleteProduct(int productId) {
+        dao.deleteProduct(productId);
     }
 }

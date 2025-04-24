@@ -4,6 +4,6 @@ import java.util.ArrayList;
 
 public interface ProductDataAccess {
     ArrayList<Product> getAllProducts();
-    void removeProduct(int productId);
+    void deleteProduct(int productId);
     void addProduct(Product product);
 }

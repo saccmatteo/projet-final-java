@@ -48,7 +48,7 @@ public class OrderDBAccess implements OrderDataAccess {
         return orders;
     }
 
-    public void removeCommand(int commandId) {
+    public void deleteCommand(int commandId) {
         try {
             sqlInstruction = "DElETE FROM orderline WHERE order_id = ?";
             preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
@@ -71,19 +71,12 @@ public class OrderDBAccess implements OrderDataAccess {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
-    public void updateStatus(int commandId) {
+    public void updateCommand(int commandId, char method) {
         try {
             sqlInstruction = "UPDATE `order` SET status_label = 'Terminé' WHERE id = ?";
             preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             preparedStatement.setInt(1, commandId);
             preparedStatement.executeUpdate();
-        }
-        catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-    }
-    public void updatePaymentMethod(int commandId, char method) {
-        try {
             if (method == 'c') {
                 sqlInstruction = "UPDATE `order` SET payment_method_label = 'Carte bancaire' WHERE id = ?";
                 preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);

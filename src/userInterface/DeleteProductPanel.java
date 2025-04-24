@@ -46,7 +46,7 @@ public class DeleteProductPanel extends JPanel {
             );
 
             if (reponse == JOptionPane.YES_OPTION) {
-                listingProductPanel.getProductController().removeProduct(selected.getId());
+                listingProductPanel.getProductController().deleteProduct(selected.getId());
                 listingProductPanel.refreshAndFilter();
 
                 JOptionPane.showMessageDialog(null, "Produit supprimée avec succès", "Suppression confirmée", JOptionPane.INFORMATION_MESSAGE);

@@ -21,13 +21,9 @@ public class OrderManager {
         return dao.getAllOrders();
     }
 
-    public void removeCommand(int commandId) {
-        dao.removeCommand(commandId);
+    public void deleteCommand(int commandId) {
+        dao.deleteCommand(commandId);
     }
 
-    public void updateStatus(int commandId) {
-        dao.updateStatus(commandId);
-    }
-
-    public void updatePaymentMethod(int commandId, char method) {dao.updatePaymentMethod(commandId, method);}
+    public void updateCommand(int commandId, char method) {dao.updateCommand(commandId, method);}
 }

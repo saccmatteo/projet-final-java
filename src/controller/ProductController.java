@@ -22,7 +22,7 @@ public class ProductController {
     public void addProduct(Product product) {
         manager.addProduct(product);
     }
-    public void removeProduct(int productId) {
-        manager.removeProduct(productId);
+    public void deleteProduct(int productId) {
+        manager.deleteProduct(productId);
     }
 }
