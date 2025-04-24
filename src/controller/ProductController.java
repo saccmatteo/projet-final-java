@@ -19,8 +19,8 @@ public class ProductController {
         this.manager = manager;
     }
 
-    public void addProduct(Product product) {
-        manager.addProduct(product);
+    public void createProduct(Product product) {
+        manager.createProduct(product);
     }
     public void deleteProduct(int productId) {
         manager.deleteProduct(productId);

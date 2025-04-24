@@ -69,7 +69,7 @@ public class ProductDBAccess implements ProductDataAccess {
         }
 
     }
-    public void addProduct(Product product) {
+    public void createProduct(Product product) {
         try{
             // Product
             sqlInstruction = "INSERT INTO product VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

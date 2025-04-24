@@ -2,16 +2,14 @@ package userInterface;
 
 import javax.swing.*;
 
-import controller.OrderController;
 import controller.UserController;
 import model.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.awt.*;
 
-public class AddCommandPanel extends JPanel {
+public class CreateCommandPanel extends JPanel {
     private JPanel usersPanel, formPanel;
     private JTextField commentsText;
     private JLabel usersLabel, commentsLabel;
@@ -24,7 +22,7 @@ public class AddCommandPanel extends JPanel {
     private JComboBox<User> users;
     private UserController userController;
 
-    public AddCommandPanel() {
+    public CreateCommandPanel() {
         this.setLayout(new BorderLayout());
 
         userController = new UserController();

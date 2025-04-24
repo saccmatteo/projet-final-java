@@ -11,7 +11,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.time.LocalDate;
 
-public class AddProductForm extends JFrame {
+public class CreateProductForm extends JFrame {
     private String[] categories = {"Boisson alcoolisée", "Soft", "Snacks", "Sans gluten", "Boisson chaude", "Glace"};
     private ProductController productController;
     private Container container;
@@ -21,7 +21,7 @@ public class AddProductForm extends JFrame {
     private JCheckBox glutenFree, isAlcohol;
     private JButton cancelButton, submitButton, resetButton;
 
-    public AddProductForm() {
+    public CreateProductForm() {
         setTitle("Formulaire d'ajout de produit");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(800, 300, 500, 500);
@@ -90,7 +90,7 @@ public class AddProductForm extends JFrame {
         resetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new AddProductForm();
+                new CreateProductForm();
             }
         });
         submitButton.addActionListener(new SubmitButtonListener());
@@ -129,7 +129,7 @@ public class AddProductForm extends JFrame {
     private class SubmitButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if (isAlcohol.isSelected()) {
-                productController.addProduct(
+                productController.createProduct(
                         new Product(null,
                                 label.getText(),
                                 Double.parseDouble(price.getText()),
@@ -145,7 +145,7 @@ public class AddProductForm extends JFrame {
                                 (String)(category.getSelectedItem())
                         ));
             }else{
-                productController.addProduct(
+                productController.createProduct(
                         new Product(null,
                                 label.getText(),
                                 Double.parseDouble(price.getText()),

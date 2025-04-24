@@ -108,7 +108,7 @@ public class MainWindow extends JFrame {
     private class AddProductListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            new AddProductForm();
+            new CreateProductForm();
         }
     }
     private class ViewOrderListener implements ActionListener {
@@ -143,7 +143,7 @@ public class MainWindow extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
-            container.add(new AddCommandPanel(), BorderLayout.CENTER);
+            container.add(new CreateCommandPanel(), BorderLayout.CENTER);
             container.revalidate();
             container.repaint();
         }
