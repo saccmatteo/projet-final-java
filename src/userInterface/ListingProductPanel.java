@@ -28,8 +28,8 @@ public class ListingProductPanel extends JPanel {
 
     public ListingProductPanel() {
         this.setLayout(new BorderLayout(10,10));
-        productController = new ProductController();
-        categoryController = new CategoryController();
+        setProductController(new ProductController());
+        setCategoryController(new CategoryController());
         categoryList = categoryController.getAllCategories();
         productsList = productController.getAllProducts();
 
@@ -105,6 +105,14 @@ public class ListingProductPanel extends JPanel {
             String selectedCategory = (String) categoryComboBox.getSelectedItem();
             updateProductList(selectedCategory);
         }
+    }
+
+    public void setCategoryController(CategoryController categoryController) {
+        this.categoryController = categoryController;
+    }
+
+    public void setProductController(ProductController productController) {
+        this.productController = productController;
     }
 
     public JList<Product> getProductJList() {
