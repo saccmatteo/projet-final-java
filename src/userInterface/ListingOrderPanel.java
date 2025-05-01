@@ -20,7 +20,7 @@ public class ListingOrderPanel extends JPanel {
         this.setLayout(new BorderLayout());
 
         try {
-            setOrderController(new OrderController());
+            orderController = new OrderController();
 
             this.orders = orderController.getAllOrders();
 
@@ -79,9 +79,5 @@ public class ListingOrderPanel extends JPanel {
 
     public OrderController getOrderController() {
         return orderController;
-    }
-
-    public void setOrderController(OrderController orderController) {
-        this.orderController = orderController;
     }
 }
