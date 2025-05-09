@@ -54,6 +54,7 @@ public class OrderDBAccess implements OrderDataAccess {
             preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             preparedStatement.setInt(1, commandId);
             preparedStatement.executeUpdate();
+
             sqlInstruction = "DELETE FROM `order` WHERE id = ?;";
             preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             preparedStatement.setInt(1, commandId);

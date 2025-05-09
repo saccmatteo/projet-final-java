@@ -62,6 +62,7 @@ public class MainWindow extends JFrame {
         viewCommandMenuItem = new JMenuItem("Voir les commandes");
         viewCommandMenuItem.addActionListener(new ViewOrderListener());
         updateCommandMenuItem = new JMenuItem("Modifier");
+        // listener pour modifier //
         closeCommandMenuItem = new JMenuItem("Finaliser une commande");
         closeCommandMenuItem.addActionListener(new CloseOrderListener());
         commandMenu.add(viewCommandMenuItem);

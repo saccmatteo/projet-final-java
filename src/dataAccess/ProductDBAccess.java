@@ -4,7 +4,6 @@ import model.Product;
 import model.ProductDataAccess;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

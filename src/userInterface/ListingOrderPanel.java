@@ -21,11 +21,10 @@ public class ListingOrderPanel extends JPanel {
 
         try {
             setOrderController(new OrderController());
-
             this.orders = orderController.getAllOrders();
 
             //cas où la ArrayList est vide
-            if (orders == null || orders.isEmpty()) {
+            if (orders == null || orders.isEmpty()) { // C'est la meme les 2 ?
                 commandLabel.setText("Aucune commande à afficher.");
             }
 
@@ -33,7 +32,7 @@ public class ListingOrderPanel extends JPanel {
             ordersList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             ordersList.clearSelection();
 
-            //apparenceJList
+            //apparence JList
             ordersList.setFont(new Font("Arial", Font.BOLD, 28)); // Agrandir la taille de la police
             ordersList.setFixedCellHeight(50); // agrandir les lignes de la JList
             ordersList.setBorder(new EmptyBorder(10, 20, 10, 20));

@@ -18,7 +18,8 @@ public class CreateProductForm extends JFrame {
     private JPanel formPanel, buttonsPanel;
     private JTextField label, price, alcoholPercentage, treshold, supplierName, supplierPhone, nbStock;
     private JComboBox category;
-    private JCheckBox glutenFree, isAlcohol;
+    private JRadioButton glutenFree, isAlcohol;
+    private ButtonGroup radioGroup;
     private JButton cancelButton, submitButton, resetButton;
 
     public CreateProductForm() {
@@ -46,12 +47,16 @@ public class CreateProductForm extends JFrame {
         supplierPhone = new JTextField();
         nbStock = new JTextField();
         category = new JComboBox(categories);
-        glutenFree = new JCheckBox("Sans gluten");
-        isAlcohol = new JCheckBox("Alcoolisé");
+        glutenFree = new JRadioButton("Sans gluten");
+        isAlcohol = new JRadioButton("Alcoolisé");
+        radioGroup = new ButtonGroup();
+        radioGroup.add(glutenFree);
+        radioGroup.add(isAlcohol);
 
             // Listeners
                 // Alcohol
-        isAlcohol.addItemListener(new AlcoholListener());
+        isAlcohol.addItemListener(new RadioListener());
+        glutenFree.addItemListener(new RadioListener());
 
             // Ajout
         formPanel.add(new JLabel("Nom du produit :"));
@@ -113,15 +118,20 @@ public class CreateProductForm extends JFrame {
     }
 
 // LISTENERS
-    private class AlcoholListener implements ItemListener {
+    private class RadioListener implements ItemListener {
         public void itemStateChanged(ItemEvent e) {
-            if (e.getStateChange() == ItemEvent.SELECTED) {
+            if (e.getSource() == isAlcohol) {
                 category.setSelectedIndex(0);
                 alcoholPercentage.setEnabled(true);
-            }else{
+                category.setEnabled(false);
+            } else if (e.getSource() == glutenFree) {
+                category.setSelectedIndex(3);
+                category.setEnabled(false);
+            } else{
                 alcoholPercentage.setText("");
                 category.setSelectedIndex(-1);
                 alcoholPercentage.setEnabled(false);
+                category.setEnabled(true);
             }
         }
     }
@@ -137,8 +147,8 @@ public class CreateProductForm extends JFrame {
                                 Integer.parseInt(treshold.getText()),
                                 glutenFree.isSelected(),
                                 Double.parseDouble(alcoholPercentage.getText()),
-                                LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth()),
-                                LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth()),
+                                LocalDate.now(),
+                                LocalDate.now(),
                                 null,
                                 supplierName.getText(),
                                 Integer.parseInt(supplierPhone.getText()),
@@ -146,15 +156,15 @@ public class CreateProductForm extends JFrame {
                         ));
             }else{
                 productController.createProduct(
-                        new Product(null,
+                        new Product(11,
                                 label.getText(),
                                 Double.parseDouble(price.getText()),
                                 Integer.parseInt(nbStock.getText()),
                                 Integer.parseInt(treshold.getText()),
                                 glutenFree.isSelected(),
                                 null,
-                                LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth()),
-                                LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth()),
+                                LocalDate.now(),
+                                LocalDate.now(),
                                 null,
                                 supplierName.getText(),
                                 Integer.parseInt(supplierPhone.getText()),

@@ -24,10 +24,9 @@ public class CreateCommandPanel extends JPanel {
 
     public CreateCommandPanel() {
         this.setLayout(new BorderLayout());
-
         userController = new UserController();
 
-        //gestion du panel avec la combobox
+        // Gestion du panel avec la combobox
         usersPanel = new JPanel(new FlowLayout());
 
         usersLabel = new JLabel("Utilisateur gérant la commande : ");
@@ -40,23 +39,23 @@ public class CreateCommandPanel extends JPanel {
         usersPanel.add(usersLabel);
         usersPanel.add(users);
 
-        //gestion panel avec le formulaire
+        // Gestion panel avec le formulaire
         formPanel = new JPanel(new GridLayout(4,2));
         resetForm = new JButton("Réinitialiser le formulaire");
         discountRadio = new JRadioButton("Réduction");
         happyHourRadio = new JRadioButton("Happy hour");
 
-        //groupe des radios
+        // Groupe des radios
         group = new ButtonGroup();
         group.add(discountRadio);
         group.add(happyHourRadio);
 
-        //comboBox
+        // ComboBox
         discountComboBox = new JComboBox<>();
         discountComboBox.setSelectedIndex(-1);
         discountComboBox.setEnabled(false);
 
-        //ajout des listeners
+        // Ajout des listeners
         discountRadio.addActionListener(new DiscountRadioListener());
         happyHourRadio.addActionListener(new HappyHourRadioListener());
         resetForm.addActionListener(new ResetFormListener());
@@ -71,7 +70,7 @@ public class CreateCommandPanel extends JPanel {
         formPanel.add(commentsLabel);
         formPanel.add(commentsText);
 
-        //ajout des 2 panels
+        // Ajout des 2 panels
         this.add(usersPanel, BorderLayout.NORTH);
         this.add(formPanel, BorderLayout.CENTER);
     }
