@@ -34,6 +34,10 @@ public class Product {
         this.categoryLabel = categoryLabel;
     }
 
+    @Override
+    public String toString() {
+        return label + " - " + price + "€ - " + nbInStock + " en stock";
+    }
     // GETTERS
     public Integer getId() {
         if (id == null)
@@ -91,8 +95,4 @@ public class Product {
         return categoryLabel;
     }
 
-    @Override
-    public String toString() {
-        return label + " - " + price + "€ - " + nbInStock + " en stock";
-    }
 }
