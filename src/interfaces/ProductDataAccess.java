@@ -1,4 +1,6 @@
-package model;
+package interfaces;
+
+import model.Product;
 
 import java.util.ArrayList;
 

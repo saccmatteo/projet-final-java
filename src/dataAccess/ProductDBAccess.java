@@ -1,10 +1,8 @@
 package dataAccess;
-import model.Order;
 import model.Product;
-import model.ProductDataAccess;
+import interfaces.ProductDataAccess;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

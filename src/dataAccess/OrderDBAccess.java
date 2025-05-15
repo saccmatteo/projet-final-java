@@ -1,6 +1,6 @@
 package dataAccess;
 
-import model.OrderDataAccess;
+import interfaces.OrderDataAccess;
 import model.Order;
 import model.User;
 

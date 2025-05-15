@@ -67,13 +67,14 @@ public class CreateCommandPanel extends JPanel {
         formPanel.add(discountRadio);
         formPanel.add(happyHourRadio);
         formPanel.add(discountComboBox);
-        formPanel.add(resetForm);
+        //formPanel.add(resetForm);
         formPanel.add(commentsLabel);
         formPanel.add(commentsText);
 
         //ajout des 2 panels
         this.add(usersPanel, BorderLayout.NORTH);
         this.add(formPanel, BorderLayout.CENTER);
+        this.add(resetForm, BorderLayout.SOUTH);
     }
 
     private class DiscountRadioListener implements ActionListener {
