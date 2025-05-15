@@ -13,7 +13,7 @@ public class MainWindow extends JFrame {
     private JLabel welcomeLabel;
     private JMenuBar menuBar;
     private JMenu welcomeMenu, commandMenu, productMenu, dataBaseMenu;
-    private JMenuItem welcomeMenuItem, deleteCommandMenuItem, addCommandMenuItem, viewCommandMenuItem, updateCommandMenuItem, closeCommandMenuItem, deleteProductMenuItem, addProductMenuItem, viewProductMenuItem, updateProductMenuItem;
+    private JMenuItem welcomeMenuItem, deleteCommandMenuItem, addCommandMenuItem, viewCommandMenuItem, updateCommandMenuItem, closeCommandMenuItem, deleteProductMenuItem, addProductMenuItem, viewProductMenuItem, updateProductMenuItem, researchesMenuItem;
     private Container container;
 
     // CONSTRUCTOR
@@ -83,6 +83,14 @@ public class MainWindow extends JFrame {
         productMenu.add(addProductMenuItem);
         productMenu.add(updateProductMenuItem);
         productMenu.add(deleteProductMenuItem);
+
+        // itemMenu des recherches
+        researchesMenuItem = new JMenuItem("Researches");
+        researchesMenuItem.addActionListener(new DataBaseMenuListener());
+        dataBaseMenu.add(researchesMenuItem);
+
+
+
 
         // Ajout des variables a la barre
         menuBar.setLayout(new GridLayout(1,4));
@@ -160,6 +168,15 @@ public class MainWindow extends JFrame {
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
             container.add(new DeleteProductPanel(), BorderLayout.CENTER);
+            container.revalidate();
+            container.repaint();
+        }
+    }
+
+    private class DataBaseMenuListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            container.removeAll();
+            container.add(new ResearchPanel(), BorderLayout.CENTER);
             container.revalidate();
             container.repaint();
         }
