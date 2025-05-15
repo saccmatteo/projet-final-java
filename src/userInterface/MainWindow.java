@@ -13,7 +13,7 @@ public class MainWindow extends JFrame {
     private JLabel welcomeLabel;
     private JMenuBar menuBar;
     private JMenu welcomeMenu, commandMenu, productMenu, dataBaseMenu;
-    private JMenuItem welcomeMenuItem, deleteCommandMenuItem, addCommandMenuItem, viewCommandMenuItem, updateCommandMenuItem, closeCommandMenuItem, deleteProductMenuItem, addProductMenuItem, viewProductMenuItem, updateProductMenuItem, researchesMenuItem;
+    private JMenuItem welcomeMenuItem, deleteCommandMenuItem, addCommandMenuItem, viewCommandMenuItem, updateCommandMenuItem, closeCommandMenuItem, deleteProductMenuItem, addProductMenuItem, viewProductMenuItem, updateProductMenuItem, alcoholicDrinksSinceDateMenuItem, productsUnderQuantityMenuItem,  commandInfoByProductMenuItem;
     private Container container;
 
     // CONSTRUCTOR
@@ -47,7 +47,7 @@ public class MainWindow extends JFrame {
         welcomeMenu = new JMenu("Buvette");
         commandMenu = new JMenu("Commandes");
         productMenu = new JMenu("Produits");
-        dataBaseMenu = new JMenu("Base de donnees");
+        dataBaseMenu = new JMenu("Recherches base de donnees");
 
         // ItemMenu accueil
         welcomeMenuItem = new JMenuItem("Accueil");
@@ -85,12 +85,17 @@ public class MainWindow extends JFrame {
         productMenu.add(deleteProductMenuItem);
 
         // itemMenu des recherches
-        researchesMenuItem = new JMenuItem("Researches");
-        researchesMenuItem.addActionListener(new DataBaseMenuListener());
-        dataBaseMenu.add(researchesMenuItem);
+        alcoholicDrinksSinceDateMenuItem = new JMenuItem("Ventes alcool après date");
+        alcoholicDrinksSinceDateMenuItem.addActionListener(new DataBaseMenuListener());
+        dataBaseMenu.add(alcoholicDrinksSinceDateMenuItem);
 
+        productsUnderQuantityMenuItem = new JMenuItem("Produits sous une quantité");
+        productsUnderQuantityMenuItem.addActionListener(new DataBaseMenuListener());
+        dataBaseMenu.add(productsUnderQuantityMenuItem);
 
-
+        commandInfoByProductMenuItem = new JMenuItem("Commandes d'un produit");
+        commandInfoByProductMenuItem.addActionListener(new DataBaseMenuListener());
+        dataBaseMenu.add(commandInfoByProductMenuItem);
 
         // Ajout des variables a la barre
         menuBar.setLayout(new GridLayout(1,4));

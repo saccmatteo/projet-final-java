@@ -14,12 +14,12 @@ public class AlcoholicDrinksModel extends AbstractTableModel {
 
     public AlcoholicDrinksModel(ArrayList<AlcoholicDrinksInfos> alcoholicDrinks) {
         columnNames = new ArrayList<>();
-        columnNames.add("Id");
-        columnNames.add("Label");
-        columnNames.add("Alcohol percentage");
-        columnNames.add("Quantity");
-        columnNames.add("Order id");
-        columnNames.add("Order date");
+        columnNames.add("ID boisson");
+        columnNames.add("Nom");
+        columnNames.add("Pourcentage alcool");
+        columnNames.add("Quantité");
+        columnNames.add("ID commande");
+        columnNames.add("Date commande");
         // Continuer pour afficher les colonnes des ORDERS et des ORDERLINES
         setAlcoholicDrinks(alcoholicDrinks);
     }
