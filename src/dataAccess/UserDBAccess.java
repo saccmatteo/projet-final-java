@@ -1,6 +1,6 @@
 package dataAccess;
 
-import model.UserDataAccess;
+import interfaces.UserDataAccess;
 import model.*;
 
 import javax.swing.*;
@@ -10,11 +10,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class UserDBAccess implements UserDataAccess {
+    private ArrayList<User> users;
     private String sqlInstruction;
     private PreparedStatement preparedStatement;
     private ResultSet data;
-    // GETTERS
-    @Override
+
     public ArrayList<User> getAllUsers() {
         ArrayList<User> users = new ArrayList<>();
         try{
@@ -36,9 +36,4 @@ public class UserDBAccess implements UserDataAccess {
         }
         return users;
     }
-
-    // METHODES
-//    public void createUsers(){
-//
-//    }
 }

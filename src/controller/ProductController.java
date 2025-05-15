@@ -18,4 +18,11 @@ public class ProductController {
     public void setManager(ProductManager manager) {
         this.manager = manager;
     }
+
+    public void createProduct(Product product) {
+        manager.createProduct(product);
+    }
+    public void deleteProduct(int productId) {
+        manager.deleteProduct(productId);
+    }
 }

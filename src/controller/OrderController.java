@@ -19,11 +19,17 @@ public class OrderController {
     public ArrayList<Order> getAllOrders() {
         return manager.getAllOrders();
     }
-    public void removeCommand(int commandId) {
-        manager.removeCommand(commandId);
+
+    public void createCommand(Order order) {
+        manager.createCommand(order);
     }
-    public void updateStatus(int commandId) {
-        manager.updateStatus(commandId);
+
+    public void deleteCommand(int commandId) {
+        manager.deleteCommand(commandId);
+    }
+
+    public void updateCommand(int commandId, char method) {
+        manager.updateCommand(commandId, method);
     }
 }
 

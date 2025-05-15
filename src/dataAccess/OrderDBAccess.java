@@ -1,10 +1,11 @@
 package dataAccess;
 
-import model.OrderDataAccess;
+import interfaces.OrderDataAccess;
 import model.Order;
 import model.User;
 
 import javax.swing.*;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,18 +13,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class OrderDBAccess implements OrderDataAccess {
+    private ArrayList<Order> orders;
     private String sqlInstruction;
     private PreparedStatement preparedStatement;
     private ResultSet data;
 
-    @Override
     public ArrayList<Order> getAllOrders() {
         ArrayList<Order> orders = new ArrayList<>();
         try {
             sqlInstruction = "SELECT `order`.*, user.last_name, user.first_name " +
                     "FROM `order` JOIN user ON `order`.user_id = user.id " +
                     "WHERE `order`.status_label = 'En cours'";
-            preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             data = preparedStatement.executeQuery();
 
             while (data.next()) {
@@ -48,35 +49,62 @@ public class OrderDBAccess implements OrderDataAccess {
         return orders;
     }
 
-    public void removeCommand(int commandId) {
+    public void createCommand(Order order){
+        try{
+            sqlInstruction = "INSERT INTO `order` VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+
+            preparedStatement.setInt(1, order.getId());
+            preparedStatement.setDate(2, Date.valueOf(order.getDate()));
+            preparedStatement.setDate(3, Date.valueOf(order.getPaymentDate()));
+            preparedStatement.setInt(4, order.getDiscountPercentage());
+            preparedStatement.setString(5, order.getComment());
+            preparedStatement.setBoolean(6, order.getHappyHour());
+            preparedStatement.setString(7, order.getStatusLabel());
+            preparedStatement.setString(8, order.getStatusLabel());
+            preparedStatement.setString(9, order.getPaymentMethodLabel());
+            preparedStatement.setInt(10, order.getUserId());
+
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+
+    public void deleteCommand(int commandId) {
         try {
             sqlInstruction = "DElETE FROM orderline WHERE order_id = ?";
-            preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
-            preparedStatement.setInt(1, commandId);
-            preparedStatement.executeUpdate();
-            sqlInstruction = "DELETE FROM `order` WHERE id = ?;";
-            preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             preparedStatement.setInt(1, commandId);
             preparedStatement.executeUpdate();
 
-            Iterator<Order> iterator = getAllOrders().iterator();
-            while (iterator.hasNext()) {
-                Order order = iterator.next();
-                if (order.getId() == commandId) {
-                    iterator.remove();
-                }
-            }
+            sqlInstruction = "DELETE FROM `order` WHERE id = ?;";
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1, commandId);
+            preparedStatement.executeUpdate();
         }
         catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
-    public void updateStatus(int commandId) {
+    public void updateCommand(int commandId, char method) {
         try {
             sqlInstruction = "UPDATE `order` SET status_label = 'Terminé' WHERE id = ?";
-            preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             preparedStatement.setInt(1, commandId);
             preparedStatement.executeUpdate();
+            if (method == 'c') {
+                sqlInstruction = "UPDATE `order` SET payment_method_label = 'Carte bancaire' WHERE id = ?";
+                preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+                preparedStatement.setInt(1, commandId);
+                preparedStatement.executeUpdate();
+            }
+            else {
+                sqlInstruction = "UPDATE `order` SET payment_method_label = 'Espèces' WHERE id = ?";
+                preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+                preparedStatement.setInt(1, commandId);
+                preparedStatement.executeUpdate();
+            }
         }
         catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());

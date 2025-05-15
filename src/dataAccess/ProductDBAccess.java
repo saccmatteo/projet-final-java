@@ -1,9 +1,9 @@
 package dataAccess;
 import model.Order;
 import model.Product;
-import model.ProductDataAccess;
-import userInterface.ProductPanel;
+import interfaces.ProductDataAccess;
 
+import java.sql.Date;
 import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +20,7 @@ public class ProductDBAccess implements ProductDataAccess {
         ArrayList<Product> products = new ArrayList<>();
         try {
             sqlInstruction = "SELECT product.*, supplier.phone_number FROM product INNER JOIN supplier ON supplier.label = product.supplier_label INNER JOIN category ON category.label = product.category_label";
-            preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             data = preparedStatement.executeQuery();
 
             while (data.next()) {
@@ -46,5 +46,60 @@ public class ProductDBAccess implements ProductDataAccess {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
         return products;
+    }
+
+    public void deleteProduct(int productId) {
+        try {
+            sqlInstruction = "DELETE FROM product WHERE id = ?";
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1, productId);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
+    }
+    public void createProduct(Product product) {
+        try{
+            // Product
+            sqlInstruction = "INSERT INTO product VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+
+            preparedStatement.setInt(1, product.getId());
+            preparedStatement.setString(2, product.getLabel());
+            preparedStatement.setDouble(3, product.getPrice());
+            preparedStatement.setInt(4, product.getNbInStock());
+            preparedStatement.setInt(5, product.getMinTreshold());
+            preparedStatement.setBoolean(6, product.getGlutenFree());
+            preparedStatement.setDouble(7, product.getAlcoholPercentage());
+            preparedStatement.setString(10, product.getDescription());
+            preparedStatement.setString(11, product.getSupplierLabel());
+            preparedStatement.setString(12, product.getCategoryLabel());
+
+                // DATE
+            preparedStatement.setDate(8, Date.valueOf(product.getDistributionDate()));
+            preparedStatement.setDate(9, Date.valueOf(product.getLastRestockDate()));
+
+            preparedStatement.executeUpdate();
+
+            // Supplier
+            sqlInstruction = "INSERT INTO supplier VALUES (?, ?)";
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+
+            preparedStatement.setString(1, product.getSupplierLabel());
+            preparedStatement.setInt(2, product.getSupplierPhoneNumber());
+
+            preparedStatement.executeUpdate();
+
+            // Category
+            sqlInstruction = "INSERT INTO category VALUES (?)";
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+
+            preparedStatement.setString(1, product.getCategoryLabel());
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }
 }

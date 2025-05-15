@@ -2,12 +2,13 @@ package businessLogic;
 
 import dataAccess.ProductDBAccess;
 import model.Product;
-import model.ProductDataAccess;
+import interfaces.ProductDataAccess;
 
 import java.util.ArrayList;
 
 public class ProductManager {
     private ProductDataAccess dao;
+
     public ProductManager() {
         setDao(new ProductDBAccess());
     }
@@ -18,5 +19,12 @@ public class ProductManager {
 
     public ArrayList<Product> getAllProducts (){
         return dao.getAllProducts();
+    }
+
+    public void createProduct(Product product) {
+        dao.createProduct(product);
+    }
+    public void deleteProduct(int productId) {
+        dao.deleteProduct(productId);
     }
 }
