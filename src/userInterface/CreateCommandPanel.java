@@ -203,6 +203,5 @@ public class CreateCommandPanel extends JFrame {
                     ));
             JOptionPane.showMessageDialog(null, "Ajout de la commande");
         }
-
     }
 }

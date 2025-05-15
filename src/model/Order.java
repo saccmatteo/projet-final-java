@@ -72,6 +72,6 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Commande " + id + " : x€ prise par " + user.getFirstName() + " " + user.getLastName() + " le " + date;
+        return "Commande " + id + " : prise par " + user.getFirstName() + " " + user.getLastName() + " le " + date;
     }
 }
