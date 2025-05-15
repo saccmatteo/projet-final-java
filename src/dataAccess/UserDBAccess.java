@@ -36,5 +36,4 @@ public class UserDBAccess implements UserDataAccess {
         }
         return users;
     }
-
 }

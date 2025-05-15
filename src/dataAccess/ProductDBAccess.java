@@ -55,13 +55,6 @@ public class ProductDBAccess implements ProductDataAccess {
             preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             preparedStatement.setInt(1, productId);
             preparedStatement.executeUpdate();
-            Iterator<Product> iterator = getAllProducts().iterator();
-            while (iterator.hasNext()) {
-                Product product = iterator.next();
-                if (product.getId() == productId) {
-                    iterator.remove();
-                }
-            }
         }
         catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
