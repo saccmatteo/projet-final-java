@@ -2,7 +2,7 @@ package businessLogic;
 
 import dataAccess.ProductDBAccess;
 import model.Product;
-import model.ProductDataAccess;
+import interfaces.ProductDataAccess;
 
 import java.util.ArrayList;
 

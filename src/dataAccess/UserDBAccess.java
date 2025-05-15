@@ -1,6 +1,6 @@
 package dataAccess;
 
-import model.UserDataAccess;
+import interfaces.UserDataAccess;
 import model.*;
 
 import javax.swing.*;

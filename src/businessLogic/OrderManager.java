@@ -2,7 +2,7 @@ package businessLogic;
 
 import dataAccess.OrderDBAccess;
 import model.Order;
-import model.OrderDataAccess;
+import interfaces.OrderDataAccess;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,7 @@
 package businessLogic;
 
 import dataAccess.CategoryDBAccess;
-import model.CategoryDataAccess;
+import interfaces.CategoryDataAccess;
 
 import java.util.ArrayList;
 

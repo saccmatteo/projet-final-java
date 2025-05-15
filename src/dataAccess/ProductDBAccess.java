@@ -1,7 +1,6 @@
 package dataAccess;
-import model.Order;
 import model.Product;
-import model.ProductDataAccess;
+import interfaces.ProductDataAccess;
 
 import java.sql.Date;
 import javax.swing.*;
