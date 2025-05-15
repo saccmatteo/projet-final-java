@@ -23,6 +23,11 @@ public class User {
         orders = new Order[MAX_ORDERS_NB];
     }
 
+    // GETTERS
+    public Integer getId() {
+        return id;
+    }
+
     public String toString() {
         return id + " (" + firstName + " " + lastName + ")";
     }

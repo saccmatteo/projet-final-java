@@ -27,6 +27,7 @@ public class Product {
         this.isGlutenFree = isGlutenFree;
         this.alcoholPercentage = alcoholPercentage;
         this.distributionDate = distributionDate;
+        this.lastRestockDate = lastRestockDate;
         this.description = description;
         this.supplierLabel = supplierLabel;
         this.supplierPhoneNumber = supplierPhoneNumber;

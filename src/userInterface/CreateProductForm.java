@@ -70,6 +70,7 @@ public class CreateProductForm extends JFrame {
         formPanel.add(glutenFree);
         formPanel.add(isAlcohol);
         formPanel.add(new JLabel("Pourcentage d'alcool :"));
+        alcoholPercentage.setText("");
         alcoholPercentage.setEnabled(false);
         formPanel.add(alcoholPercentage);
         formPanel.add(new JLabel("Catégorie :"));
@@ -89,7 +90,7 @@ public class CreateProductForm extends JFrame {
             // Listeners
         cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                dispose();
             }
         });
         resetButton.addActionListener(new ActionListener() {
@@ -138,6 +139,7 @@ public class CreateProductForm extends JFrame {
 
     private class SubmitButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            String selectedCategory = (String) category.getSelectedItem();
             if (isAlcohol.isSelected()) {
                 productController.createProduct(
                         new Product(null,
@@ -152,11 +154,11 @@ public class CreateProductForm extends JFrame {
                                 null,
                                 supplierName.getText(),
                                 Integer.parseInt(supplierPhone.getText()),
-                                (String)(category.getSelectedItem())
+                                selectedCategory
                         ));
             }else{
                 productController.createProduct(
-                        new Product(11,
+                        new Product(null,
                                 label.getText(),
                                 Double.parseDouble(price.getText()),
                                 Integer.parseInt(nbStock.getText()),
@@ -168,9 +170,10 @@ public class CreateProductForm extends JFrame {
                                 null,
                                 supplierName.getText(),
                                 Integer.parseInt(supplierPhone.getText()),
-                                (String)(category.getSelectedItem())
+                                selectedCategory
                         ));
             }
+            JOptionPane.showMessageDialog(null, "Ajout du produit");
         }
     }
 }

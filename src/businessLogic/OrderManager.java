@@ -21,6 +21,10 @@ public class OrderManager {
         return dao.getAllOrders();
     }
 
+    public void createCommand(Order order) {
+        dao.createCommand(order);
+    }
+
     public void deleteCommand(int commandId) {
         dao.deleteCommand(commandId);
     }

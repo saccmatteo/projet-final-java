@@ -19,9 +19,15 @@ public class OrderController {
     public ArrayList<Order> getAllOrders() {
         return manager.getAllOrders();
     }
+
+    public void createCommand(Order order) {
+        manager.createCommand(order);
+    }
+
     public void deleteCommand(int commandId) {
         manager.deleteCommand(commandId);
     }
+
     public void updateCommand(int commandId, char method) {
         manager.updateCommand(commandId, method);
     }

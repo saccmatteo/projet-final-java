@@ -2,33 +2,59 @@ package userInterface;
 
 import javax.swing.*;
 
-import controller.UserController;
+import controller.*;
 import model.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.time.LocalDate;
 
-public class CreateCommandPanel extends JPanel {
-    private JPanel usersPanel, formPanel;
-    private JTextField commentsText;
-    private JLabel usersLabel, commentsLabel;
-    private JButton resetForm;
-    private JRadioButton discountRadio, happyHourRadio;
-    private ButtonGroup group;
-    private boolean isHappyHour;
-    private String[] discountOptions = {"10%", "20%", "50%", "100%"};
-    private JComboBox<String> discountComboBox;
+public class CreateCommandPanel extends JFrame {
+    private Double prixTotal;
+
+    private Container container;
+    private JPanel usersPanel, middlePanel, formPanel, productPanel, commandPanel, buttonPanel;
+    private JLabel usersLabel, commentsLabel, discountLabel;
+    private JTextField commentsText, discountField;
+    private JButton addProdButton, deleteProdButton;
+    private JCheckBox happyHourRadio;
     private JComboBox<User> users;
+    private JList<String> commandList;
+    private DefaultListModel<String> commandListModel;
+
+    private JMenuBar menuBar;
+    private JMenu commandeAction;
+    private JMenuItem resetItem, submitItem, cancelItem;
+
     private UserController userController;
+    private OrderController orderController;
+    private ListingProductPanel listingProductPanel;
 
     public CreateCommandPanel() {
-        this.setLayout(new BorderLayout());
-        userController = new UserController();
+        setTitle("Création de commande");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setBounds(0, 0, 1920, 1080);
+        container = this.getContentPane();
+        container.setLayout(new BorderLayout());
 
-        // Gestion du panel avec la combobox
-        usersPanel = new JPanel(new FlowLayout());
+        setUserController(new UserController());
+        setOrderController(new OrderController());
+        prixTotal = 0.0;
 
+        // Declaration des panels
+        usersPanel = new JPanel();
+        formPanel = new JPanel(new GridLayout(3,2));
+        productPanel = new JPanel(new BorderLayout());
+        listingProductPanel = new ListingProductPanel();
+        commandPanel = new JPanel();
+        middlePanel = new JPanel(new GridLayout(2,1));
+        buttonPanel = new JPanel();
+
+        // User Panel
         usersLabel = new JLabel("Utilisateur gérant la commande : ");
         usersLabel.setFont(new Font("Arial", Font.BOLD, 24));
 
@@ -39,67 +65,144 @@ public class CreateCommandPanel extends JPanel {
         usersPanel.add(usersLabel);
         usersPanel.add(users);
 
-        // Gestion panel avec le formulaire
-        formPanel = new JPanel(new GridLayout(4,2));
-        resetForm = new JButton("Réinitialiser le formulaire");
-        discountRadio = new JRadioButton("Réduction");
-        happyHourRadio = new JRadioButton("Happy hour");
-
-        // Groupe des radios
-        group = new ButtonGroup();
-        group.add(discountRadio);
-        group.add(happyHourRadio);
-
-        // ComboBox
-        discountComboBox = new JComboBox<>();
-        discountComboBox.setSelectedIndex(-1);
-        discountComboBox.setEnabled(false);
-
-        // Ajout des listeners
-        discountRadio.addActionListener(new DiscountRadioListener());
-        happyHourRadio.addActionListener(new HappyHourRadioListener());
-        resetForm.addActionListener(new ResetFormListener());
-
+        // Middle Panel
+            // Form Panel
+        happyHourRadio = new JCheckBox("Happy hour");
         commentsLabel = new JLabel("Commentaires : ");
         commentsText = new JTextField();
+        discountLabel = new JLabel("Réduction : ");
+        discountField = new JTextField();
 
-        formPanel.add(discountRadio);
+                 // Ajout des listeners
+        happyHourRadio.addItemListener(new HappyHourListener());
+
+                // Ajout dans le form
         formPanel.add(happyHourRadio);
-        formPanel.add(discountComboBox);
-        formPanel.add(resetForm);
+        formPanel.add(new JLabel());
+        formPanel.add(discountLabel);
+        formPanel.add(discountField);
         formPanel.add(commentsLabel);
         formPanel.add(commentsText);
 
-        // Ajout des 2 panels
-        this.add(usersPanel, BorderLayout.NORTH);
-        this.add(formPanel, BorderLayout.CENTER);
+            // Product Panel
+                // List des produits
+
+                // JList du panier
+        commandListModel = new DefaultListModel<>();
+        commandList = new JList<>(commandListModel);
+
+
+                // Ajout au panel
+        productPanel.add(listingProductPanel);
+        productPanel.add(commandList);
+
+                // Listeners
+
+        // Button Panel
+        addProdButton = new JButton("Ajouter produit");
+        deleteProdButton = new JButton("Supprimer produit");
+
+            // Listeners
+        addProdButton.addActionListener(new AddProdListener());
+
+            // Ajout au panel
+        buttonPanel.add(addProdButton);
+        buttonPanel.add(deleteProdButton);
+
+        // Bar de menu
+        menuBar = new JMenuBar();
+        commandeAction = new JMenu("Commande");
+        cancelItem = new JMenuItem("Annuler la commande");
+        resetItem = new JMenuItem("Réinitialiser la commande");
+        submitItem = new JMenuItem("Envoyer la commande");
+
+            // Listeners
+        resetItem.addActionListener(new ResetItemListener());
+        cancelItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+        submitItem.addActionListener(new SubmitItemListener());
+            // Ajout a la bar
+        commandeAction.add(cancelItem);
+        commandeAction.add(resetItem);
+        commandeAction.add(submitItem);
+        menuBar.add(commandeAction);
+
+        // Ajout au conteneur
+        setJMenuBar(menuBar);
+            // Nord
+        container.add(usersPanel, BorderLayout.NORTH);
+            // Milieu
+        middlePanel.add(formPanel);
+                // 2 JLists
+        productPanel.add(listingProductPanel, BorderLayout.EAST);
+        productPanel.add(commandPanel, BorderLayout.WEST);
+
+        middlePanel.add(productPanel);
+        container.add(middlePanel, BorderLayout.CENTER);
+            // Sud
+        container.add(buttonPanel, BorderLayout.SOUTH);
+        setVisible(true);
+
     }
 
-    private class DiscountRadioListener implements ActionListener {
+    // SETTERS
+    public void setOrderController(OrderController orderController) {
+        this.orderController = orderController;
+    }
+    public void setUserController(UserController userController) {
+        this.userController = userController;
+    }
+
+    // LISTENERS
+    private class HappyHourListener implements ItemListener {
         @Override
-        public void actionPerformed(ActionEvent e) {
-            discountComboBox.setEnabled(true);
-            discountComboBox.removeAllItems();
-            for (String option : discountOptions) {
-                discountComboBox.addItem(option);
+        public void itemStateChanged(ItemEvent e) {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                discountField.setText("50");
+                discountField.setEnabled(false);
+            }else{
+                discountField.setText("");
+                discountField.setEnabled(true);
             }
         }
     }
-    private class HappyHourRadioListener implements ActionListener {
-        @Override
+
+    private class AddProdListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            discountComboBox.setEnabled(true);
-            discountComboBox.removeAllItems();
-            discountComboBox.addItem("50%");
+            Product selectedProd = listingProductPanel.getProductJList().getSelectedValue();
+            int nbProd = Integer.parseInt(JOptionPane.showInputDialog(null, "Combien de " + selectedProd.getLabel() ));
+            commandListModel.addElement(selectedProd.getLabel() + " - " + nbProd);
+            prixTotal += selectedProd.getPrice() * nbProd;
         }
     }
-    private class ResetFormListener implements ActionListener {
+
+    private class ResetItemListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            users.setSelectedIndex(-1);
-            group.clearSelection();
-            discountComboBox.removeAllItems();
-            discountComboBox.setEnabled(false);
+            dispose();
+            new CreateCommandPanel();
         }
+    }
+
+    private class SubmitItemListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            User selectedUser = (User) users.getSelectedItem();
+            orderController.createCommand(
+                    new Order(null,
+                    LocalDate.now(),
+                    null,
+                    Integer.parseInt(discountField.getText()),
+                    commentsText.getText(),
+                    happyHourRadio.isSelected(),
+                    "En cours",
+                    null,
+                    selectedUser
+                    ));
+            JOptionPane.showMessageDialog(null, "Ajout de la commande");
+        }
+
     }
 }

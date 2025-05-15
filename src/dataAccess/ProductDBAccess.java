@@ -21,7 +21,7 @@ public class ProductDBAccess implements ProductDataAccess {
         ArrayList<Product> products = new ArrayList<>();
         try {
             sqlInstruction = "SELECT product.*, supplier.phone_number FROM product INNER JOIN supplier ON supplier.label = product.supplier_label INNER JOIN category ON category.label = product.category_label";
-            preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             data = preparedStatement.executeQuery();
 
             while (data.next()) {
@@ -52,7 +52,7 @@ public class ProductDBAccess implements ProductDataAccess {
     public void deleteProduct(int productId) {
         try {
             sqlInstruction = "DELETE FROM product WHERE id = ?";
-            preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             preparedStatement.setInt(1, productId);
             preparedStatement.executeUpdate();
         }
@@ -65,7 +65,7 @@ public class ProductDBAccess implements ProductDataAccess {
         try{
             // Product
             sqlInstruction = "INSERT INTO product VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
 
             preparedStatement.setInt(1, product.getId());
             preparedStatement.setString(2, product.getLabel());
@@ -86,7 +86,7 @@ public class ProductDBAccess implements ProductDataAccess {
 
             // Supplier
             sqlInstruction = "INSERT INTO supplier VALUES (?, ?)";
-            preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
 
             preparedStatement.setString(1, product.getSupplierLabel());
             preparedStatement.setInt(2, product.getSupplierPhoneNumber());
@@ -95,7 +95,7 @@ public class ProductDBAccess implements ProductDataAccess {
 
             // Category
             sqlInstruction = "INSERT INTO category VALUES (?)";
-            preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
 
             preparedStatement.setString(1, product.getCategoryLabel());
         }

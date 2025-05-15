@@ -38,8 +38,36 @@ public class Order {
         return formattedTotalPrice;
     }
 
+    // GETTERS
     public Integer getId() {
         return id;
+    }
+    public LocalDate getDate() {
+        return date;
+    }
+    public LocalDate getPaymentDate() {
+        return paymentDate;
+    }
+    public Integer getDiscountPercentage() {
+        return discountPercentage;
+    }
+    public String getComment() {
+        return comment;
+    }
+    public Boolean getHappyHour() {
+        return isHappyHour;
+    }
+    public String getStatusLabel() {
+        return statusLabel;
+    }
+    public String getPaymentMethodLabel() {
+        return paymentMethodLabel;
+    }
+    public Integer getUserId() {
+        return user.getId();
+    }
+    public OrderLine[] getOrderLines() {
+        return orderLines;
     }
 
     @Override
