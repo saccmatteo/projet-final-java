@@ -23,6 +23,7 @@ public class ProductDBAccess implements ProductDataAccess {
 
             while (data.next()) {
                 Product newProduct = new Product(
+                        data.getInt("id"),
                         data.getString("label"),
                         data.getDouble("price"),
                         data.getInt("nb_in_stock"),
@@ -60,7 +61,7 @@ public class ProductDBAccess implements ProductDataAccess {
     public void createProduct(Product product) {
         try{
             // Product
-            sqlInstruction = "INSERT INTO product VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            sqlInstruction = "INSERT INTO product(label, price, nb_in_stock, min_treshold, is_gluten_free, alcohol_percentage, distribution_date, last_restock_date, description, category_label, supplier_label) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
 
             preparedStatement.setString(1, product.getLabel());

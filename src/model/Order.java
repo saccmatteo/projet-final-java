@@ -15,6 +15,8 @@ public class Order {
     private OrderLine[] orderLines;
     private static final int NB_MAX_PRODUCT = 30;
 
+    // CONSTRUCTORS
+        // Java -> BD
     public Order(LocalDate date, LocalDate paymentDate, Integer discountPercentage, String comment, Boolean isHappyHour, String statusLabel, String paymentMethodLabel, User user) {
         this.date = date;
         this.paymentDate = paymentDate;
@@ -26,9 +28,23 @@ public class Order {
         this.user = user;
         this.orderLines = new OrderLine[NB_MAX_PRODUCT];
     }
-
+        // BD -> Java
+        public Order(Integer id, LocalDate date, LocalDate paymentDate, Integer discountPercentage, String comment, Boolean isHappyHour, String statusLabel, String paymentMethodLabel, User user) {
+            this.id = id;
+            this.date = date;
+            this.paymentDate = paymentDate;
+            this.discountPercentage = discountPercentage;
+            this.comment = comment;
+            this.isHappyHour = isHappyHour;
+            this.statusLabel = statusLabel;
+            this.paymentMethodLabel = paymentMethodLabel;
+            this.user = user;
+            this.orderLines = new OrderLine[NB_MAX_PRODUCT];
+        }
     // Setters
-
+    public void setId(Integer id){
+        this.id = id;
+    }
     // GETTERS
     public Integer getId() {
         return id;

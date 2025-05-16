@@ -25,7 +25,7 @@ phone_number VARCHAR(20) NOT NULL -- à voir pour le type du tel
 );
 
 CREATE TABLE `user` (
-id NUMERIC(10) PRIMARY KEY, 
+id NUMERIC(10)  PRIMARY KEY,
 last_name VARCHAR(20) NOT NULL, 
 first_name VARCHAR(20) NOT NULL, 
 password_hash VARCHAR(255) NOT NULL, -- à changer dans le doc

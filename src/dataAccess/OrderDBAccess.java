@@ -17,8 +17,12 @@ public class OrderDBAccess implements OrderDataAccess {
     private PreparedStatement preparedStatement;
     private ResultSet data;
 
+    public OrderDBAccess(){
+
+    }
+
     public ArrayList<Order> getAllOrders() {
-        ArrayList<Order> orders = new ArrayList<>();
+        orders = new ArrayList<>();
         try {
             sqlInstruction = "SELECT `order`.*, user.last_name, user.first_name " +
                     "FROM `order` JOIN user ON `order`.user_id = user.id " +
@@ -28,6 +32,7 @@ public class OrderDBAccess implements OrderDataAccess {
 
             while (data.next()) {
                 Order newOrder = new Order(
+                        data.getInt("id"),
                         data.getDate("order_date").toLocalDate(),
                         data.getDate("payment_date").toLocalDate(),
                         data.getInt("discount_percentage"),
@@ -41,15 +46,36 @@ public class OrderDBAccess implements OrderDataAccess {
             }
         }
         catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println(e.getMessage());
         }
 
         return orders;
     }
 
+    public Integer getLastOrderId() {
+        Integer id = -1;
+        try{
+            sqlInstruction = "SELECT * " +
+                             "FROM `order` " +
+                             "ORDER BY id DESC " +
+                             "LIMIT 1";
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+            data = preparedStatement.executeQuery();
+
+            System.out.println("=======\nlast order id " + data.getInt("id") +"\n=======");
+            if (data.next()) {
+                id = data.getInt("id");
+            }
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return id;
+    }
+
     public void createCommand(Order order){
         try{
-            sqlInstruction = "INSERT INTO `order` VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            sqlInstruction = "INSERT INTO `order`(order_date, payment_date, discount_percentage, comment, is_happy_hour, status_label, user_id, payment_method_label) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
 
             preparedStatement.setDate(1, Date.valueOf(order.getDate()));
@@ -63,8 +89,9 @@ public class OrderDBAccess implements OrderDataAccess {
             preparedStatement.setString(8, order.getPaymentMethodLabel());
             System.out.println("Finitop");
             preparedStatement.executeUpdate();
+
         }catch (SQLException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -81,7 +108,7 @@ public class OrderDBAccess implements OrderDataAccess {
             preparedStatement.executeUpdate();
         }
         catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
     public void updateCommand(int commandId, char method) {
@@ -104,7 +131,7 @@ public class OrderDBAccess implements OrderDataAccess {
             }
         }
         catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 }
