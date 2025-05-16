@@ -22,6 +22,10 @@ public class OrderManager {
         return dao.getAllOrders();
     }
 
+    public Integer getLastOrderId() {
+        return dao.getLastOrderId();
+    }
+
     public void createCommand(Order order) {
         dao.createCommand(order);
     }

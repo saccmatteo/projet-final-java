@@ -218,9 +218,10 @@ public class CreateCommandPanel extends JFrame {
                             "Pas paye",
                             selectedUser);
             orderController.createCommand(order);
-//            for (int i = 0;i < commandListModel.getSize();i++) {
-//                orderLineController.createOrderLine(commandListModel.getElementAt(i), order.getId());
-//            }
+
+            for (int i = 0;i < commandListModel.getSize();i++) {
+                orderLineController.createOrderLine(commandListModel.getElementAt(i));
+            }
             JOptionPane.showMessageDialog(null, "Ajout de la commande");
         }
     }
