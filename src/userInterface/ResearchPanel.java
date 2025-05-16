@@ -8,10 +8,10 @@ import java.awt.*;
 import java.time.LocalDate;
 
 public class ResearchPanel extends JPanel {
-    AlcoholicDrinkController controller;
-    JTable table;
-    JScrollPane scrollPane;
-    AlcoholicDrinksModel model;
+    private AlcoholicDrinkController controller;
+    private JTable table;
+    private JScrollPane scrollPane;
+    private AlcoholicDrinksModel model;
 
     public ResearchPanel() {
         setController(new AlcoholicDrinkController());
