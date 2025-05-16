@@ -2,6 +2,7 @@ package dataAccess;
 
 import interfaces.OrderDataAccess;
 import model.Order;
+import model.OrderLine;
 import model.User;
 import javax.swing.*;
 import java.sql.Date;
@@ -27,7 +28,6 @@ public class OrderDBAccess implements OrderDataAccess {
 
             while (data.next()) {
                 Order newOrder = new Order(
-                        data.getInt("id"),
                         data.getDate("order_date").toLocalDate(),
                         data.getDate("payment_date").toLocalDate(),
                         data.getInt("discount_percentage"),
@@ -49,20 +49,19 @@ public class OrderDBAccess implements OrderDataAccess {
 
     public void createCommand(Order order){
         try{
-            sqlInstruction = "INSERT INTO `order` VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            sqlInstruction = "INSERT INTO `order` VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
 
-            preparedStatement.setInt(1, order.getId());
-            preparedStatement.setDate(2, Date.valueOf(order.getDate()));
-            preparedStatement.setDate(3, Date.valueOf(order.getPaymentDate()));
-            preparedStatement.setInt(4, order.getDiscountPercentage());
-            preparedStatement.setString(5, order.getComment());
-            preparedStatement.setBoolean(6, order.getHappyHour());
-            preparedStatement.setString(7, order.getStatusLabel());
-            preparedStatement.setString(8, order.getStatusLabel());
-            preparedStatement.setString(9, order.getPaymentMethodLabel());
-            preparedStatement.setInt(10, order.getUserId());
-
+            preparedStatement.setDate(1, Date.valueOf(order.getDate()));
+            System.out.println("id ajoute");
+            preparedStatement.setDate(2, Date.valueOf(order.getPaymentDate()));
+            preparedStatement.setInt(3, order.getDiscountPercentage());
+            preparedStatement.setString(4, order.getComment());
+            preparedStatement.setBoolean(5, order.getHappyHour());
+            preparedStatement.setString(6, order.getStatusLabel());
+            preparedStatement.setInt(7, order.getUserId());
+            preparedStatement.setString(8, order.getPaymentMethodLabel());
+            System.out.println("Finitop");
             preparedStatement.executeUpdate();
         }catch (SQLException e){
             JOptionPane.showMessageDialog(null, e.getMessage());

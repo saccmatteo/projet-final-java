@@ -25,7 +25,7 @@ public class User {
 
     // GETTERS
     public Integer getId() {
-        return id;
+        return id == null ? 0 : id;
     }
 
     public String toString() {

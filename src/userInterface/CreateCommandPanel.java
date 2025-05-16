@@ -22,8 +22,8 @@ public class CreateCommandPanel extends JFrame {
     private JButton addProdButton, deleteProdButton;
     private JCheckBox happyHourRadio;
     private JComboBox<User> users;
-    private JList<String> commandList;
-    private DefaultListModel<String> commandListModel;
+    private JList<OrderLine> commandList;
+    private DefaultListModel<OrderLine> commandListModel;
 
     private JMenuBar menuBar;
     private JMenu commandeAction;
@@ -31,6 +31,7 @@ public class CreateCommandPanel extends JFrame {
 
     private UserController userController;
     private OrderController orderController;
+    private OrderLineController orderLineController;
     private ListingProductPanel listingProductPanel;
 
     public CreateCommandPanel() {
@@ -43,6 +44,7 @@ public class CreateCommandPanel extends JFrame {
 
         setUserController(new UserController());
         setOrderController(new OrderController());
+        setOrderLineController(new OrderLineController());
         prixTotal = 0.0;
 
         // Declaration des panels
@@ -90,7 +92,6 @@ public class CreateCommandPanel extends JFrame {
                 // JList du panier
         commandListModel = new DefaultListModel<>();
         commandList = new JList<>(commandListModel);
-
 
                 // Ajout au panel
         productPanel.add(listingProductPanel);
@@ -155,6 +156,11 @@ public class CreateCommandPanel extends JFrame {
     public void setUserController(UserController userController) {
         this.userController = userController;
     }
+    public void setOrderLineController(OrderLineController orderLineController) {
+        this.orderLineController = orderLineController;
+    }
+
+    // Methodes
 
     // LISTENERS
     private class HappyHourListener implements ItemListener {
@@ -164,7 +170,7 @@ public class CreateCommandPanel extends JFrame {
                 discountField.setText("50");
                 discountField.setEnabled(false);
             }else{
-                discountField.setText("");
+                discountField.setText(" ");
                 discountField.setEnabled(true);
             }
         }
@@ -174,7 +180,20 @@ public class CreateCommandPanel extends JFrame {
         public void actionPerformed(ActionEvent e) {
             Product selectedProd = listingProductPanel.getProductJList().getSelectedValue();
             int nbProd = Integer.parseInt(JOptionPane.showInputDialog(null, "Combien de " + selectedProd.getLabel() ));
-            commandListModel.addElement(selectedProd.getLabel() + " - " + nbProd);
+
+            int i = 0;
+            while (i < commandListModel.getSize() && selectedProd.getId() != commandListModel.getElementAt(i).getProduct().getId()) {
+                i++;
+            }
+
+            if (i == commandListModel.getSize()){
+                commandListModel.addElement(new OrderLine(nbProd, selectedProd.getPrice(), selectedProd));
+            }else{
+                commandListModel.getElementAt(i).setQuantity(nbProd);
+                revalidate();
+                repaint();
+            }
+
             prixTotal += selectedProd.getPrice() * nbProd;
         }
     }
@@ -190,17 +209,18 @@ public class CreateCommandPanel extends JFrame {
     private class SubmitItemListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             User selectedUser = (User) users.getSelectedItem();
-            orderController.createCommand(
-                    new Order(null,
-                    LocalDate.now(),
-                    null,
-                    Integer.parseInt(discountField.getText()),
-                    commentsText.getText(),
-                    happyHourRadio.isSelected(),
-                    "En cours",
-                    null,
-                    selectedUser
-                    ));
+            Order order = new Order(LocalDate.now(),
+                            LocalDate.now(),
+                            Integer.valueOf((discountField.getText().equals("") ?"0":discountField.getText())),
+                            commentsText.getText(),
+                            happyHourRadio.isSelected(),
+                            "En cours",
+                            "Pas paye",
+                            selectedUser);
+            orderController.createCommand(order);
+//            for (int i = 0;i < commandListModel.getSize();i++) {
+//                orderLineController.createOrderLine(commandListModel.getElementAt(i), order.getId());
+//            }
             JOptionPane.showMessageDialog(null, "Ajout de la commande");
         }
     }

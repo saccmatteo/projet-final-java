@@ -142,8 +142,7 @@ public class CreateProductForm extends JFrame {
             String selectedCategory = (String) category.getSelectedItem();
             if (isAlcohol.isSelected()) {
                 productController.createProduct(
-                        new Product(null,
-                                label.getText(),
+                        new Product(label.getText(),
                                 Double.parseDouble(price.getText()),
                                 Integer.parseInt(nbStock.getText()),
                                 Integer.parseInt(treshold.getText()),
@@ -158,8 +157,7 @@ public class CreateProductForm extends JFrame {
                         ));
             }else{
                 productController.createProduct(
-                        new Product(null,
-                                label.getText(),
+                        new Product(label.getText(),
                                 Double.parseDouble(price.getText()),
                                 Integer.parseInt(nbStock.getText()),
                                 Integer.parseInt(treshold.getText()),

@@ -12,11 +12,25 @@ public class OrderLine {
         this.product = product;
     }
 
+    // Getters
     public Double getUnitPrice() {
         return unitPrice;
     }
 
     public Integer getQuantity() {
         return quantity;
+    }
+    public Product getProduct() {
+        return product;
+    }
+
+    // Setters
+    public void setQuantity(Integer quantity) {
+        this.quantity += quantity;
+    }
+
+    // Methodes
+    public String toString(){
+        return  quantity + " " + product.getLabel() + " - " + unitPrice * quantity + "€";
     }
 }

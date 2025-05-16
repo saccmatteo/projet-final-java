@@ -23,7 +23,6 @@ public class ProductDBAccess implements ProductDataAccess {
 
             while (data.next()) {
                 Product newProduct = new Product(
-                        data.getInt("id"),
                         data.getString("label"),
                         data.getDouble("price"),
                         data.getInt("nb_in_stock"),
@@ -61,23 +60,22 @@ public class ProductDBAccess implements ProductDataAccess {
     public void createProduct(Product product) {
         try{
             // Product
-            sqlInstruction = "INSERT INTO product VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            sqlInstruction = "INSERT INTO product VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
 
-            preparedStatement.setInt(1, product.getId());
-            preparedStatement.setString(2, product.getLabel());
-            preparedStatement.setDouble(3, product.getPrice());
-            preparedStatement.setInt(4, product.getNbInStock());
-            preparedStatement.setInt(5, product.getMinTreshold());
-            preparedStatement.setBoolean(6, product.getGlutenFree());
-            preparedStatement.setDouble(7, product.getAlcoholPercentage());
-            preparedStatement.setString(10, product.getDescription());
-            preparedStatement.setString(11, product.getSupplierLabel());
-            preparedStatement.setString(12, product.getCategoryLabel());
+            preparedStatement.setString(1, product.getLabel());
+            preparedStatement.setDouble(2, product.getPrice());
+            preparedStatement.setInt(3, product.getNbInStock());
+            preparedStatement.setInt(4, product.getMinTreshold());
+            preparedStatement.setBoolean(5, product.getGlutenFree());
+            preparedStatement.setDouble(6, product.getAlcoholPercentage());
+            preparedStatement.setString(9, product.getDescription());
+            preparedStatement.setString(10, product.getSupplierLabel());
+            preparedStatement.setString(11, product.getCategoryLabel());
 
                 // DATE
-            preparedStatement.setDate(8, Date.valueOf(product.getDistributionDate()));
-            preparedStatement.setDate(9, Date.valueOf(product.getLastRestockDate()));
+            preparedStatement.setDate(7, Date.valueOf(product.getDistributionDate()));
+            preparedStatement.setDate(8, Date.valueOf(product.getLastRestockDate()));
 
             preparedStatement.executeUpdate();
 

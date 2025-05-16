@@ -1,6 +1,7 @@
 package interfaces;
 
 import model.Order;
+import model.OrderLine;
 
 import java.util.ArrayList;
 
