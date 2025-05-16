@@ -3,6 +3,7 @@ package businessLogic;
 import dataAccess.OrderDBAccess;
 import model.Order;
 import interfaces.OrderDataAccess;
+import model.OrderLine;
 
 import java.util.ArrayList;
 
@@ -19,6 +20,10 @@ public class OrderManager {
 
     public ArrayList<Order> getAllOrders() {
         return dao.getAllOrders();
+    }
+
+    public Integer getLastOrderId() {
+        return dao.getLastOrderId();
     }
 
     public void createCommand(Order order) {

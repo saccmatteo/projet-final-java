@@ -2,6 +2,7 @@ package controller;
 
 import businessLogic.OrderManager;
 import model.Order;
+import model.OrderLine;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,9 @@ public class OrderController {
         return manager.getAllOrders();
     }
 
+    public Integer getLastOrderId() {
+        return manager.getLastOrderId();
+    }
     public void createCommand(Order order) {
         manager.createCommand(order);
     }
