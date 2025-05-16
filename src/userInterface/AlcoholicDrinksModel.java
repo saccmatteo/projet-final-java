@@ -1,7 +1,6 @@
 package userInterface;
 
 import model.AlcoholicDrinksInfos;
-import model.Product;
 
 import javax.swing.table.AbstractTableModel;
 import java.time.ZoneId;
@@ -10,7 +9,7 @@ import java.util.Date;
 
 public class AlcoholicDrinksModel extends AbstractTableModel {
     private ArrayList<String> columnNames;
-    private ArrayList<AlcoholicDrinksInfos> AlcoholicDrinks;
+    private ArrayList<AlcoholicDrinksInfos> alcoholicDrinks;
 
     public AlcoholicDrinksModel(ArrayList<AlcoholicDrinksInfos> alcoholicDrinks) {
         columnNames = new ArrayList<>();
@@ -24,7 +23,7 @@ public class AlcoholicDrinksModel extends AbstractTableModel {
     }
 
     public void setAlcoholicDrinks(ArrayList<AlcoholicDrinksInfos> alcoholicDrinks) {
-        AlcoholicDrinks = alcoholicDrinks;
+        this.alcoholicDrinks = alcoholicDrinks;
     }
 
     @Override
@@ -33,7 +32,7 @@ public class AlcoholicDrinksModel extends AbstractTableModel {
     }
 
     public int getRowCount() {
-        return AlcoholicDrinks.size();
+        return alcoholicDrinks.size();
     }
 
     public String getColumnName(int column) {
@@ -41,21 +40,21 @@ public class AlcoholicDrinksModel extends AbstractTableModel {
     }
 
     public Object getValueAt(int row, int column) {
-        AlcoholicDrinksInfos alcoholicDrink = AlcoholicDrinks.get(row);
+        AlcoholicDrinksInfos alcoholicDrink = alcoholicDrinks.get(row);
         switch (column) {
-            case 0 :
+            case 0:
                 return alcoholicDrink.getProductId();
-            case 1 :
+            case 1:
                 return alcoholicDrink.getProductLabel();
-            case 2 :
+            case 2:
                 return alcoholicDrink.getAlcoholPercentage();
-            case 3 :
+            case 3:
                 return alcoholicDrink.getOlQuantity();
-            case 4 :
+            case 4:
                 return alcoholicDrink.getOrderId();
-            case 5 :
+            case 5:
                 return Date.from(alcoholicDrink.getOrderDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
-            default :
+            default:
                 return null; // à voir si on garde ça
         }
     }
@@ -75,7 +74,7 @@ public class AlcoholicDrinksModel extends AbstractTableModel {
                 return Integer.class;
             case 5:
                 return Date.class;
-            default :
+            default:
                 return null;
         }
     }
