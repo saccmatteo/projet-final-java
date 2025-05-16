@@ -1,7 +1,6 @@
 package dataAccess;
 
 import interfaces.CategoryDataAccess;
-
 import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

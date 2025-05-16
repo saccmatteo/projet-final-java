@@ -2,7 +2,6 @@ package dataAccess;
 
 import interfaces.UserDataAccess;
 import model.*;
-
 import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

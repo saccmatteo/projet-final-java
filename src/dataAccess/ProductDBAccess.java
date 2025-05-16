@@ -1,15 +1,13 @@
 package dataAccess;
-import model.Order;
+
 import model.Product;
 import interfaces.ProductDataAccess;
-
 import java.sql.Date;
 import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class ProductDBAccess implements ProductDataAccess {
     private String sqlInstruction;

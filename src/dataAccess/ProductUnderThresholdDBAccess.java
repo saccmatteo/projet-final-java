@@ -2,7 +2,6 @@ package dataAccess;
 
 import interfaces.ProductUnderThresholdDataAccess;
 import model.ProductsUnderThreshold;
-
 import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

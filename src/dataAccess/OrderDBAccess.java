@@ -3,14 +3,12 @@ package dataAccess;
 import interfaces.OrderDataAccess;
 import model.Order;
 import model.User;
-
 import javax.swing.*;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class OrderDBAccess implements OrderDataAccess {
     private ArrayList<Order> orders;
