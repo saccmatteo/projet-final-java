@@ -18,8 +18,7 @@ public class Product {
     private int supplierPhoneNumber;
     private String categoryLabel;
 
-    public Product(Integer id, String label, Double price, Integer nbInStock, Integer minTreshold, Boolean isGlutenFree, Double alcoholPercentage, LocalDate distributionDate, LocalDate lastRestockDate, String description, String supplierLabel, int supplierPhoneNumber, String categoryLabel) {
-        this.id = id;
+    public Product(String label, Double price, Integer nbInStock, Integer minTreshold, Boolean isGlutenFree, Double alcoholPercentage, LocalDate distributionDate, LocalDate lastRestockDate, String description, String supplierLabel, int supplierPhoneNumber, String categoryLabel) {
         this.label = label;
         this.price = price;
         this.nbInStock = nbInStock;
