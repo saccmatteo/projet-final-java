@@ -1,6 +1,6 @@
 package businessLogic;
 
-import dataAccess.AlchoholicDrinksDBAccess;
+import dataAccess.AlcoholicDrinksDBAccess;
 import interfaces.AlcoholicDrinkDataAccess;
 import model.AlcoholicDrinksInfos;
 
@@ -11,12 +11,14 @@ public class AlcoholicDrinkManager {
     private AlcoholicDrinkDataAccess dao;
 
     public AlcoholicDrinkManager() {
-        setDao(new AlchoholicDrinksDBAccess());
+        setDao(new AlcoholicDrinksDBAccess());
     }
-    public ArrayList<AlcoholicDrinksInfos> getAlcDrinksBeforeDate(LocalDate date) {
-        return dao.getAlcDrinksBeforeDate(date);
-    }
+
     public void setDao(AlcoholicDrinkDataAccess dao) {
         this.dao = dao;
+    }
+
+    public ArrayList<AlcoholicDrinksInfos> getAlcDrinksBeforeDate(LocalDate date) {
+        return dao.getAlcDrinksBeforeDate(date);
     }
 }

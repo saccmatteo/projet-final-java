@@ -29,5 +29,7 @@ public class OrderManager {
         dao.deleteCommand(commandId);
     }
 
-    public void updateCommand(int commandId, char method) { dao.updateCommand(commandId, method); }
+    public void updateCommand(int commandId, char method) {
+        dao.updateCommand(commandId, method);
+    }
 }

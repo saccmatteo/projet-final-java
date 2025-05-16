@@ -20,7 +20,6 @@ public class AlcoholicDrinksModel extends AbstractTableModel {
         columnNames.add("Quantité");
         columnNames.add("ID commande");
         columnNames.add("Date commande");
-        // Continuer pour afficher les colonnes des ORDERS et des ORDERLINES
         setAlcoholicDrinks(alcoholicDrinks);
     }
 

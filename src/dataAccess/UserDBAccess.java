@@ -23,11 +23,10 @@ public class UserDBAccess implements UserDataAccess {
             data = preparedStatement.executeQuery();
 
             while (data.next()) {
-                // Pas besoin de verifier car NOT NULL
-                User newUser =
-                        new User(data.getInt("id"),
-                                data.getString("last_name"),
-                                data.getString("first_name"));
+                User newUser = new User(
+                        data.getInt("id"),
+                        data.getString("last_name"),
+                        data.getString("first_name"));
                 users.add(newUser);
             }
         }

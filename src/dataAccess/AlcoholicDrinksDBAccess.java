@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class AlchoholicDrinksDBAccess implements AlcoholicDrinkDataAccess {
+public class AlcoholicDrinksDBAccess implements AlcoholicDrinkDataAccess {
     private String sqlInstruction;
     private PreparedStatement preparedStatement;
     ResultSet data;
@@ -19,18 +19,18 @@ public class AlchoholicDrinksDBAccess implements AlcoholicDrinkDataAccess {
         java.sql.Date sqlDate = java.sql.Date.valueOf(date);
         try {
             sqlInstruction =
-            "SELECT " +
-            "  p.id AS product_id, " +
-            "  p.label AS product_label, " +
-            "  p.alcohol_percentage, " +
-            "  ol.quantity, " +
-            "  o.id AS order_id, " +
-            "  o.order_date " +
-            "FROM product p " +
-            "INNER JOIN orderLine ol ON p.id = ol.product_id " +
-            "INNER JOIN `order` o ON ol.order_id = o.id " +
-            "WHERE p.category_label = ? " +
-            "AND o.order_date >= ?";
+                    "SELECT " +
+                    "  p.id AS product_id, " +
+                    "  p.label AS product_label, " +
+                    "  p.alcohol_percentage, " +
+                    "  ol.quantity, " +
+                    "  o.id AS order_id, " +
+                    "  o.order_date " +
+                    "FROM product p " +
+                    "INNER JOIN orderLine ol ON p.id = ol.product_id " +
+                    "INNER JOIN `order` o ON ol.order_id = o.id " +
+                    "WHERE p.category_label = ? " +
+                    "AND o.order_date >= ?;";
 
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             preparedStatement.setString(1, "Boisson alcoolisée");
@@ -53,6 +53,7 @@ public class AlchoholicDrinksDBAccess implements AlcoholicDrinkDataAccess {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
+
         return alcoholicDrinks;
     }
 }
