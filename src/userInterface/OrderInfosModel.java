@@ -3,6 +3,7 @@ package userInterface;
 import model.OrderInfos;
 
 import javax.swing.table.AbstractTableModel;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -10,7 +11,7 @@ public class OrderInfosModel extends AbstractTableModel {
     ArrayList<String> columnNames;
     ArrayList<OrderInfos> ordersInfos;
 
-    public OrderInfosModel() {
+    public OrderInfosModel(ArrayList<OrderInfos> ordersInfos) {
         columnNames = new ArrayList<>();
         columnNames.add("Prénom utilisateur");
         columnNames.add("Nom utilisateur");
@@ -49,7 +50,7 @@ public class OrderInfosModel extends AbstractTableModel {
             case 3:
                 return orderInfo.getOlQuantity();
             case 4:
-                return orderInfo.getOrderDate();
+                return Date.from(orderInfo.getOrderDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
             case 5:
                 return orderInfo.getOrderStatus();
             default:
@@ -59,6 +60,7 @@ public class OrderInfosModel extends AbstractTableModel {
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
+
         switch (columnIndex) {
             case 0:
                 return String.class;

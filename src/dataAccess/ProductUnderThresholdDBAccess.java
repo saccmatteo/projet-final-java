@@ -40,7 +40,7 @@ public class ProductUnderThresholdDBAccess implements ProductUnderThresholdDataA
                         data.getString("product_label"),
                         data.getDate("p.last_restock_date").toLocalDate(),
                         data.getString("supplier_name"),
-                        data.getString("s.phoneNumber"),
+                        data.getString("s.phone_number"),
                         data.getString("category_name")
                 );
                 productsUnderThreshold.add(newProductUnderThreshold);
