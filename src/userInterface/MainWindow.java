@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import beerThread.*;
+import controller.*;
 
 public class MainWindow extends JFrame {
     private JLabel welcomeLabel;
@@ -16,14 +17,18 @@ public class MainWindow extends JFrame {
     private JMenuItem welcomeMenuItem, deleteCommandMenuItem, addCommandMenuItem, viewCommandMenuItem, updateCommandMenuItem, closeCommandMenuItem, deleteProductMenuItem, addProductMenuItem, viewProductMenuItem, updateProductMenuItem, researchMenuItem;
     private Container container;
 
+    private ConnectionController connectionController;
+
     // CONSTRUCTOR
     public MainWindow() {
         super("Terminal");
         // Ouvrir en plein écran
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setBounds(0, 0, 1920, 1080);
+        setConnectionController(new ConnectionController());
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
+                connectionController.closeConnection();
                 System.exit(0);
             }
         });
@@ -98,6 +103,11 @@ public class MainWindow extends JFrame {
         this.setVisible(true);
     }
 
+    // SETTERS
+    public void setConnectionController(ConnectionController connectionController) {
+        this.connectionController = connectionController;
+    }
+
     // Tout faire dans un seul listener ou faire un pour chaque comme ici ?
     // Implémentation listeners
     private class WelcomeMenuItemListener implements ActionListener {
@@ -150,6 +160,7 @@ public class MainWindow extends JFrame {
             new CreateCommandPanel();
         }
     }
+
     private class ListingProductListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

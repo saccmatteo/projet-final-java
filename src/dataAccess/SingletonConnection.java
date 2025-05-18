@@ -1,10 +1,12 @@
 package dataAccess;
 
+import interfaces.ConnectionDataAccess;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class SingletonConnection {
+public class SingletonConnection implements ConnectionDataAccess {
     private static Connection connection;
 
     public static Connection getInstance(){
@@ -18,6 +20,17 @@ public class SingletonConnection {
             }
         }
         return connection;
+    }
+
+    public void closeConnection(){
+        try {
+            if (connection != null){
+                connection.close();
+            }
+        }
+        catch (SQLException error){
+            error.printStackTrace();
+        }
     }
 }
 
