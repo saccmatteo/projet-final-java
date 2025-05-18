@@ -128,6 +128,7 @@ public class CreateProductForm extends JFrame {
             } else if (e.getSource() == glutenFree) {
                 category.setSelectedIndex(3);
                 category.setEnabled(false);
+                alcoholPercentage.setText("");
             } else{
                 alcoholPercentage.setText("");
                 category.setSelectedIndex(-1);
