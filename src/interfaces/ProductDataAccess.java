@@ -8,4 +8,5 @@ public interface ProductDataAccess {
     ArrayList<Product> getAllProducts();
     void deleteProduct(int productId);
     void createProduct(Product product);
+    void updateProduct(Product product);
 }

@@ -5,10 +5,7 @@ import model.Order;
 import model.OrderLine;
 import model.User;
 import javax.swing.*;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class OrderDBAccess implements OrderDataAccess {
@@ -111,7 +108,7 @@ public class OrderDBAccess implements OrderDataAccess {
             System.out.println(e.getMessage());
         }
     }
-    public void updateCommand(int commandId, char method) {
+    public void updateClosedCommand(int commandId, char method) {
         try {
             sqlInstruction = "UPDATE `order` SET status_label = 'Terminé' WHERE id = ?";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
@@ -132,6 +129,37 @@ public class OrderDBAccess implements OrderDataAccess {
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public void updateCommand(Order order) {
+        try {
+            sqlInstruction = "UPDATE `order` SET order_date = ?, payment_date = ?, discount_percentage = ?, comment = ?, is_happy_hour = ?, status_label = ?, user_id = ?, payment_method_label = ? WHERE id = ?";
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+
+            preparedStatement.setDate(1, Date.valueOf(order.getDate()));
+            preparedStatement.setDate(2, Date.valueOf(order.getPaymentDate()));
+
+            if (order.getDiscountPercentage() != null) {
+                preparedStatement.setInt(3, order.getDiscountPercentage());
+            } else {
+                preparedStatement.setNull(3, Types.DECIMAL);
+            }
+
+            if (order.getComment() != null) {
+                preparedStatement.setString(4, order.getComment());
+            } else {
+                preparedStatement.setNull(4, Types.VARCHAR);
+            }
+
+            preparedStatement.setBoolean(5, order.getHappyHour());
+            preparedStatement.setString(6, order.getStatusLabel());
+            preparedStatement.setInt(7, order.getUserId());
+            preparedStatement.setString(8, order.getPaymentMethodLabel());
+            preparedStatement.setInt(9, order.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
 }

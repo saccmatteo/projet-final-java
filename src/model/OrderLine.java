@@ -12,6 +12,11 @@ public class OrderLine {
         this.product = product;
     }
 
+    public OrderLine(Integer quantity, Double unitPrice, Product product, Order order) {
+        this(quantity, unitPrice, product);
+        this.order = order;
+    }
+
     // Getters
     public Double getUnitPrice() {
         return unitPrice;
@@ -24,8 +29,16 @@ public class OrderLine {
         return product;
     }
 
+    public Order getOrder() {
+        return order;
+    }
+
     // Setters
     public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public void addQuantity(Integer quantity) {
         this.quantity += quantity;
     }
 

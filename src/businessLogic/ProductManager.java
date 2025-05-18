@@ -28,4 +28,8 @@ public class ProductManager {
     public void deleteProduct(int productId) {
         dao.deleteProduct(productId);
     }
+
+    public void updateProduct(Product product) {
+        dao.updateProduct(product);
+    }
 }

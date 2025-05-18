@@ -51,7 +51,7 @@ public class CloseOrderPanel extends JPanel {
             }
 
             char method = (reponse == JOptionPane.YES_OPTION) ? 'c' : 'e';
-            listOrderPanel.getOrderController().updateCommand(selected.getId(), method);
+            listOrderPanel.getOrderController().updateClosedCommand(selected.getId(), method);
 
             //refraichir list via methode
             listOrderPanel.refreshOrders();

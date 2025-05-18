@@ -2,11 +2,9 @@ package dataAccess;
 
 import model.Product;
 import interfaces.ProductDataAccess;
-import java.sql.Date;
+
+import java.sql.*;
 import javax.swing.*;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ProductDBAccess implements ProductDataAccess {
@@ -96,6 +94,41 @@ public class ProductDBAccess implements ProductDataAccess {
             preparedStatement.setString(1, product.getCategoryLabel());
         }
         catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+    public void updateProduct(Product product) {
+        try {
+            sqlInstruction = "UPDATE product SET label = ?, price = ?, nb_in_stock = ?, min_treshold = ?, is_gluten_free = ?, alcohol_percentage = ?, distribution_date = ?, last_restock_date = ?, description = ?, category_label = ?, supplier_label = ? WHERE id = ?";
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+
+            preparedStatement.setString(1, product.getLabel());
+            preparedStatement.setDouble(2, product.getPrice());
+            preparedStatement.setInt(3, product.getNbInStock());
+            preparedStatement.setInt(4, product.getMinTreshold());
+            preparedStatement.setBoolean(5, product.getGlutenFree());
+
+            if (product.getAlcoholPercentage() != null) {
+                preparedStatement.setDouble(6, product.getAlcoholPercentage());
+            } else {
+                preparedStatement.setNull(6, Types.DOUBLE); // Double ou Decimal ?
+            }
+
+            preparedStatement.setDate(7, Date.valueOf(product.getDistributionDate()));
+            preparedStatement.setDate(8, Date.valueOf(product.getLastRestockDate()));
+
+            if (product.getDescription() != null) {
+                preparedStatement.setString(9, product.getDescription());
+            } else {
+                preparedStatement.setNull(9, Types.VARCHAR); // VARCHAR fonctionne pour text ?
+            }
+
+            preparedStatement.setString(10, product.getCategoryLabel());
+            preparedStatement.setString(11, product.getSupplierLabel());
+            preparedStatement.setInt(12, product.getId());
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }

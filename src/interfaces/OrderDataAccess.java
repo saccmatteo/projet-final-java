@@ -1,7 +1,6 @@
 package interfaces;
 
 import model.Order;
-import model.OrderLine;
 
 import java.util.ArrayList;
 
@@ -10,5 +9,6 @@ public interface OrderDataAccess {
      Integer getLastOrderId();
      void createCommand(Order order);
      void deleteCommand(int commandId);
-     void updateCommand(int commandId, char method);
+     void updateClosedCommand(int commandId, char method);
+     void updateCommand(Order order);
 }

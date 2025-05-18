@@ -19,4 +19,8 @@ public class OrderLineController implements OrderLineDataAccess {
     public void createOrderLine(OrderLine orderLine){
         manager.createOrderLine(orderLine);
     }
+
+    public void updateOrderLine(int newQuantity, int orderId, int productId) {
+        manager.updateOrderLine(newQuantity, orderId, productId);
+    }
 }

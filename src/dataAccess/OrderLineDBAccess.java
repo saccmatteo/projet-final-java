@@ -3,6 +3,7 @@ package dataAccess;
 import interfaces.OrderLineDataAccess;
 import model.OrderLine;
 
+import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -24,6 +25,21 @@ public class OrderLineDBAccess implements OrderLineDataAccess {
         }
         catch(SQLException e){
             System.out.println(e.getMessage());
+        }
+    }
+
+    public void updateOrderLine(int newQuantity, int orderId, int productId) {
+        try {
+            sqlInstruction = "UPDATE orderline SET quantity = ? WHERE order_id = ? AND product_id = ?";
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+
+            preparedStatement.setInt(1, newQuantity);
+            preparedStatement.setInt(2, orderId);
+            preparedStatement.setInt(3, productId);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
 }

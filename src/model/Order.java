@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Order {
     private Integer id;
@@ -12,8 +13,7 @@ public class Order {
     private String statusLabel;
     private String paymentMethodLabel;
     private User user;
-    private OrderLine[] orderLines;
-    private static final int NB_MAX_PRODUCT = 30;
+    // private ArrayList<OrderLine> orderLines;
 
     // CONSTRUCTORS
         // Java -> BD
@@ -26,21 +26,13 @@ public class Order {
         this.statusLabel = statusLabel;
         this.paymentMethodLabel = paymentMethodLabel;
         this.user = user;
-        this.orderLines = new OrderLine[NB_MAX_PRODUCT];
+        //this.orderLines = new ArrayList<>();
     }
         // BD -> Java
-        public Order(Integer id, LocalDate date, LocalDate paymentDate, Integer discountPercentage, String comment, Boolean isHappyHour, String statusLabel, String paymentMethodLabel, User user) {
-            this.id = id;
-            this.date = date;
-            this.paymentDate = paymentDate;
-            this.discountPercentage = discountPercentage;
-            this.comment = comment;
-            this.isHappyHour = isHappyHour;
-            this.statusLabel = statusLabel;
-            this.paymentMethodLabel = paymentMethodLabel;
-            this.user = user;
-            this.orderLines = new OrderLine[NB_MAX_PRODUCT];
-        }
+    public Order(Integer id, LocalDate date, LocalDate paymentDate, Integer discountPercentage, String comment, Boolean isHappyHour, String statusLabel, String paymentMethodLabel, User user) {
+        this(date, paymentDate, discountPercentage, comment, isHappyHour, statusLabel, paymentMethodLabel, user);
+        this.id = id;
+    }
     // Setters
     public void setId(Integer id){
         this.id = id;
@@ -79,13 +71,13 @@ public class Order {
         return "Commande " + id + " : prise par " + user.getFirstName() + " " + user.getLastName() + " le " + date;
     }
 
-    public String totalPrice() { // Changer type si besoin
-        double totalPrice = 0;
-
-        for (OrderLine orderLine : orderLines) {
-            totalPrice += orderLine.getQuantity() * orderLine.getUnitPrice();
-        }
-        String formattedTotalPrice = String.format("%.2f", totalPrice);
-        return formattedTotalPrice;
-    }
+//    public String totalPrice() { // Changer type si besoin
+//        double totalPrice = 0;
+//
+//        for (OrderLine orderLine : orderLines) {
+//            totalPrice += orderLine.getQuantity() * orderLine.getUnitPrice();
+//        }
+//        String formattedTotalPrice = String.format("%.2f", totalPrice);
+//        return formattedTotalPrice;
+//    }
 }

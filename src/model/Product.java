@@ -36,19 +36,8 @@ public class Product {
     }
         // BD -> Java
     public Product(Integer id, String label, Double price, Integer nbInStock, Integer minTreshold, Boolean isGlutenFree, Double alcoholPercentage, LocalDate distributionDate, LocalDate lastRestockDate, String description, String supplierLabel, int supplierPhoneNumber, String categoryLabel) {
+        this(label, price, nbInStock, minTreshold, isGlutenFree, alcoholPercentage, distributionDate, lastRestockDate, description, supplierLabel, supplierPhoneNumber, categoryLabel);
         this.id = id;
-        this.label = label;
-        this.price = price;
-        this.nbInStock = nbInStock;
-        this.minTreshold = minTreshold;
-        this.isGlutenFree = isGlutenFree;
-        this.alcoholPercentage = alcoholPercentage;
-        this.distributionDate = distributionDate;
-        this.lastRestockDate = lastRestockDate;
-        this.description = description;
-        this.supplierLabel = supplierLabel;
-        this.supplierPhoneNumber = supplierPhoneNumber;
-        this.categoryLabel = categoryLabel;
     }
     @Override
     public String toString() {

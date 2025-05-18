@@ -188,7 +188,7 @@ public class CreateCommandPanel extends JFrame {
             if (i == commandListModel.getSize()){
                 commandListModel.addElement(new OrderLine(nbProd, selectedProd.getPrice(), selectedProd));
             }else{
-                commandListModel.getElementAt(i).setQuantity(nbProd);
+                commandListModel.getElementAt(i).addQuantity(nbProd);
                 revalidate();
                 repaint();
             }

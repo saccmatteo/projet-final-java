@@ -22,7 +22,12 @@ public class ProductController {
     public void createProduct(Product product) {
         manager.createProduct(product);
     }
+
     public void deleteProduct(int productId) {
         manager.deleteProduct(productId);
+    }
+
+    public void updateProduct(Product product) {
+        manager.updateProduct(product);
     }
 }
