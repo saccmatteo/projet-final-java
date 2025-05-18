@@ -14,7 +14,6 @@ import java.time.LocalDate;
 
 public class CreateCommandPanel extends JFrame {
     private Double prixTotal;
-
     private Container container;
     private JPanel usersPanel, middlePanel, formPanel, productPanel, commandPanel, buttonPanel;
     private JLabel usersLabel, commentsLabel, discountLabel;

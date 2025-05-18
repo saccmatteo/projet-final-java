@@ -71,8 +71,8 @@ public class ProductDBAccess implements ProductDataAccess {
             preparedStatement.setBoolean(5, product.getGlutenFree());
             preparedStatement.setDouble(6, product.getAlcoholPercentage());
             preparedStatement.setString(9, product.getDescription());
-            preparedStatement.setString(10, product.getSupplierLabel());
-            preparedStatement.setString(11, product.getCategoryLabel());
+            preparedStatement.setString(11, product.getSupplierLabel());
+            preparedStatement.setString(10, product.getCategoryLabel());
 
                 // DATE
             preparedStatement.setDate(7, Date.valueOf(product.getDistributionDate()));
