@@ -16,9 +16,11 @@ public class OrderLineManager implements OrderLineDataAccess {
         this.dao = dao;
     }
 
-    public void createOrderLine(OrderLine orderLine){
-        dao.createOrderLine(orderLine);
+    public void createOrderLine(OrderLine orderLine, int orderId){
+        dao.createOrderLine(orderLine, orderId);
     }
 
-    public void updateOrderLine(int newQuantity, int orderId, int productId){}
+    public void updateOrderLine(int newQuantity, int orderId, int productId) {
+        dao.updateOrderLine(newQuantity, orderId, productId);
+    }
 }

@@ -22,8 +22,7 @@ public class CategoryDBAccess implements CategoryDataAccess {
             while (data.next()) {
                 categories.add(data.getString("label"));
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
         return categories;

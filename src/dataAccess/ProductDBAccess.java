@@ -2,7 +2,6 @@ package dataAccess;
 
 import model.Product;
 import interfaces.ProductDataAccess;
-
 import java.sql.*;
 import javax.swing.*;
 import java.util.ArrayList;
@@ -27,10 +26,10 @@ public class ProductDBAccess implements ProductDataAccess {
                         data.getInt("nb_in_stock"),
                         data.getInt("min_treshold"),
                         data.getBoolean("is_gluten_free"),
-                        data.getDouble("alcohol_percentage"),
+                        crudUtils.getNullableDouble(data, "alcohol_percentage"),
                         data.getDate("distribution_date").toLocalDate(),
                         data.getDate("last_restock_date").toLocalDate(),
-                        data.getString("description"),
+                        crudUtils.getNullableString(data, "description"),
                         data.getString("supplier_label"),
                         data.getInt("supplier.phone_number"),
                         data.getString("category_label")
@@ -58,6 +57,21 @@ public class ProductDBAccess implements ProductDataAccess {
     }
     public void createProduct(Product product) {
         try{
+            // Category
+            sqlInstruction = "INSERT IGNORE INTO category VALUES (?)";
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+
+            preparedStatement.setString(1, product.getCategoryLabel());
+            preparedStatement.executeUpdate();
+
+            // Supplier
+            sqlInstruction = "INSERT IGNORE INTO supplier VALUES (?, ?)";
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+
+            preparedStatement.setString(1, product.getSupplierLabel());
+            preparedStatement.setInt(2, product.getSupplierPhoneNumber());
+            preparedStatement.executeUpdate();
+
             // Product
             sqlInstruction = "INSERT INTO product(label, price, nb_in_stock, min_treshold, is_gluten_free, alcohol_percentage, distribution_date, last_restock_date, description, category_label, supplier_label) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
@@ -67,36 +81,19 @@ public class ProductDBAccess implements ProductDataAccess {
             preparedStatement.setInt(3, product.getNbInStock());
             preparedStatement.setInt(4, product.getMinTreshold());
             preparedStatement.setBoolean(5, product.getGlutenFree());
-            preparedStatement.setDouble(6, product.getAlcoholPercentage());
-            preparedStatement.setString(9, product.getDescription());
-            preparedStatement.setString(11, product.getSupplierLabel());
-            preparedStatement.setString(10, product.getCategoryLabel());
-
-                // DATE
+            crudUtils.setNullableDouble(preparedStatement, 6, product.getAlcoholPercentage());
             preparedStatement.setDate(7, Date.valueOf(product.getDistributionDate()));
             preparedStatement.setDate(8, Date.valueOf(product.getLastRestockDate()));
-
+            crudUtils.setNullableString(preparedStatement, 9, product.getDescription());
+            preparedStatement.setString(10, product.getCategoryLabel());
+            preparedStatement.setString(11, product.getSupplierLabel());
             preparedStatement.executeUpdate();
-
-            // Supplier
-            sqlInstruction = "INSERT INTO supplier VALUES (?, ?)";
-            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
-
-            preparedStatement.setString(1, product.getSupplierLabel());
-            preparedStatement.setInt(2, product.getSupplierPhoneNumber());
-
-            preparedStatement.executeUpdate();
-
-            // Category
-            sqlInstruction = "INSERT INTO category VALUES (?)";
-            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
-
-            preparedStatement.setString(1, product.getCategoryLabel());
         }
         catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
+
     public void updateProduct(Product product) {
         try {
             sqlInstruction = "UPDATE product SET label = ?, price = ?, nb_in_stock = ?, min_treshold = ?, is_gluten_free = ?, alcohol_percentage = ?, distribution_date = ?, last_restock_date = ?, description = ?, category_label = ?, supplier_label = ? WHERE id = ?";
@@ -107,22 +104,10 @@ public class ProductDBAccess implements ProductDataAccess {
             preparedStatement.setInt(3, product.getNbInStock());
             preparedStatement.setInt(4, product.getMinTreshold());
             preparedStatement.setBoolean(5, product.getGlutenFree());
-
-            if (product.getAlcoholPercentage() != null) {
-                preparedStatement.setDouble(6, product.getAlcoholPercentage());
-            } else {
-                preparedStatement.setNull(6, Types.DOUBLE); // Double ou Decimal ?
-            }
-
+            crudUtils.setNullableDouble(preparedStatement, 6, product.getAlcoholPercentage());
             preparedStatement.setDate(7, Date.valueOf(product.getDistributionDate()));
             preparedStatement.setDate(8, Date.valueOf(product.getLastRestockDate()));
-
-            if (product.getDescription() != null) {
-                preparedStatement.setString(9, product.getDescription());
-            } else {
-                preparedStatement.setNull(9, Types.VARCHAR); // VARCHAR fonctionne pour text ?
-            }
-
+            crudUtils.setNullableString(preparedStatement, 9, product.getDescription());
             preparedStatement.setString(10, product.getCategoryLabel());
             preparedStatement.setString(11, product.getSupplierLabel());
             preparedStatement.setInt(12, product.getId());

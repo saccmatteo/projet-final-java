@@ -38,22 +38,20 @@ public class AlcoholicDrinksDBAccess implements AlcoholicDrinkDataAccess {
             data = preparedStatement.executeQuery();
 
             while(data.next()) {
+                // Ne pas vérifier si c'est null car ces champs ne peuvent dans tous les cas pas l'être
                 AlcoholicDrinksInfos newAlcoholicDrink = new AlcoholicDrinksInfos(
                         data.getInt("product_id"),
                         data.getString("product_label"),
                         data.getInt("ol.quantity"),
                         data.getDate("o.order_date").toLocalDate(),
-                        data.getInt("order_id")
+                        data.getInt("order_id"),
+                        data.getDouble("p.alcohol_percentage")
                 );
-                if (!data.wasNull()) {
-                    newAlcoholicDrink.setAlcoholPercentage(data.getInt("p.alcohol_percentage"));
-                }
                 alcoholicDrinks.add(newAlcoholicDrink);
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-
         return alcoholicDrinks;
     }
 }

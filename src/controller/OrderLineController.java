@@ -16,8 +16,8 @@ public class OrderLineController implements OrderLineDataAccess {
         this.manager = manager;
     }
 
-    public void createOrderLine(OrderLine orderLine){
-        manager.createOrderLine(orderLine);
+    public void createOrderLine(OrderLine orderLine, int orderId){
+        manager.createOrderLine(orderLine, orderId);
     }
 
     public void updateOrderLine(int newQuantity, int orderId, int productId) {

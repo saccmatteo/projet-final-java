@@ -10,9 +10,11 @@ public class CategoryController {
     public CategoryController() {
         setManager(new CategoryManager());
     }
+
     public void setManager(CategoryManager manager) {
         this.manager = manager;
     }
+
     public ArrayList<String> getAllCategories() {
         return manager.getAllCategories();
     }

@@ -38,7 +38,6 @@ public class CreateProductForm extends JFrame {
         formPanel.setLayout(new GridLayout(9, 2));
         buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new FlowLayout());
-
         label = new JTextField();
         price = new JTextField();
         alcoholPercentage = new JTextField();
@@ -53,12 +52,11 @@ public class CreateProductForm extends JFrame {
         radioGroup.add(glutenFree);
         radioGroup.add(isAlcohol);
 
-            // Listeners
-                // Alcohol
+        // Listeners
         isAlcohol.addItemListener(new RadioListener());
         glutenFree.addItemListener(new RadioListener());
 
-            // Ajout
+        // Ajout
         formPanel.add(new JLabel("Nom du produit :"));
         formPanel.add(label);
         formPanel.add(new JLabel("Prix du produit :"));
@@ -82,12 +80,12 @@ public class CreateProductForm extends JFrame {
         formPanel.add(supplierPhone);
 
         // PANEL BUTTONS
-            // Declaration
+        // Declaration
         cancelButton = new JButton("Annuler");
         resetButton = new JButton("Réinitialiser");
         submitButton = new JButton("Ajouter le produit");
 
-            // Listeners
+        // Listeners
         cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
@@ -99,14 +97,15 @@ public class CreateProductForm extends JFrame {
                 new CreateProductForm();
             }
         });
+
         submitButton.addActionListener(new SubmitButtonListener());
 
-            // Ajout
+        // Ajout
         buttonsPanel.add(cancelButton);
         buttonsPanel.add(resetButton);
         buttonsPanel.add(submitButton);
 
-            // Ajout au container
+        // Ajout des panels au container
         container.add(formPanel, BorderLayout.NORTH);
         container.add(buttonsPanel, BorderLayout.SOUTH);
 
@@ -118,7 +117,7 @@ public class CreateProductForm extends JFrame {
         this.productController = productController;
     }
 
-// LISTENERS
+    // Classes LISTENERS
     private class RadioListener implements ItemListener {
         public void itemStateChanged(ItemEvent e) {
             if (e.getSource() == isAlcohol) {
@@ -129,6 +128,7 @@ public class CreateProductForm extends JFrame {
                 category.setSelectedIndex(3);
                 category.setEnabled(false);
                 alcoholPercentage.setText("");
+                alcoholPercentage.setEnabled(false);
             } else{
                 alcoholPercentage.setText("");
                 category.setSelectedIndex(-1);
@@ -140,39 +140,40 @@ public class CreateProductForm extends JFrame {
 
     private class SubmitButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            String selectedCategory = (String) category.getSelectedItem();
+            String productLabel = label.getText().trim();
+            Double productPrice = Double.parseDouble(price.getText().trim());
+            Integer stock = Integer.parseInt(nbStock.getText().trim());
+            Integer productThreshold = Integer.parseInt(treshold.getText().trim());
+            Boolean withGluten = glutenFree.isSelected();
+            String  supplierLabel = supplierName.getText().trim();
+            Integer supplierPhoneNb = Integer.parseInt(supplierPhone.getText().trim());
+            String  productCategory = (String) category.getSelectedItem();
+            LocalDate today = LocalDate.now();
+            Double alcoholPct = null;
+
             if (isAlcohol.isSelected()) {
-                productController.createProduct(
-                        new Product(label.getText(),
-                                Double.parseDouble(price.getText()),
-                                Integer.parseInt(nbStock.getText()),
-                                Integer.parseInt(treshold.getText()),
-                                glutenFree.isSelected(),
-                                Double.parseDouble(alcoholPercentage.getText()),
-                                LocalDate.now(),
-                                LocalDate.now(),
-                                null,
-                                supplierName.getText(),
-                                Integer.parseInt(supplierPhone.getText()),
-                                selectedCategory
-                        ));
-            }else{
-                productController.createProduct(
-                        new Product(label.getText(),
-                                Double.parseDouble(price.getText()),
-                                Integer.parseInt(nbStock.getText()),
-                                Integer.parseInt(treshold.getText()),
-                                glutenFree.isSelected(),
-                                null,
-                                LocalDate.now(),
-                                LocalDate.now(),
-                                null,
-                                supplierName.getText(),
-                                Integer.parseInt(supplierPhone.getText()),
-                                selectedCategory
-                        ));
+                String alcPct = alcoholPercentage.getText().trim();
+                if (!alcPct.isEmpty()) {
+                    alcoholPct = Double.valueOf(alcPct);
+                }
             }
-            JOptionPane.showMessageDialog(null, "Ajout du produit");
+
+            Product newProduct = new Product(
+                    productLabel,
+                    productPrice,
+                    stock,
+                    productThreshold,
+                    withGluten,
+                    alcoholPct,
+                    today,
+                    today,
+                    null,
+                    supplierLabel,
+                    supplierPhoneNb,
+                    productCategory
+            );
+            productController.createProduct(newProduct);
+            JOptionPane.showMessageDialog(null, "Produit créé");
         }
     }
 }

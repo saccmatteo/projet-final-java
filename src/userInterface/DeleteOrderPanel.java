@@ -46,7 +46,7 @@ public class DeleteOrderPanel extends JPanel {
             );
 
             if (reponse == JOptionPane.YES_OPTION) {
-                listOrderPanel.getOrderController().deleteCommand(selected.getId());
+                listOrderPanel.getOrderController().deleteOrder(selected.getId());
                 listOrderPanel.refreshOrders();
 
                 JOptionPane.showMessageDialog(null, "Commande supprimée avec succès", "Suppression confirmée", JOptionPane.INFORMATION_MESSAGE);

@@ -12,7 +12,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.time.LocalDate;
 
-public class CreateCommandPanel extends JFrame {
+public class CreateOrderPanel extends JFrame {
     private Double prixTotal;
     private Container container;
     private JPanel usersPanel, middlePanel, formPanel, productPanel, commandPanel, buttonPanel;
@@ -33,7 +33,7 @@ public class CreateCommandPanel extends JFrame {
     private OrderLineController orderLineController;
     private ListingProductPanel listingProductPanel;
 
-    public CreateCommandPanel() {
+    public CreateOrderPanel() {
         setTitle("Création de commande");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -201,27 +201,33 @@ public class CreateCommandPanel extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             dispose();
-            new CreateCommandPanel();
+            new CreateOrderPanel();
         }
     }
 
     private class SubmitItemListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             User selectedUser = (User) users.getSelectedItem();
+
             Order order = new Order(LocalDate.now(),
                             LocalDate.now(),
-                            Integer.valueOf((discountField.getText().equals("") ?"0":discountField.getText())),
+                            Integer.valueOf(discountField.getText().trim().isEmpty() ? "0" : discountField.getText().trim()),
                             commentsText.getText(),
                             happyHourRadio.isSelected(),
                             "En cours",
-                            "Pas paye",
-                            selectedUser);
-            orderController.createCommand(order);
+                            PaymentMethod.NOTPAID.getLabel(),
+                            selectedUser
+            );
+            int orderId = orderController.createOrder(order);
+            order.setId(orderId);
 
-            for (int i = 0;i < commandListModel.getSize();i++) {
-                orderLineController.createOrderLine(commandListModel.getElementAt(i));
+            for (int i = 0; i < commandListModel.getSize(); i++) {
+                OrderLine orderLine = commandListModel.getElementAt(i);
+                orderLineController.createOrderLine(orderLine, orderId);
             }
             JOptionPane.showMessageDialog(null, "Ajout de la commande");
+            dispose();
+            new CreateOrderPanel();
         }
     }
 }

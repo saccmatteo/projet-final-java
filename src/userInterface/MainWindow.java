@@ -147,7 +147,7 @@ public class MainWindow extends JFrame {
     private class AddOrderListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            new CreateCommandPanel();
+            new CreateOrderPanel();
         }
     }
     private class ListingProductListener implements ActionListener {

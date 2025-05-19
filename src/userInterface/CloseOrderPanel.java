@@ -1,6 +1,7 @@
 package userInterface;
 
 import model.Order;
+import model.PaymentMethod;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -31,30 +32,34 @@ public class CloseOrderPanel extends JPanel {
             Order selected = listOrderPanel.getOrdersList().getSelectedValue();
 
             if (selected == null) {
-                JOptionPane.showMessageDialog(null, "Aucune commande sélectionnée.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Aucune commande sélectionnée.",
+                        "Erreur",
+                        JOptionPane.ERROR_MESSAGE
+                );
                 return;
             }
 
+            PaymentMethod[] options = { PaymentMethod.CARD, PaymentMethod.CASH };
             int reponse = JOptionPane.showOptionDialog(
                     null,
                     "Méthode de paiement ?",
-                    "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION,
+                    "Confirmation",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
                     null,
-                    new Object[]{"Carte Bancaire", "Espèces"},
+                    options,
                     null
             );
 
             if (reponse == JOptionPane.CLOSED_OPTION) {
-                // fermer page sans choisir SINON CA LA SUPPRIME DE "EN COURS" ALORS QU'ON A ANNULE
                 return;
             }
 
-            char method = (reponse == JOptionPane.YES_OPTION) ? 'c' : 'e';
-            listOrderPanel.getOrderController().updateClosedCommand(selected.getId(), method);
-
-            //refraichir list via methode
-            listOrderPanel.refreshOrders();
+            PaymentMethod chosenMethod = (reponse == JOptionPane.YES_OPTION) ? PaymentMethod.CARD : PaymentMethod.CASH;
+            listOrderPanel.getOrderController().updateClosedOrder(selected.getId(), chosenMethod);
+            listOrderPanel.refreshOrders(); //rafraichir list via methode
 
             JOptionPane.showMessageDialog(null, "Commande clôturée avec succès.", "Succès", JOptionPane.INFORMATION_MESSAGE );
         }

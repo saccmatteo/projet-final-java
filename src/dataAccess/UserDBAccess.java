@@ -28,8 +28,7 @@ public class UserDBAccess implements UserDataAccess {
                         data.getString("first_name"));
                 users.add(newUser);
             }
-        }
-        catch (SQLException error){
+        } catch (SQLException error){
             JOptionPane.showMessageDialog(null, error.getMessage());
         }
         return users;

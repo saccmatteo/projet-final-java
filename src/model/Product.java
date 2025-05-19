@@ -15,12 +15,12 @@ public class Product {
     private LocalDate lastRestockDate;
     private String description;
     private String supplierLabel;
-    private int supplierPhoneNumber;
+    private Integer supplierPhoneNumber;
     private String categoryLabel;
 
     // CONSTRUCTOR
         // Java -> BD
-    public Product(String label, Double price, Integer nbInStock, Integer minTreshold, Boolean isGlutenFree, Double alcoholPercentage, LocalDate distributionDate, LocalDate lastRestockDate, String description, String supplierLabel, int supplierPhoneNumber, String categoryLabel) {
+    public Product(String label, Double price, Integer nbInStock, Integer minTreshold, Boolean isGlutenFree, Double alcoholPercentage, LocalDate distributionDate, LocalDate lastRestockDate, String description, String supplierLabel, Integer supplierPhoneNumber, String categoryLabel) {
         this.label = label;
         this.price = price;
         this.nbInStock = nbInStock;
@@ -79,8 +79,6 @@ public class Product {
     }
 
     public Double getAlcoholPercentage() {
-        if (alcoholPercentage == null)
-            return 0.0;
         return alcoholPercentage;
     }
 

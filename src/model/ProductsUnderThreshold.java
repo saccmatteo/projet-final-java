@@ -3,14 +3,14 @@ package model;
 import java.time.LocalDate;
 
 public class ProductsUnderThreshold {
-    private int productId;
+    private Integer productId;
     private String productLabel;
     private LocalDate ProductLastRestockDate;
     private String supplierLabel;
     private String supplierPhoneNumber;
     private String categoryLabel;
 
-    public ProductsUnderThreshold(int productId, String productLabel, LocalDate ProductLastRestockDate, String supplierLabel, String supplierPhoneNumber, String categoryLabel) {
+    public ProductsUnderThreshold(Integer productId, String productLabel, LocalDate ProductLastRestockDate, String supplierLabel, String supplierPhoneNumber, String categoryLabel) {
         this.productId = productId;
         this.productLabel = productLabel;
         this.ProductLastRestockDate = ProductLastRestockDate;
@@ -19,7 +19,7 @@ public class ProductsUnderThreshold {
         this.categoryLabel = categoryLabel;
     }
 
-    public int getProductId() {
+    public Integer getProductId() {
         return productId;
     }
 

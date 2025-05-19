@@ -47,7 +47,6 @@ public class OrderInfosDBAccess implements OrderInfosDataAccess {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-
         return ordersInfos;
     }
 }

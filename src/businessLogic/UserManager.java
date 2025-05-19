@@ -18,6 +18,6 @@ public class UserManager {
     }
 
     public ArrayList<User> getAllUsers() {
-        return dao.getAllUsers(); // à mettre dans une variable si l'on veut verifier
+        return dao.getAllUsers();
     }
 }

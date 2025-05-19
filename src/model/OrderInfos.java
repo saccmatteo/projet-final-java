@@ -5,12 +5,12 @@ import java.time.LocalDate;
 public class OrderInfos {
     private LocalDate orderDate;
     private String orderStatus;
-    private int olQuantity;
+    private Integer olQuantity;
     private String userFunction;
     private String userFirstName;
     private String userLastName;
 
-    public OrderInfos(LocalDate orderDate, String orderStatus, int olQuantity, String userFunction, String userFirstName, String userLastName) {
+    public OrderInfos(LocalDate orderDate, String orderStatus, Integer olQuantity, String userFunction, String userFirstName, String userLastName) {
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
         this.olQuantity = olQuantity;
@@ -27,7 +27,7 @@ public class OrderInfos {
         return orderStatus;
     }
 
-    public int getOlQuantity() {
+    public Integer getOlQuantity() {
         return olQuantity;
     }
 

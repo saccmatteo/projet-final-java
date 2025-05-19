@@ -3,22 +3,23 @@ package model;
 import java.time.LocalDate;
 
 public class AlcoholicDrinksInfos {
-    private int productId;
+    private Integer productId;
     private String productLabel;
-    private int OlQuantity;
+    private Integer OlQuantity;
     private LocalDate OrderDate;
-    private int orderId;
-    private double alcoholPercentage;
+    private Integer orderId;
+    private Double alcoholPercentage;
 
-    public AlcoholicDrinksInfos(int productId, String productLabel, int OlQuantity, LocalDate OrderDate, int orderId) {
+    public AlcoholicDrinksInfos(Integer productId, String productLabel, Integer OlQuantity, LocalDate OrderDate, Integer orderId, Double alcoholPercentage) {
         this.productId = productId;
         this.productLabel = productLabel;
         this.OlQuantity = OlQuantity;
         this.OrderDate = OrderDate;
         this.orderId = orderId;
+        this.alcoholPercentage = alcoholPercentage;
     }
 
-    public int getProductId() {
+    public Integer getProductId() {
         return productId;
     }
 
@@ -26,7 +27,7 @@ public class AlcoholicDrinksInfos {
         return productLabel;
     }
 
-    public int getOlQuantity() {
+    public Integer getOlQuantity() {
         return OlQuantity;
     }
 
@@ -34,15 +35,11 @@ public class AlcoholicDrinksInfos {
         return OrderDate;
     }
 
-    public int getOrderId() {
+    public Integer getOrderId() {
         return orderId;
     }
 
-    public double getAlcoholPercentage() {
+    public Double getAlcoholPercentage() {
         return alcoholPercentage;
-    }
-
-    public void setAlcoholPercentage(double alcoholPercentage) {
-        this.alcoholPercentage = alcoholPercentage;
     }
 }

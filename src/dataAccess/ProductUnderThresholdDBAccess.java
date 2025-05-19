@@ -48,7 +48,6 @@ public class ProductUnderThresholdDBAccess implements ProductUnderThresholdDataA
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-
         return productsUnderThreshold;
     }
 }

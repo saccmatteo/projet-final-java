@@ -1,14 +1,14 @@
 package interfaces;
 
 import model.Order;
+import model.PaymentMethod;
 
 import java.util.ArrayList;
 
 public interface OrderDataAccess {
      ArrayList<Order> getAllOrders();
-     Integer getLastOrderId();
-     void createCommand(Order order);
-     void deleteCommand(int commandId);
-     void updateClosedCommand(int commandId, char method);
-     void updateCommand(Order order);
+     int createOrder(Order order);
+     void deleteOrder(int commandId);
+     void updateClosedOrder(int commandId, PaymentMethod method);
+     void updateOrder(Order order);
 }

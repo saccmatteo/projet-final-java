@@ -2,6 +2,7 @@ package controller;
 
 import businessLogic.OrderManager;
 import model.Order;
+import model.PaymentMethod;
 
 import java.util.ArrayList;
 
@@ -20,24 +21,20 @@ public class OrderController {
         return manager.getAllOrders();
     }
 
-    public Integer getLastOrderId() {
-        return manager.getLastOrderId();
+    public int createOrder(Order order) {
+        return manager.createOrder(order);
     }
 
-    public void createCommand(Order order) {
-        manager.createCommand(order);
+    public void deleteOrder(int commandId) {
+        manager.deleteOrder(commandId);
     }
 
-    public void deleteCommand(int commandId) {
-        manager.deleteCommand(commandId);
+    public void updateClosedOrder(int commandId, PaymentMethod method) {
+        manager.updateClosedOrder(commandId, method);
     }
 
-    public void updateClosedCommand(int commandId, char method) {
-        manager.updateClosedCommand(commandId, method);
-    }
-
-    public void updateCommand(Order order) {
-        manager.updateCommand(order);
+    public void updateOrder(Order order) {
+        manager.updateOrder(order);
     }
 }
 

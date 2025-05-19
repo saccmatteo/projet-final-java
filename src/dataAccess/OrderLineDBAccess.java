@@ -2,7 +2,6 @@ package dataAccess;
 
 import interfaces.OrderLineDataAccess;
 import model.OrderLine;
-
 import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -12,12 +11,12 @@ public class OrderLineDBAccess implements OrderLineDataAccess {
     private PreparedStatement preparedStatement;
     private OrderDBAccess lastOrderId = new OrderDBAccess();
 
-    public void createOrderLine(OrderLine orderLine){
+    public void createOrderLine(OrderLine orderLine, int orderId){
         try{
             sqlInstruction = "INSERT INTO orderline(order_id, product_id, quantity, unit_price) VALUES(?, ?, ?, ?)";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
 
-            preparedStatement.setInt(1, lastOrderId.getLastOrderId());
+            preparedStatement.setInt(1, orderId);
             preparedStatement.setInt(2, orderLine.getProduct().getId());
             preparedStatement.setInt(3, orderLine.getQuantity());
             preparedStatement.setDouble(4, orderLine.getUnitPrice());
