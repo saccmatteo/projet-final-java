@@ -12,9 +12,9 @@ public class OrderLine {
         this.product = product;
     }
 
-    public OrderLine(Integer quantity, Double unitPrice, Product product, Order order) {
-        this(quantity, unitPrice, product);
-        this.order = order;
+    public OrderLine(Integer quantity, Double unitPrice) {
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
     }
 
     // Getters
@@ -44,6 +44,6 @@ public class OrderLine {
 
     // Methodes
     public String toString(){
-        return  quantity + " " + product.getLabel() + " - " + unitPrice * quantity + "€";
+        return quantity + " " + product.getLabel() + " - " + String.format("%.2f", unitPrice * quantity) + "€";
     }
 }

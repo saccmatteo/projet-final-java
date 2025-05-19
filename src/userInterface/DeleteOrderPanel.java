@@ -9,13 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class DeleteOrderPanel extends JPanel {
-    private ListingOrderPanel listOrderPanel;
+    private ListingOrderPanel listingOrderPanel;
     private JButton deleteButton;
 
     public DeleteOrderPanel() {
         this.setLayout(new BorderLayout());
-        this.listOrderPanel = new ListingOrderPanel();
-        this.add(listOrderPanel, BorderLayout.CENTER);
+        this.listingOrderPanel = new ListingOrderPanel();
+        this.add(listingOrderPanel, BorderLayout.CENTER);
 
         deleteButton = new JButton("Supprimer la commande");
         deleteButton.setFont(new Font("Arial", Font.BOLD, 20));
@@ -28,7 +28,7 @@ public class DeleteOrderPanel extends JPanel {
     private class DeleteButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Order selected = listOrderPanel.getOrdersList().getSelectedValue();
+            Order selected = listingOrderPanel.getOrdersList().getSelectedValue();
 
             if (selected == null) {
                 JOptionPane.showMessageDialog(null, "Aucune commande sélectionnée.", "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -46,8 +46,8 @@ public class DeleteOrderPanel extends JPanel {
             );
 
             if (reponse == JOptionPane.YES_OPTION) {
-                listOrderPanel.getOrderController().deleteOrder(selected.getId());
-                listOrderPanel.refreshOrders();
+                listingOrderPanel.getOrderController().deleteOrder(selected.getId());
+                listingOrderPanel.refreshOrders();
 
                 JOptionPane.showMessageDialog(null, "Commande supprimée avec succès", "Suppression confirmée", JOptionPane.INFORMATION_MESSAGE);
             }

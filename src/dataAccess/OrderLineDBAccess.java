@@ -4,12 +4,13 @@ import interfaces.OrderLineDataAccess;
 import model.OrderLine;
 import javax.swing.*;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class OrderLineDBAccess implements OrderLineDataAccess {
     private String sqlInstruction;
     private PreparedStatement preparedStatement;
-    private OrderDBAccess lastOrderId = new OrderDBAccess();
 
     public void createOrderLine(OrderLine orderLine, int orderId){
         try{

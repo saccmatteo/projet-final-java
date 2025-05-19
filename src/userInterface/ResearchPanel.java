@@ -30,8 +30,8 @@ public class ResearchPanel extends JPanel {
 
     public ResearchPanel() {
         setLayout(new BorderLayout());
-        researchesController = new ResearchesController();
-        productController = new ProductController();
+        setResearchesController(new ResearchesController());
+        setProductController(new ProductController());
         researchPanel = new JPanel();
         dynamicPanel = new JPanel();
         tablePanel = new JPanel();
@@ -100,6 +100,15 @@ public class ResearchPanel extends JPanel {
             }
         }
     }
+
+    public void setResearchesController(ResearchesController researchesController) {
+        this.researchesController = researchesController;
+    }
+
+    public void setProductController(ProductController productController) {
+        this.productController = productController;
+    }
+
     private class ResearchButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

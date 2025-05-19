@@ -1,5 +1,8 @@
 package model;
 
+import businessLogic.OrderLineManager;
+import controller.OrderLineController;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -13,7 +16,6 @@ public class Order {
     private String statusLabel;
     private String paymentMethodLabel;
     private User user;
-    // private ArrayList<OrderLine> orderLines;
 
     // CONSTRUCTORS
         // Java -> BD
@@ -26,7 +28,6 @@ public class Order {
         this.statusLabel = statusLabel;
         this.paymentMethodLabel = paymentMethodLabel;
         this.user = user;
-        //this.orderLines = new ArrayList<>();
     }
         // BD -> Java
     public Order(Integer id, LocalDate date, LocalDate paymentDate, Integer discountPercentage, String comment, Boolean isHappyHour, String statusLabel, String paymentMethodLabel, User user) {
@@ -70,14 +71,4 @@ public class Order {
     public String toString() {
         return "Commande " + id + " : prise par " + user.getFirstName() + " " + user.getLastName() + " le " + date;
     }
-
-//    public String totalPrice() { // Changer type si besoin
-//        double totalPrice = 0;
-//
-//        for (OrderLine orderLine : orderLines) {
-//            totalPrice += orderLine.getQuantity() * orderLine.getUnitPrice();
-//        }
-//        String formattedTotalPrice = String.format("%.2f", totalPrice);
-//        return formattedTotalPrice;
-//    }
 }

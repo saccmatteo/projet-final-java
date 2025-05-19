@@ -75,16 +75,16 @@ public class OrderDBAccess implements OrderDataAccess {
         return -1;
     }
 
-    public void deleteOrder(int commandId) {
+    public void deleteOrder(int orderId) {
         try {
             sqlInstruction = "DElETE FROM orderline WHERE order_id = ?";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
-            preparedStatement.setInt(1, commandId);
+            preparedStatement.setInt(1, orderId);
             preparedStatement.executeUpdate();
 
             sqlInstruction = "DELETE FROM `order` WHERE id = ?;";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
-            preparedStatement.setInt(1, commandId);
+            preparedStatement.setInt(1, orderId);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {

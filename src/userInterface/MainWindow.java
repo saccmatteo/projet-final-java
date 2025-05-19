@@ -58,11 +58,11 @@ public class MainWindow extends JFrame {
         deleteCommandMenuItem = new JMenuItem("Supprimer");
         deleteCommandMenuItem.addActionListener(new DeleteOrderListener());
         addCommandMenuItem = new JMenuItem("Ajouter");
-        addCommandMenuItem.addActionListener(new AddOrderListener());
+        addCommandMenuItem.addActionListener(new CreateOrderListener());
         viewCommandMenuItem = new JMenuItem("Voir les commandes");
-        viewCommandMenuItem.addActionListener(new ViewOrderListener());
+        viewCommandMenuItem.addActionListener(new ListingOrderListener());
         updateCommandMenuItem = new JMenuItem("Modifier");
-        // listener pour modifier //
+        updateCommandMenuItem.addActionListener(new UpdateOrderListener());
         closeCommandMenuItem = new JMenuItem("Finaliser une commande");
         closeCommandMenuItem.addActionListener(new CloseOrderListener());
         commandMenu.add(viewCommandMenuItem);
@@ -75,10 +75,11 @@ public class MainWindow extends JFrame {
         deleteProductMenuItem = new JMenuItem("Supprimer");
         deleteProductMenuItem.addActionListener(new DeleteProductListener());
         addProductMenuItem = new JMenuItem("Ajouter");
-        addProductMenuItem.addActionListener(new AddProductListener());
+        addProductMenuItem.addActionListener(new CreateProductListener());
         viewProductMenuItem = new JMenuItem("Nos produits");
         viewProductMenuItem.addActionListener(new ListingProductListener());
         updateProductMenuItem = new JMenuItem("Modifier");
+        updateProductMenuItem.addActionListener(new UpdateProductListener());
         productMenu.add(viewProductMenuItem);
         productMenu.add(addProductMenuItem);
         productMenu.add(updateProductMenuItem);
@@ -110,17 +111,20 @@ public class MainWindow extends JFrame {
             container.repaint();
         }
     }
-    private class AddProductListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new CreateProductForm();
-        }
-    }
-    private class ViewOrderListener implements ActionListener {
+    private class ListingOrderListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
             container.add(new ListingOrderPanel(), BorderLayout.CENTER);
+            container.revalidate();
+            container.repaint();
+        }
+    }
+    private class CreateOrderListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            container.removeAll();
+            container.add(new CreateOrderPanel(), BorderLayout.CENTER);
             container.revalidate();
             container.repaint();
         }
@@ -134,7 +138,15 @@ public class MainWindow extends JFrame {
             container.repaint();
         }
     }
-
+    private class UpdateOrderListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            container.removeAll();
+            container.add(new UpdateOrderPanel(), BorderLayout.CENTER);
+            container.revalidate();
+            container.repaint();
+        }
+    }
     private class CloseOrderListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -142,12 +154,6 @@ public class MainWindow extends JFrame {
             container.add(new CloseOrderPanel(), BorderLayout.CENTER);
             container.revalidate();
             container.repaint();
-        }
-    }
-    private class AddOrderListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new CreateOrderPanel();
         }
     }
     private class ListingProductListener implements ActionListener {
@@ -159,11 +165,28 @@ public class MainWindow extends JFrame {
             container.repaint();
         }
     }
+    private class CreateProductListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            container.removeAll();
+            container.add(new CreateProductPanel(), BorderLayout.CENTER);
+            container.revalidate();
+            container.repaint();
+        }
+    }
     private class DeleteProductListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             container.removeAll();
             container.add(new DeleteProductPanel(), BorderLayout.CENTER);
+            container.revalidate();
+            container.repaint();
+        }
+    }
+    private class UpdateProductListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            container.removeAll();
+            container.add(new UpdateProductPanel(), BorderLayout.CENTER);
             container.revalidate();
             container.repaint();
         }

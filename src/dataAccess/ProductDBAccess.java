@@ -72,7 +72,7 @@ public class ProductDBAccess implements ProductDataAccess {
             preparedStatement.setInt(2, product.getSupplierPhoneNumber());
             preparedStatement.executeUpdate();
 
-            // Product
+            // Product&é
             sqlInstruction = "INSERT INTO product(label, price, nb_in_stock, min_treshold, is_gluten_free, alcohol_percentage, distribution_date, last_restock_date, description, category_label, supplier_label) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
 
