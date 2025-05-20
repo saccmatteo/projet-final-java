@@ -8,12 +8,13 @@ import java.awt.event.*;
 import java.time.LocalDate;
 
 public class CreateOrderPanel extends JPanel {
-    private Double prixTotal;
+    private Double totalPrice;
+    private String priceText;
 
     // Composants
     private JPanel usersPanel, formPanel, productPanel, commandPanel, middlePanel, buttonPanel;
     private JLabel usersLabel, commentsLabel, discountLabel;
-    private JTextField commentsText, discountField;
+    private JTextField commentsText, discountField, priceField;
     private JButton addProdButton, deleteProdButton, submitButton, resetButton;
     private JCheckBox happyHourRadio;
     private JComboBox<User> users;
@@ -29,7 +30,6 @@ public class CreateOrderPanel extends JPanel {
         setUserController(new UserController());
         setOrderController(new OrderController());
         setOrderLineController(new OrderLineController());
-        prixTotal = 0.0;
 
         setLayout(new BorderLayout());
 
@@ -69,6 +69,10 @@ public class CreateOrderPanel extends JPanel {
         deleteProdButton = new JButton("Supprimer produit");
         submitButton = new JButton("Valider commande");
         resetButton = new JButton("Réinitialiser");
+        priceText = "Prix total : ";
+        totalPrice = 0.0;
+        priceField = new JTextField(priceText + totalPrice);
+
 
         happyHourRadio = new JCheckBox("Happy hour");
 
@@ -112,6 +116,7 @@ public class CreateOrderPanel extends JPanel {
         buttonPanel.add(deleteProdButton);
         buttonPanel.add(submitButton);
         buttonPanel.add(resetButton);
+        buttonPanel.add(priceField);
     }
 
     // SETTERS
@@ -163,8 +168,9 @@ public class CreateOrderPanel extends JPanel {
             } else {
                 commandListModel.getElementAt(i).addQuantity(nbProd);
             }
+            totalPrice += selectedProd.getPrice() * nbProd;
 
-            prixTotal += selectedProd.getPrice() * nbProd;
+            priceField.setText(priceText + totalPrice + "€");
             revalidate();
             repaint();
         }
@@ -175,9 +181,12 @@ public class CreateOrderPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             OrderLine selected = commandList.getSelectedValue();
             if (selected != null) {
-                prixTotal -= selected.getProduct().getPrice() * selected.getQuantity();
+                totalPrice -= selected.getProduct().getPrice() * selected.getQuantity();
                 commandListModel.removeElement(selected);
             }
+            priceField.setText(priceText + totalPrice + "€");
+            revalidate();
+            repaint();
         }
     }
 
@@ -190,7 +199,7 @@ public class CreateOrderPanel extends JPanel {
             discountField.setEnabled(true);
             happyHourRadio.setSelected(false);
             commandListModel.clear();
-            prixTotal = 0.0;
+            totalPrice = 0.0;
         }
     }
 
