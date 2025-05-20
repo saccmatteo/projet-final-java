@@ -17,6 +17,10 @@ public class ProductManager {
         this.dao = productDBAccess;
     }
 
+    public Double getAverageProductSelledByMonth(Integer idProduct) {
+        return dao.getAllProductSelled(idProduct) / 12.0;
+    }
+
     public ArrayList<Product> getAllProducts (){
         return dao.getAllProducts();
     }
