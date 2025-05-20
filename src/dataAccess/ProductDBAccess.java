@@ -10,13 +10,15 @@ public class ProductDBAccess implements ProductDataAccess {
     private PreparedStatement preparedStatement;
     private ResultSet data;
 
-    public Integer getAllProductSelled(Integer idProduct){
+    public Integer getAllProductSelledLast6Months(Integer idProduct){
         Integer totalProductSelled = 0;
         try{
-            sqlInstruction = "SELECT SUM(ol.quantity) 'totalQuantity' " +
-                             "FROM orderline ol INNER JOIN `order` o " +
-                                "ON ol.order_id = o.id " +
-                             "WHERE ol.product_id = ?";
+            sqlInstruction =
+                "SELECT SUM(ol.quantity) AS totalQuantity " +
+                "FROM orderline ol " +
+                "INNER JOIN `order` o ON ol.order_id = o.id " +
+                "WHERE ol.product_id = ? " +
+                "AND o.order_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             preparedStatement.setInt(1, idProduct);
             data = preparedStatement.executeQuery();

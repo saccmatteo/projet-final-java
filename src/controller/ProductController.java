@@ -11,8 +11,8 @@ public class ProductController {
         setManager(new ProductManager());
     }
 
-    public Double getAverageProductSelledByMonth(Integer idProduct) {
-        return manager.getAverageProductSelledByMonth(idProduct);
+    public Integer getAllProductSelledLast6Months(Integer idProduct) {
+        return manager.getAllProductSelledLast6Months(idProduct);
     }
 
     public ArrayList<Product> getAllProducts() {

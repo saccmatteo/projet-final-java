@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.function.Supplier;
 
 public class ResearchPanel extends JPanel {
-    private String [] researches = {"Boissons alcoolisées", "Produit en dessous du seuil", "Informations commande d'un produit", "Quantité moyenne mensuelle d'un produit"};
+    private String [] researches = {"Boissons alcoolisées", "Produit en dessous du seuil", "Informations commande d'un produit", "Moyenne mensuelle (6 mois)"};
 
     private JPanel researchPanel, tablePanel, dynamicPanel;
     private JLabel averageProductSelledByMonthLabel;
@@ -112,14 +112,11 @@ public class ResearchPanel extends JPanel {
                         revalidate();
                         repaint();
                         break;
-                    case "Quantité moyenne mensuelle d'un produit":
+                    case "Moyenne mensuelle (6 mois)":
                         dynamicPanel.removeAll();
                         tablePanel.removeAll();
-
-                        averageProductSelledByMonthLabel = new JLabel("Moyenne par mois : ");
+                        averageProductSelledByMonthLabel = new JLabel();
                         createProductList();
-                        tablePanel.add(averageProductSelledByMonthLabel);
-
                         revalidate();
                         repaint();
                         break;
@@ -193,9 +190,11 @@ public class ResearchPanel extends JPanel {
                         orderInfosModel = new OrderInfosModel(researchesController.getAllOrdersInfos(selectedProductId));
                         showTable(orderInfosModel);
                         break;
-                    case "Quantité moyenne mensuelle d'un produit":
+                    case "Moyenne mensuelle (6 mois)":
                         selectedProductId = productJList.getSelectedValue().getId();
-                        averageProductSelledByMonthLabel.setText("Moyenne par mois : " + String.format("%.2f", productController.getAverageProductSelledByMonth(selectedProductId)));
+                        averageProductSelledByMonthLabel.setText("Moyenne mensuelle des ventes de " + productJList.getSelectedValue().getLabel() + " sur les 6 derniers mois : " + String.format("%.2f", productController.getAllProductSelledLast6Months(selectedProductId) / 6.0));
+                        averageProductSelledByMonthLabel.setFont(new Font("Arial", Font.BOLD, 24));
+                        tablePanel.add(averageProductSelledByMonthLabel);
 
                         tablePanel.revalidate();
                         tablePanel.repaint();

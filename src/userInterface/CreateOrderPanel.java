@@ -1,6 +1,7 @@
 package userInterface;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -52,13 +53,15 @@ public class CreateOrderPanel extends JPanel {
     }
 
     //itialise les composants du form
+    // initFormComponents
     private void initFormComponents() {
         usersPanel = new JPanel();
         formPanel = new JPanel(new GridLayout(3, 2, 10, 10));
         productPanel = new JPanel(new GridLayout(1, 2, 10, 10));
         commandPanel = new JPanel(new BorderLayout());
         middlePanel = new JPanel(new BorderLayout());
-        buttonPanel = new JPanel(new FlowLayout());
+
+        buttonPanel = new JPanel(new BorderLayout());
 
         usersLabel = new JLabel("Utilisateur gérant la commande : ");
         usersLabel.setFont(new Font("Arial", Font.BOLD, 24));
@@ -73,11 +76,11 @@ public class CreateOrderPanel extends JPanel {
         deleteProdButton = new JButton("Supprimer produit");
         submitButton = new JButton("Valider commande");
         resetButton = new JButton("Réinitialiser");
+
         priceText = "Prix total : ";
         totalPrice = 0.0;
         priceField = new JTextField(priceText + totalPrice);
         priceField.setEnabled(false);
-
 
         happyHourRadio = new JCheckBox("Happy hour");
 
@@ -91,7 +94,7 @@ public class CreateOrderPanel extends JPanel {
         listingProductPanel = new ListingProductPanel();
     }
 
-    //créé le formulaire
+    // createFormPanel
     private void createFormPanel() {
         usersPanel.add(usersLabel);
         usersPanel.add(users);
@@ -103,25 +106,24 @@ public class CreateOrderPanel extends JPanel {
         formPanel.add(commentsLabel);
         formPanel.add(commentsText);
 
-        // Panel commande (liste panier)
         JScrollPane commandScroll = new JScrollPane(commandList);
         commandPanel.add(new JLabel("Panier :"), BorderLayout.NORTH);
         commandPanel.add(commandScroll, BorderLayout.CENTER);
 
-        // Panel produits + panier
         productPanel.add(listingProductPanel);
         productPanel.add(commandPanel);
 
-        // Panel milieu
         middlePanel.add(formPanel, BorderLayout.NORTH);
         middlePanel.add(productPanel, BorderLayout.CENTER);
 
-        // Panel boutons
-        buttonPanel.add(addProdButton);
-        buttonPanel.add(deleteProdButton);
-        buttonPanel.add(submitButton);
-        buttonPanel.add(resetButton);
-        buttonPanel.add(priceField);
+        JPanel leftButtons = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        leftButtons.add(addProdButton);
+        leftButtons.add(deleteProdButton);
+        leftButtons.add(submitButton);
+        leftButtons.add(resetButton);
+
+        buttonPanel.add(leftButtons, BorderLayout.WEST);
+        buttonPanel.add(priceField, BorderLayout.EAST);
     }
 
     // SETTERS
