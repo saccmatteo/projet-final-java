@@ -20,6 +20,7 @@ public class AlcoholicDrinksModel extends AbstractTableModel {
         columnNames.add("ID commande");
         columnNames.add("Date commande");
         setAlcoholicDrinks(alcoholicDrinks);
+        fireTableDataChanged(); // Pour rafraichir la table au cas où
     }
 
     public void setAlcoholicDrinks(ArrayList<AlcoholicDrinksInfos> alcoholicDrinks) {
@@ -55,7 +56,7 @@ public class AlcoholicDrinksModel extends AbstractTableModel {
             case 5:
                 return Date.from(alcoholicDrink.getOrderDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
             default:
-                return null; // à voir si on garde ça
+                return null;
         }
     }
 

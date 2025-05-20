@@ -2,7 +2,6 @@ package dataAccess;
 
 import interfaces.OrderInfosDataAccess;
 import model.OrderInfos;
-import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -45,7 +44,7 @@ public class OrderInfosDBAccess implements OrderInfosDataAccess {
                 ordersInfos.add(orderInfos);
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println(e.getMessage());
         }
         return ordersInfos;
     }

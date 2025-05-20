@@ -20,6 +20,7 @@ public class OrderInfosModel extends AbstractTableModel {
         columnNames.add("Date commande");
         columnNames.add("Statut commande");
         setOrdersInfos(ordersInfos);
+        fireTableDataChanged();
     }
 
     public void setOrdersInfos(ArrayList<OrderInfos> ordersInfos) {

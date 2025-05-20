@@ -215,7 +215,7 @@ public class CreateOrderPanel extends JPanel {
                     discount,
                     commentsText.getText(),
                     happyHourRadio.isSelected(),
-                    "En cours",
+                    OrderStatus.IN_PROGRESS.getLabel(),
                     PaymentMethod.NOTPAID.getLabel(),
                     selectedUser
             );

@@ -3,7 +3,6 @@ package dataAccess;
 import model.Product;
 import interfaces.ProductDataAccess;
 import java.sql.*;
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class ProductDBAccess implements ProductDataAccess {
@@ -26,10 +25,10 @@ public class ProductDBAccess implements ProductDataAccess {
                         data.getInt("nb_in_stock"),
                         data.getInt("min_treshold"),
                         data.getBoolean("is_gluten_free"),
-                        crudUtils.getNullableDouble(data, "alcohol_percentage"),
+                        CrudUtils.getNullableDouble(data, "alcohol_percentage"),
                         data.getDate("distribution_date").toLocalDate(),
                         data.getDate("last_restock_date").toLocalDate(),
-                        crudUtils.getNullableString(data, "description"),
+                        CrudUtils.getNullableString(data, "description"),
                         data.getString("supplier_label"),
                         data.getInt("supplier.phone_number"),
                         data.getString("category_label")
@@ -38,7 +37,7 @@ public class ProductDBAccess implements ProductDataAccess {
             }
         }
         catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println(e.getMessage());
         }
         return products;
     }
@@ -51,7 +50,7 @@ public class ProductDBAccess implements ProductDataAccess {
             preparedStatement.executeUpdate();
         }
         catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println(e.getMessage());
         }
 
     }
@@ -81,16 +80,16 @@ public class ProductDBAccess implements ProductDataAccess {
             preparedStatement.setInt(3, product.getNbInStock());
             preparedStatement.setInt(4, product.getMinTreshold());
             preparedStatement.setBoolean(5, product.getGlutenFree());
-            crudUtils.setNullableDouble(preparedStatement, 6, product.getAlcoholPercentage());
+            CrudUtils.setNullableDouble(preparedStatement, 6, product.getAlcoholPercentage());
             preparedStatement.setDate(7, Date.valueOf(product.getDistributionDate()));
             preparedStatement.setDate(8, Date.valueOf(product.getLastRestockDate()));
-            crudUtils.setNullableString(preparedStatement, 9, product.getDescription());
+            CrudUtils.setNullableString(preparedStatement, 9, product.getDescription());
             preparedStatement.setString(10, product.getCategoryLabel());
             preparedStatement.setString(11, product.getSupplierLabel());
             preparedStatement.executeUpdate();
         }
         catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -104,17 +103,17 @@ public class ProductDBAccess implements ProductDataAccess {
             preparedStatement.setInt(3, product.getNbInStock());
             preparedStatement.setInt(4, product.getMinTreshold());
             preparedStatement.setBoolean(5, product.getGlutenFree());
-            crudUtils.setNullableDouble(preparedStatement, 6, product.getAlcoholPercentage());
+            CrudUtils.setNullableDouble(preparedStatement, 6, product.getAlcoholPercentage());
             preparedStatement.setDate(7, Date.valueOf(product.getDistributionDate()));
             preparedStatement.setDate(8, Date.valueOf(product.getLastRestockDate()));
-            crudUtils.setNullableString(preparedStatement, 9, product.getDescription());
+            CrudUtils.setNullableString(preparedStatement, 9, product.getDescription());
             preparedStatement.setString(10, product.getCategoryLabel());
             preparedStatement.setString(11, product.getSupplierLabel());
             preparedStatement.setInt(12, product.getId());
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 }

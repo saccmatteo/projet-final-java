@@ -19,6 +19,7 @@ public class ProductsUnderThresholdModel extends AbstractTableModel {
         columnNames.add("Fournisseur");
         columnNames.add("Telephone Fournisseur");
         setProductsUnderThreshold(productsUnderThreshold);
+        fireTableDataChanged();
     }
 
     public void setProductsUnderThreshold(ArrayList<ProductsUnderThreshold> productsUnderThreshold) {

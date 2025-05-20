@@ -3,7 +3,7 @@ package dataAccess;
 import java.sql.*;
 import java.time.LocalDate;
 
-public class crudUtils {
+public class CrudUtils {
 
     // Méthodes pour set des nulls potentiels
 

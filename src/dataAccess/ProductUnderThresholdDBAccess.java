@@ -2,7 +2,6 @@ package dataAccess;
 
 import interfaces.ProductUnderThresholdDataAccess;
 import model.ProductsUnderThreshold;
-import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -46,7 +45,7 @@ public class ProductUnderThresholdDBAccess implements ProductUnderThresholdDataA
                 productsUnderThreshold.add(newProductUnderThreshold);
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println(e.getMessage());
         }
         return productsUnderThreshold;
     }

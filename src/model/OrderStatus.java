@@ -1,13 +1,13 @@
 package model;
 
-public enum PaymentMethod {
-    CARD("Carte bancaire"),
-    CASH("Espèces"),
-    NOTPAID("Pas payée");
+
+public enum OrderStatus {
+    IN_PROGRESS("En cours"),
+    COMPLETED("Terminé");
 
     private final String label;
 
-    PaymentMethod(String label) {
+    OrderStatus(String label) {
         this.label = label;
     }
 
@@ -20,3 +20,4 @@ public enum PaymentMethod {
         return label;
     }
 }
+

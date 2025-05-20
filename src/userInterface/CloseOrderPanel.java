@@ -42,7 +42,7 @@ public class CloseOrderPanel extends JPanel {
             }
 
             PaymentMethod[] options = { PaymentMethod.CARD, PaymentMethod.CASH };
-            int reponse = JOptionPane.showOptionDialog(
+            int response = JOptionPane.showOptionDialog(
                     null,
                     "Méthode de paiement ?",
                     "Confirmation",
@@ -53,11 +53,11 @@ public class CloseOrderPanel extends JPanel {
                     null
             );
 
-            if (reponse == JOptionPane.CLOSED_OPTION) {
+            if (response == JOptionPane.CLOSED_OPTION) {
                 return;
             }
 
-            PaymentMethod chosenMethod = (reponse == JOptionPane.YES_OPTION) ? PaymentMethod.CARD : PaymentMethod.CASH;
+            PaymentMethod chosenMethod = (response == JOptionPane.YES_OPTION) ? PaymentMethod.CARD : PaymentMethod.CASH;
             listOrderPanel.getOrderController().updateClosedOrder(selected.getId(), chosenMethod);
             listOrderPanel.refreshOrders(); //rafraichir list via methode
 

@@ -1,7 +1,6 @@
 package dataAccess;
 
 import interfaces.ConnectionDataAccess;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -28,8 +27,8 @@ public class SingletonConnection implements ConnectionDataAccess {
                 connection.close();
             }
         }
-        catch (SQLException error){
-            error.printStackTrace();
+        catch (SQLException e){
+            System.out.println(e.getMessage());;
         }
     }
 }

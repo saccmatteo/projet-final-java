@@ -2,11 +2,8 @@ package dataAccess;
 
 import interfaces.OrderLineDataAccess;
 import model.OrderLine;
-import javax.swing.*;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class OrderLineDBAccess implements OrderLineDataAccess {
     private String sqlInstruction;
@@ -39,7 +36,7 @@ public class OrderLineDBAccess implements OrderLineDataAccess {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 }

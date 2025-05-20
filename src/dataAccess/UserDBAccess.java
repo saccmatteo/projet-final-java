@@ -1,8 +1,7 @@
 package dataAccess;
 
 import interfaces.UserDataAccess;
-import model.*;
-import javax.swing.*;
+import model.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,8 +27,8 @@ public class UserDBAccess implements UserDataAccess {
                         data.getString("first_name"));
                 users.add(newUser);
             }
-        } catch (SQLException error){
-            JOptionPane.showMessageDialog(null, error.getMessage());
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
         }
         return users;
     }

@@ -2,6 +2,7 @@ package userInterface;
 
 import model.Order;
 import controller.OrderController;
+import model.PaymentMethod;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,7 +56,7 @@ public class EditOrderPanel extends JPanel {
         formPanel.add(new JLabel(order.getDate().toString()));
 
         formPanel.add(new JLabel("Date de paiement :"));
-        formPanel.add(new JLabel(order.getPaymentDate() != null ? order.getPaymentDate().toString() : "Non payée"));
+        formPanel.add(new JLabel(order.getPaymentDate() != null ? order.getPaymentDate().toString() : PaymentMethod.NOTPAID.getLabel()));
 
         formPanel.add(new JLabel("Réduction (%) :"));
         formPanel.add(discountField);

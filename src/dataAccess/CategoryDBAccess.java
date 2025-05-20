@@ -1,7 +1,6 @@
 package dataAccess;
 
 import interfaces.CategoryDataAccess;
-import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,7 +22,7 @@ public class CategoryDBAccess implements CategoryDataAccess {
                 categories.add(data.getString("label"));
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            e.getMessage();
         }
         return categories;
     }
