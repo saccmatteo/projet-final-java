@@ -1,29 +1,30 @@
 package beerThread;
 
-import beerThread.BeerGlassBorder;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
 public class BeerGlass extends JPanel {
+    private Liquid liquid;
     private ArrayList<BeerGlassBorder> horizontalsBeerGlassBorders = new ArrayList<>();
     private ArrayList<BeerGlassBorder> verticalsBeerGlassBorder = new ArrayList<>();
-    private Liquid liquid;
     private final static int MAX_LIQUID_HEIGHT = -380;
 
     public BeerGlass() {
-        // Verre
+        // Verre (2 côtés verticals et 1 côté horizontal)
         horizontalsBeerGlassBorders.add(new BeerGlassBorder(800, 500, 300, 10));
         verticalsBeerGlassBorder.add(new BeerGlassBorder(800, 100, 10, 400));
         verticalsBeerGlassBorder.add(new BeerGlassBorder(1090, 100, 10, 400));
 
-        // Manche
+        // Manche (1 côté vertical et 2 côtés horizontals)
         horizontalsBeerGlassBorders.add(new BeerGlassBorder(1100, 350, 60, 10));
         horizontalsBeerGlassBorders.add(new BeerGlassBorder(1100, 170, 60, 10));
         verticalsBeerGlassBorder.add(new BeerGlassBorder(1150, 170, 10, 180));
 
+        // Liquide
         liquid = new Liquid(810, 500, 280, 0, this);
+
+        // Thread
         MovementThread movementThread = new MovementThread(this);
         movementThread.start();
     }

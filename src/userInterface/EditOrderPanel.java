@@ -18,21 +18,23 @@ public class EditOrderPanel extends JPanel {
     private JButton cancelButton, saveButton;
 
     public EditOrderPanel(Order order) {
+        this.setLayout(new BorderLayout());
         this.order = order;
         this.orderController = new OrderController();
-
-        setLayout(new BorderLayout());
 
         initFormComponents();
         loadFields();
 
+        // Panel des boutons
+            // Déclaration
         JPanel buttonsPanel = new JPanel(new FlowLayout());
         cancelButton = new JButton("Annuler");
         saveButton = new JButton("Enregistrer");
-
+            // Listeners
         cancelButton.addActionListener(new CancelButtonListener());
         saveButton.addActionListener(new SaveButtonListener());
 
+        // Ajout au Panel
         buttonsPanel.add(cancelButton);
         buttonsPanel.add(saveButton);
 
@@ -40,15 +42,17 @@ public class EditOrderPanel extends JPanel {
         add(buttonsPanel, BorderLayout.SOUTH);
     }
 
-    //initialiser les composants du formulaire
+    // METHODES
+        // Déclaration des composants du formulaire
     private void initFormComponents() {
         discountField = new JTextField();
         commentField = new JTextField();
+
         happyHourCheckBox = new JCheckBox("Happy Hour");
         happyHourCheckBox.addItemListener(new HappyHourListener());
     }
 
-    //créé le formulaire
+        // Création du formulaire
     private JPanel createFormPanel() {
         JPanel formPanel = new JPanel(new GridLayout(5, 2, 10, 10));
 
@@ -70,6 +74,14 @@ public class EditOrderPanel extends JPanel {
         return formPanel;
     }
 
+        // Remplir les textFields du formulaire
+    private void loadFields() {
+        discountField.setText(String.valueOf(order.getDiscountPercentage()));
+        commentField.setText(order.getComment());
+        happyHourCheckBox.setSelected(order.getHappyHour());
+    }
+
+    // LISTENERS
     private class HappyHourListener implements ItemListener {
         @Override
         public void itemStateChanged(ItemEvent e) {
@@ -82,20 +94,11 @@ public class EditOrderPanel extends JPanel {
             }
         }
     }
-
-    //va remplir les textFields du formulaire
-    private void loadFields() {
-        discountField.setText(String.valueOf(order.getDiscountPercentage()));
-        commentField.setText(order.getComment());
-        happyHourCheckBox.setSelected(order.getHappyHour());
-    }
-
     private class CancelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             removeAll();
-            UpdateOrderPanel updateOrderPanel = new UpdateOrderPanel();
-            add(updateOrderPanel, BorderLayout.CENTER);
+            add(new UpdateOrderPanel(), BorderLayout.CENTER);
             revalidate();
             repaint();
         }
@@ -123,6 +126,8 @@ public class EditOrderPanel extends JPanel {
 
                 orderController.updateOrder(updatedOrder);
                 JOptionPane.showMessageDialog(EditOrderPanel.this, "Commande mise à jour !");
+
+                // Réafficher le panel
                 removeAll();
                 add(new UpdateOrderPanel());
                 revalidate();

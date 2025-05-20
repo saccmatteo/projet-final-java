@@ -18,7 +18,7 @@ public class OrderDBAccess implements OrderDataAccess {
                     "SELECT `order`.*, user.last_name, user.first_name " +
                     "FROM `order` JOIN user ON `order`.user_id = user.id " +
                     "WHERE `order`.status_label = ?" +
-                    "Order by `order`.order_date DESC, `order`.id DESC";
+                    "ORDER BY `order`.order_date DESC, `order`.id DESC";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             preparedStatement.setString(1, OrderStatus.IN_PROGRESS.getLabel());
             data = preparedStatement.executeQuery();
@@ -64,7 +64,6 @@ public class OrderDBAccess implements OrderDataAccess {
             data = preparedStatement.getGeneratedKeys(); // id de la commande
             if (data.next()) {
                 int generatedId = data.getInt(1);
-                // order.setId(data.getInt(1));
                 return generatedId;
             }
         } catch (SQLException e) {

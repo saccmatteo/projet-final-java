@@ -1,25 +1,25 @@
 package beerThread;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Liquid {
     private Rectangle liquid;
     private BeerGlass beerGlass;
-    private int heightIncrement;
+    private static int heightIncrement = 1;
 
+    // CONSTRUCTOR
     public Liquid(int x, int y, int width, int height, BeerGlass beerGlass) {
         this.liquid = new Rectangle(x, y, width, height);
         this.beerGlass = beerGlass;
-        heightIncrement = 1;
     }
 
+    // METHODES
     public void draw(Graphics g) {
         g.setColor(Color.ORANGE);
         g.fillRect(liquid.x, liquid.y, liquid.width, liquid.height);
     }
 
-    public void fillIn() {
+    public void fillIn() { // Remplir la bière
         liquid.height -= heightIncrement;
         if (liquid.height == BeerGlass.getMaxLiquidHeight() || liquid.intersects(beerGlass.getHorizontalsBeerGlassBorders().getFirst().rectangle)) {
                 heightIncrement = -heightIncrement;

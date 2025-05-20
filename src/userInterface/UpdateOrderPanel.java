@@ -14,29 +14,34 @@ public class UpdateOrderPanel extends JPanel {
 
     public UpdateOrderPanel () {
         this.setLayout(new BorderLayout());
-        this.listingOrderPanel = new ListingOrderPanel();
-        this.add(listingOrderPanel, BorderLayout.CENTER);
+        listingOrderPanel = new ListingOrderPanel();
 
+        // Style du bouton
         updateButton = new JButton("Modifier la commande");
         updateButton.setFont(new Font("Arial", Font.BOLD, 20));
         updateButton.setBorder(new EmptyBorder(10, 15, 10, 15));
 
         updateButton.addActionListener(new UpdateButtonListener());
+
+        this.add(listingOrderPanel, BorderLayout.CENTER);
         this.add(updateButton, BorderLayout.SOUTH);
     }
+
+    // LISTENERS
     private class UpdateButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             Order selected = listingOrderPanel.getOrdersList().getSelectedValue();
-            if (selected == null) {
+            if (selected != null) {
+                removeAll();
+                add(new EditOrderPanel(selected), BorderLayout.CENTER);
+
+                revalidate();
+                repaint();
+            }else{
                 JOptionPane.showMessageDialog(null, "Veuillez sélectionner une commande");
-                return;
             }
-            removeAll();
-            EditOrderPanel editOrderPanel = new EditOrderPanel(selected);
-            add(editOrderPanel, BorderLayout.CENTER);
-            revalidate();
-            repaint();
+
         }
     }
 }

@@ -3,6 +3,7 @@ package dataAccess;
 import model.Product;
 import interfaces.ProductDataAccess;
 import java.sql.*;
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class ProductDBAccess implements ProductDataAccess {
@@ -15,7 +16,7 @@ public class ProductDBAccess implements ProductDataAccess {
         try{
             sqlInstruction = "SELECT SUM(ol.quantity) 'totalQuantity' " +
                              "FROM orderline ol INNER JOIN `order` o " +
-                                "ON ol.order_id = o.id " +
+                             "ON ol.order_id = o.id " +
                              "WHERE ol.product_id = ?";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             preparedStatement.setInt(1, idProduct);
@@ -58,7 +59,7 @@ public class ProductDBAccess implements ProductDataAccess {
             }
         }
         catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
         return products;
     }
@@ -71,7 +72,7 @@ public class ProductDBAccess implements ProductDataAccess {
             preparedStatement.executeUpdate();
         }
         catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
     }
@@ -110,7 +111,7 @@ public class ProductDBAccess implements ProductDataAccess {
             preparedStatement.executeUpdate();
         }
         catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
 
@@ -134,7 +135,7 @@ public class ProductDBAccess implements ProductDataAccess {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
 }
