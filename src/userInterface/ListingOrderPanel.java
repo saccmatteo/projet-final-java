@@ -1,6 +1,7 @@
 package userInterface;
 
 import controller.OrderController;
+import controller.OrderLineController;
 import model.Order;
 
 import javax.swing.*;
@@ -9,11 +10,13 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class ListingOrderPanel extends JPanel {
-    private OrderController orderController;
     private JLabel commandLabel;
     private ArrayList<Order> orders;
     private JList<Order> ordersList;
     private JScrollPane ordersScrollPane;
+
+    private OrderController orderController;
+    private OrderLineController orderLineController;
 
     // CONSTRUCTORS
     public ListingOrderPanel() {
@@ -21,11 +24,16 @@ public class ListingOrderPanel extends JPanel {
 
         try {
             setOrderController(new OrderController());
+            setOrderLineController(new OrderLineController());
             this.orders = orderController.getAllOrders();
 
             //cas où la ArrayList est vide
             if (orders == null || orders.isEmpty()) { // C'est la meme les 2 ?
                 commandLabel.setText("Aucune commande à afficher.");
+            }
+
+            for (Order order : orders) {
+                order.setTotaPrice(orderLineController.getTotalPriceOrderLine(order.getId()));
             }
 
             ordersList = new JList<>(orders.toArray(new Order[0]));
@@ -75,6 +83,10 @@ public class ListingOrderPanel extends JPanel {
 
     public void setOrderController(OrderController orderController) {
         this.orderController = orderController;
+    }
+
+    public void setOrderLineController(OrderLineController orderLineController) {
+        this.orderLineController = orderLineController;
     }
 
     public JList<Order> getOrdersList() {

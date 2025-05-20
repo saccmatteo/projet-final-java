@@ -11,6 +11,27 @@ import java.util.ArrayList;
 public class OrderLineDBAccess implements OrderLineDataAccess {
     private String sqlInstruction;
     private PreparedStatement preparedStatement;
+    private ResultSet data;
+
+    public Double getTotalPriceOrderLine(Integer idOrder){
+        Double totalPrice = 0.0;
+        try{
+            sqlInstruction = "SELECT * " +
+                             "FROM orderline " +
+                             "WHERE order_id = ?";
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1, idOrder);
+            data = preparedStatement.executeQuery();
+
+            while (data.next()){
+                totalPrice += data.getInt("quantity") * data.getDouble("unit_price");
+            }
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return totalPrice;
+    }
 
     public void createOrderLine(OrderLine orderLine, int orderId){
         try{

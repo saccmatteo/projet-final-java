@@ -15,6 +15,9 @@ public class OrderLineManager {
         this.dao = dao;
     }
 
+    public Double getTotalPriceOrderLine(Integer idOrder){
+        return dao.getTotalPriceOrderLine(idOrder);
+    }
     public void createOrderLine(OrderLine orderLine, int orderId){
         dao.createOrderLine(orderLine, orderId);
     }

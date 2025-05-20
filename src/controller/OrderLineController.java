@@ -14,6 +14,10 @@ public class OrderLineController {
         this.manager = manager;
     }
 
+    public Double getTotalPriceOrderLine(Integer idOrder){
+        return manager.getTotalPriceOrderLine(idOrder);
+    }
+
     public void createOrderLine(OrderLine orderLine, int orderId){
         manager.createOrderLine(orderLine, orderId);
     }

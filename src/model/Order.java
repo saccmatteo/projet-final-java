@@ -13,6 +13,8 @@ public class Order {
     private String paymentMethodLabel;
     private User user;
 
+    private Double totalPrice;
+
     // CONSTRUCTORS
         // Java -> BD
     public Order(LocalDate date, LocalDate paymentDate, Integer discountPercentage, String comment, Boolean isHappyHour, String statusLabel, String paymentMethodLabel, User user) {
@@ -33,6 +35,9 @@ public class Order {
     // Setters
     public void setId(Integer id){
         this.id = id;
+    }
+    public void setTotaPrice(Double totalPrice){
+        this.totalPrice = totalPrice;
     }
     // GETTERS
     public Integer getId() {
@@ -67,8 +72,7 @@ public class Order {
         return user;
     }
 
-    @Override
     public String toString() {
-        return "Commande " + id + " : prise par " + user.getFirstName() + " " + user.getLastName() + " le " + date;
+        return "Commande " + id + " (" + String.format("%.2f", totalPrice) + "€) : prise par " + user.getFirstName() + " " + user.getLastName() + " le " + date;
     }
 }
