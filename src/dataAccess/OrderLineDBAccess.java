@@ -3,6 +3,7 @@ package dataAccess;
 import interfaces.OrderLineDataAccess;
 import model.OrderLine;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class OrderLineDBAccess implements OrderLineDataAccess {

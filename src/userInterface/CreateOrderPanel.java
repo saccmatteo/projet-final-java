@@ -1,6 +1,9 @@
 package userInterface;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 import controller.*;
 import model.*;
 import java.awt.*;
@@ -64,6 +67,7 @@ public class CreateOrderPanel extends JPanel {
 
         commentsText = new JTextField();
         discountField = new JTextField();
+        discountField.getDocument().addDocumentListener(new refreshPriceListener());
 
         addProdButton = new JButton("Ajouter produit");
         deleteProdButton = new JButton("Supprimer produit");
@@ -72,6 +76,7 @@ public class CreateOrderPanel extends JPanel {
         priceText = "Prix total : ";
         totalPrice = 0.0;
         priceField = new JTextField(priceText + totalPrice);
+        priceField.setEnabled(false);
 
 
         happyHourRadio = new JCheckBox("Happy hour");
@@ -149,30 +154,29 @@ public class CreateOrderPanel extends JPanel {
     private class AddButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             Product selectedProd = listingProductPanel.getProductJList().getSelectedValue();
-            if (selectedProd == null) return;
+            if (selectedProd == null) {
+                return;
+            }
 
             int nbProd;
             try {
                 nbProd = Integer.parseInt(JOptionPane.showInputDialog(null, "Combien de " + selectedProd.getLabel() + " ?"));
             } catch (Exception ex) {
                 return;
+            } // à regarder si le le produit est null ou si c'est 0 non ?
+
+            int productQuantity = nbProd;
+            if (productQuantity <= 0) {
+                // Faire exception non ?
             }
 
-            int i = 0;
-            while (i < commandListModel.getSize() && selectedProd.getId() != commandListModel.getElementAt(i).getProduct().getId()) {
-                i++;
-            }
-
-            if (i == commandListModel.getSize()) {
-                commandListModel.addElement(new OrderLine(nbProd, selectedProd.getPrice(), selectedProd));
+            OrderLine existingOl = findOrderLine(selectedProd);
+            if (existingOl == null) {
+                commandListModel.addElement(new OrderLine(productQuantity, selectedProd.getPrice(), selectedProd));
             } else {
-                commandListModel.getElementAt(i).addQuantity(nbProd);
+                existingOl.addQuantity(productQuantity);
             }
-            totalPrice += selectedProd.getPrice() * nbProd;
-
-            priceField.setText(priceText + totalPrice + "€");
-            revalidate();
-            repaint();
+            calcTotalPrice();
         }
     }
 
@@ -181,12 +185,9 @@ public class CreateOrderPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             OrderLine selected = commandList.getSelectedValue();
             if (selected != null) {
-                totalPrice -= selected.getProduct().getPrice() * selected.getQuantity();
                 commandListModel.removeElement(selected);
+                calcTotalPrice();
             }
-            priceField.setText(priceText + totalPrice + "€");
-            revalidate();
-            repaint();
         }
     }
 
@@ -238,5 +239,54 @@ public class CreateOrderPanel extends JPanel {
             JOptionPane.showMessageDialog(null, "Commande enregistrée avec succès !");
             new ResetButtonListener().actionPerformed(null); // Reset après création
         }
+    }
+
+    private class refreshPriceListener implements DocumentListener {
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            calcTotalPrice();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            calcTotalPrice();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+
+        }
+    }
+
+    private OrderLine findOrderLine(Product prod) {
+        for (int i = 0; i < commandListModel.getSize(); i++) {
+            OrderLine ol = commandListModel.getElementAt(i);
+            if (ol.getProduct().getId().equals(prod.getId())) {
+                return ol;
+            }
+        }
+        return null;
+    }
+
+    private void calcTotalPrice() {
+        // 1) Calcul du total brut
+        double rawTotal = 0;
+        for (int i = 0; i < commandListModel.getSize(); i++) {
+            OrderLine ol = commandListModel.getElementAt(i);
+            rawTotal += ol.getProduct().getPrice() * ol.getQuantity();
+        }
+        // Calcul du pourcentage de remise
+        int discountPct;
+        String txt = discountField.getText().trim();
+        discountPct = txt.isEmpty() ? 0 : Integer.parseInt(txt);
+        if (discountPct < 0 || discountPct > 100) {
+            discountPct = 0;
+        }
+        // Application de la remise
+        double net = (100 - discountPct) / 100.0 * rawTotal;
+        // Affichage
+        priceField.setText(priceText + String.format("%.2f€", net));
+        revalidate();
+        repaint();
     }
 }
