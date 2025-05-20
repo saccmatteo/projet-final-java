@@ -254,7 +254,7 @@ public class CreateOrderPanel extends JPanel {
 
         @Override
         public void changedUpdate(DocumentEvent e) {
-
+            // Pas utile dans notre cas
         }
     }
 
