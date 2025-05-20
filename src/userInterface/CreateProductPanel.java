@@ -189,7 +189,7 @@ public class CreateProductPanel extends JPanel {
                         stock,
                         productThreshold,
                         withGluten,
-                        alcoholPct,
+                        alcoholPct, // ou (isAlcoholRadio.isSelected()) ? Double.parseDouble(alcoholPercentageField.getText().trim()) : null,
                         today,
                         today,
                         productDescription,

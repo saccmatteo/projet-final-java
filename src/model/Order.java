@@ -1,10 +1,6 @@
 package model;
 
-import businessLogic.OrderLineManager;
-import controller.OrderLineController;
-
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class Order {
     private Integer id;

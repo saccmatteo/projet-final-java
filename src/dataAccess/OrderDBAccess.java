@@ -26,11 +26,10 @@ public class OrderDBAccess implements OrderDataAccess {
             data = preparedStatement.executeQuery();
 
             while (data.next()) {
-                Date sqlPaymentDate = data.getDate("payment_date");
                 Order newOrder = new Order(
                         data.getInt("id"),
                         data.getDate("order_date").toLocalDate(),
-                        (sqlPaymentDate != null) ? sqlPaymentDate.toLocalDate() : null, //si c'est en cours en gros cv etre null car pas encore payé
+                        crudUtils.getNullableDate(data, "payment_date"), //si c'est en cours en gros cv etre null car pas encore payé
                         crudUtils.getNullableInt(data, "discount_percentage"),
                         crudUtils.getNullableString(data, "comment"),
                         data.getBoolean("is_happy_hour"),
@@ -64,10 +63,10 @@ public class OrderDBAccess implements OrderDataAccess {
             preparedStatement.setString(8, order.getPaymentMethodLabel());
             preparedStatement.executeUpdate();
 
-            data = preparedStatement.getGeneratedKeys();
+            data = preparedStatement.getGeneratedKeys(); // id de la commande
             if (data.next()) {
                 int generatedId = data.getInt(1);
-                order.setId(data.getInt(1));
+                // order.setId(data.getInt(1));
                 return generatedId;
             }
         } catch (SQLException e) {

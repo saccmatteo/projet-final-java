@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import beerThread.*;
+import controller.ConnectionController;
 
 public class MainWindow extends JFrame {
     private JLabel welcomeLabel;
@@ -15,6 +16,7 @@ public class MainWindow extends JFrame {
     private JMenu welcomeMenu, commandMenu, productMenu, dataBaseMenu;
     private JMenuItem welcomeMenuItem, deleteCommandMenuItem, addCommandMenuItem, viewCommandMenuItem, updateCommandMenuItem, closeCommandMenuItem, deleteProductMenuItem, addProductMenuItem, viewProductMenuItem, updateProductMenuItem, researchMenuItem;
     private Container container;
+    private ConnectionController connectionController;
 
     // CONSTRUCTOR
     public MainWindow() {
@@ -24,10 +26,14 @@ public class MainWindow extends JFrame {
         this.setBounds(0, 0, 1920, 1080);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
+                connectionController.closeConnection();
                 System.exit(0);
             }
         });
         this.setLayout(new BorderLayout());
+
+        // Controller
+        connectionController = new ConnectionController();
 
         // Container
         container = this.getContentPane();

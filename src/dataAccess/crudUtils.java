@@ -55,4 +55,9 @@ public class crudUtils {
         String value = rs.getString(columnLabel);
         return rs.wasNull() ? null : value;
     }
+
+    public static LocalDate getNullableDate(ResultSet rs, String columnLabel) throws SQLException {
+        java.sql.Date date = rs.getDate(columnLabel);
+        return rs.wasNull() ? null : date.toLocalDate();
+    }
 }

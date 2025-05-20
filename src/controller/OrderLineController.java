@@ -1,13 +1,9 @@
 package controller;
 
 import businessLogic.OrderLineManager;
-import interfaces.OrderLineDataAccess;
-import model.Order;
 import model.OrderLine;
 
-import java.util.ArrayList;
-
-public class OrderLineController implements OrderLineDataAccess {
+public class OrderLineController {
     private OrderLineManager manager;
 
     public OrderLineController() {

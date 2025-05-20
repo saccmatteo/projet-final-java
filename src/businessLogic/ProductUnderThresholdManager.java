@@ -3,7 +3,6 @@ package businessLogic;
 import dataAccess.ProductUnderThresholdDBAccess;
 import interfaces.ProductUnderThresholdDataAccess;
 import model.ProductsUnderThreshold;
-
 import java.util.ArrayList;
 
 public class ProductUnderThresholdManager {
