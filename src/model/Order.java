@@ -67,6 +67,10 @@ public class Order {
         return user.getId();
     }
 
+    public User getUser() {
+        return user;
+    }
+
     @Override
     public String toString() {
         return "Commande " + id + " : prise par " + user.getFirstName() + " " + user.getLastName() + " le " + date;

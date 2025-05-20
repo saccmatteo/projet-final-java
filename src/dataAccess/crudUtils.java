@@ -15,6 +15,14 @@ public class crudUtils {
         }
     }
 
+    public static void setNullableDate(PreparedStatement ps, int parameterIndex, LocalDate value) throws SQLException {
+        if (value != null) {
+            ps.setDate(parameterIndex, Date.valueOf(value));
+        } else {
+            ps.setNull(parameterIndex, Types.DATE);
+        }
+    }
+
     public static void setNullableDouble(PreparedStatement ps, int parameterIndex, Double value) throws SQLException {
         if (value != null) {
             ps.setDouble(parameterIndex, value);

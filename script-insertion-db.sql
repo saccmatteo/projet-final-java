@@ -78,16 +78,16 @@ INSERT INTO `order` (
     order_date, payment_date, discount_percentage, `comment`,
     is_happy_hour, status_label, user_id, payment_method_label
 ) VALUES
-      ('2025-04-01','2025-04-01',  0,'RAS',           FALSE,'En cours', 1,'Carte Bancaire'),
-      ('2025-04-01','2025-04-01', 10,'',              TRUE, 'En cours', 2,'Espèces'),
-      ('2025-04-02','2025-04-02',  5,'Client fidèle', FALSE,'En cours', 1,'Carte Bancaire'),
-      ('2025-04-02','2025-04-02',  0,'',              TRUE, 'En cours', 3,'Carte Bancaire'),
-      ('2025-04-03','2025-04-03',  0,'',              FALSE,'En cours', 2,'Carte Bancaire'),
-      ('2025-04-03','2025-04-03', 20,'Promo spéciale', TRUE, 'En cours', 1,'Espèces'),
-      ('2025-04-04','2025-04-04',  0,'',              FALSE,'En cours', 3,'Carte Bancaire'),
-      ('2025-04-04','2025-04-04', 15,'',              TRUE, 'En cours', 2,'Carte Bancaire'),
-      ('2025-04-05','2025-04-05',  0,'Commande rapide',FALSE,'En cours', 1,'Espèces'),
-      ('2025-04-06','2025-04-06',  0,'',              FALSE,'En cours', 3,'Carte Bancaire');
+      ('2025-04-01', NULL,  0,'RAS',           FALSE,'En cours', 1,'Pas payée'),
+      ('2025-04-01', NULL, 10,'',              TRUE, 'En cours', 2,'Pas payée'),
+      ('2025-04-02', NULL,  5,'Client fidèle', FALSE,'En cours', 1,'Pas payée'),
+      ('2025-04-02', NULL,  0,'',              TRUE, 'En cours', 3,'Pas payée'),
+      ('2025-04-03', NULL,  0,'',              FALSE,'En cours', 2,'Pas payée'),
+      ('2025-04-03', NULL, 20,'Promo spéciale', TRUE, 'En cours', 1,'Pas payée'),
+      ('2025-04-04', NULL,  0,'',              FALSE,'En cours', 3,'Pas payée'),
+      ('2025-04-04', NULL, 15,'',              TRUE, 'En cours', 2,'Pas payée'),
+      ('2025-04-05', NULL,  0,'Commande rapide',FALSE,'En cours', 1,'Pas payée'),
+      ('2025-04-06', NULL,  0,'',              FALSE,'En cours', 3,'Pas payée');
 
 -- 9) Lignes de commande
 INSERT INTO orderLine (order_id, product_id, quantity, unit_price) VALUES

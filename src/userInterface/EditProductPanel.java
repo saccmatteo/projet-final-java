@@ -195,12 +195,14 @@ public class EditProductPanel extends JPanel {
 
                 String newCategory = (String) category.getSelectedItem();
 
-                // On garde les dates existantes (pas modifiables ici)
                 LocalDate distributionDate = product.getDistributionDate();
                 LocalDate lastRestockDate = product.getLastRestockDate();
+                if (!product.getNbInStock().equals(newStock)) {
+                    lastRestockDate = LocalDate.now();
+                }
 
                 Product updatedProduct = new Product(
-                        product.getId(), // ID du produit existant
+                        product.getId(),
                         newLabel,
                         newPrice,
                         newStock,

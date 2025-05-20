@@ -26,10 +26,11 @@ public class OrderDBAccess implements OrderDataAccess {
             data = preparedStatement.executeQuery();
 
             while (data.next()) {
+                Date sqlPaymentDate = data.getDate("payment_date");
                 Order newOrder = new Order(
                         data.getInt("id"),
                         data.getDate("order_date").toLocalDate(),
-                        data.getDate("payment_date").toLocalDate(),
+                        (sqlPaymentDate != null) ? sqlPaymentDate.toLocalDate() : null, //si c'est en cours en gros cv etre null car pas encore payé
                         crudUtils.getNullableInt(data, "discount_percentage"),
                         crudUtils.getNullableString(data, "comment"),
                         data.getBoolean("is_happy_hour"),
@@ -54,7 +55,7 @@ public class OrderDBAccess implements OrderDataAccess {
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction, Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setDate(1, Date.valueOf(order.getDate()));
-            preparedStatement.setDate(2, Date.valueOf(order.getPaymentDate()));
+            crudUtils.setNullableDate(preparedStatement, 2, order.getPaymentDate());
             crudUtils.setNullableInt(preparedStatement, 3, order.getDiscountPercentage());
             crudUtils.setNullableString(preparedStatement, 4, order.getComment());
             preparedStatement.setBoolean(5, order.getHappyHour());
@@ -111,7 +112,7 @@ public class OrderDBAccess implements OrderDataAccess {
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
 
             preparedStatement.setDate(1, Date.valueOf(order.getDate()));
-            preparedStatement.setDate(2, Date.valueOf(order.getPaymentDate()));
+            crudUtils.setNullableDate(preparedStatement, 2, order.getPaymentDate());
             crudUtils.setNullableInt(preparedStatement, 3, order.getDiscountPercentage());
             crudUtils.setNullableString(preparedStatement, 4, order.getComment());
             preparedStatement.setBoolean(5, order.getHappyHour());

@@ -204,7 +204,7 @@ public class CreateOrderPanel extends JPanel {
             }
 
             Order order = new Order(LocalDate.now(),
-                    LocalDate.now(),
+                    null,
                     discount,
                     commentsText.getText(),
                     happyHourRadio.isSelected(),
