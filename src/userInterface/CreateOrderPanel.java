@@ -1,17 +1,17 @@
 package userInterface;
+
 import javax.swing.*;
 import controller.*;
 import model.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.time.LocalDate;
 
 public class CreateOrderPanel extends JPanel {
     private Double prixTotal;
-    private JPanel usersPanel, middlePanel, formPanel, productPanel, commandPanel, buttonPanel;
+
+    // Composants
+    private JPanel usersPanel, formPanel, productPanel, commandPanel, middlePanel, buttonPanel;
     private JLabel usersLabel, commentsLabel, discountLabel;
     private JTextField commentsText, discountField;
     private JButton addProdButton, deleteProdButton, submitButton, resetButton;
@@ -33,34 +33,59 @@ public class CreateOrderPanel extends JPanel {
 
         setLayout(new BorderLayout());
 
-        // Panels
+        initFormComponents();
+
+        createFormPanel();
+
+        add(usersPanel, BorderLayout.NORTH);
+        add(middlePanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
+
+        addProdButton.addActionListener(new AddButtonListener());
+        deleteProdButton.addActionListener(new DeleteButtonListener());
+        submitButton.addActionListener(new SubmitButtonListener());
+        resetButton.addActionListener(new ResetButtonListener());
+        happyHourRadio.addItemListener(new HappyHourListener());
+    }
+
+    //itialise les composants du form
+    private void initFormComponents() {
         usersPanel = new JPanel();
-        formPanel = new JPanel(new GridLayout(3, 2));
-        productPanel = new JPanel(new GridLayout(1, 2));
-        listingProductPanel = new ListingProductPanel();
+        formPanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        productPanel = new JPanel(new GridLayout(1, 2, 10, 10));
         commandPanel = new JPanel(new BorderLayout());
         middlePanel = new JPanel(new BorderLayout());
-        buttonPanel = new JPanel();
+        buttonPanel = new JPanel(new FlowLayout());
 
-        // User Panel
         usersLabel = new JLabel("Utilisateur gérant la commande : ");
         usersLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        commentsLabel = new JLabel("Commentaires : ");
+        discountLabel = new JLabel("Réduction : ");
+
+        commentsText = new JTextField();
+        discountField = new JTextField();
+
+        addProdButton = new JButton("Ajouter produit");
+        deleteProdButton = new JButton("Supprimer produit");
+        submitButton = new JButton("Valider commande");
+        resetButton = new JButton("Réinitialiser");
+
+        happyHourRadio = new JCheckBox("Happy hour");
 
         users = new JComboBox<>(userController.getAllUsers().toArray(new User[0]));
         users.setSelectedIndex(-1);
         users.setPreferredSize(new Dimension(500, 50));
 
+        commandListModel = new DefaultListModel<>();
+        commandList = new JList<>(commandListModel);
+
+        listingProductPanel = new ListingProductPanel();
+    }
+
+    //créé le formulaire
+    private void createFormPanel() {
         usersPanel.add(usersLabel);
         usersPanel.add(users);
-
-        // Form Panel
-        happyHourRadio = new JCheckBox("Happy hour");
-        commentsLabel = new JLabel("Commentaires : ");
-        commentsText = new JTextField();
-        discountLabel = new JLabel("Réduction : ");
-        discountField = new JTextField();
-
-        happyHourRadio.addItemListener(new HappyHourListener());
 
         formPanel.add(happyHourRadio);
         formPanel.add(new JLabel());
@@ -69,42 +94,24 @@ public class CreateOrderPanel extends JPanel {
         formPanel.add(commentsLabel);
         formPanel.add(commentsText);
 
-        // Command List
-        commandListModel = new DefaultListModel<>();
-        commandList = new JList<>(commandListModel);
+        // Panel commande (liste panier)
         JScrollPane commandScroll = new JScrollPane(commandList);
-
         commandPanel.add(new JLabel("Panier :"), BorderLayout.NORTH);
         commandPanel.add(commandScroll, BorderLayout.CENTER);
 
-        // Product Panel
+        // Panel produits + panier
         productPanel.add(listingProductPanel);
         productPanel.add(commandPanel);
 
-        // Middle Panel = Form + Products
+        // Panel milieu
         middlePanel.add(formPanel, BorderLayout.NORTH);
         middlePanel.add(productPanel, BorderLayout.CENTER);
 
-        // Button Panel
-        addProdButton = new JButton("Ajouter produit");
-        deleteProdButton = new JButton("Supprimer produit");
-        submitButton = new JButton("Valider commande");
-        resetButton = new JButton("Réinitialiser");
-
-        addProdButton.addActionListener(new AddButtonListener());
-        deleteProdButton.addActionListener(new DeleteButtonListener());
-        submitButton.addActionListener(new SubmitButtonListener());
-        resetButton.addActionListener(new ResetButtonListener());
-
+        // Panel boutons
         buttonPanel.add(addProdButton);
         buttonPanel.add(deleteProdButton);
         buttonPanel.add(submitButton);
         buttonPanel.add(resetButton);
-
-        // Ajout des panels
-        add(usersPanel, BorderLayout.NORTH);
-        add(middlePanel, BorderLayout.CENTER);
-        add(buttonPanel, BorderLayout.SOUTH);
     }
 
     // SETTERS

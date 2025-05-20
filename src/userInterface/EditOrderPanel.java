@@ -44,6 +44,7 @@ public class EditOrderPanel extends JPanel {
         discountField = new JTextField();
         commentField = new JTextField();
         happyHourCheckBox = new JCheckBox("Happy Hour");
+        happyHourCheckBox.addItemListener(new HappyHourListener());
     }
 
     //créé le formulaire
@@ -66,6 +67,19 @@ public class EditOrderPanel extends JPanel {
         formPanel.add(happyHourCheckBox);
 
         return formPanel;
+    }
+
+    private class HappyHourListener implements ItemListener {
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                discountField.setText("50");
+                discountField.setEnabled(false);
+            } else {
+                discountField.setText("");
+                discountField.setEnabled(true);
+            }
+        }
     }
 
     //va remplir les textFields du formulaire

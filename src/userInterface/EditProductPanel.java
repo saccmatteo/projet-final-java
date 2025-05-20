@@ -219,8 +219,7 @@ public class EditProductPanel extends JPanel {
                 productController.updateProduct(updatedProduct);
                 JOptionPane.showMessageDialog(EditProductPanel.this, "Produit mis à jour avec succès !");
                 removeAll();
-                UpdateProductPanel updateProductPanel = new UpdateProductPanel();
-                add(updateProductPanel);
+                add(new UpdateProductPanel());
                 revalidate();
                 repaint();
             } catch (NumberFormatException ex) {
