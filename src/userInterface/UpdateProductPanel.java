@@ -1,6 +1,5 @@
 package userInterface;
 
-import model.Order;
 import model.Product;
 
 import javax.swing.*;

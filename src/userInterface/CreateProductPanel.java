@@ -176,13 +176,13 @@ public class CreateProductPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             try {
                 String productLabel = labelField.getText();
-                double productPrice = Double.parseDouble(priceField.getText().trim());
-                int stock = Integer.parseInt(nbStockField.getText().trim());
-                int productThreshold = Integer.parseInt(tresholdField.getText().trim());
-                boolean glutenFree = glutenFreeRadio.isSelected();
+                Double productPrice = Double.parseDouble(priceField.getText().trim());
+                Integer stock = Integer.parseInt(nbStockField.getText().trim());
+                Integer productThreshold = Integer.parseInt(tresholdField.getText().trim());
+                Boolean glutenFree = glutenFreeRadio.isSelected();
                 String productDescription = descriptionField.getText();
                 String supplierLabel = supplierNameField.getText();
-                int supplierPhoneNb = Integer.parseInt(supplierPhoneField.getText().trim());
+                String supplierPhoneNb = supplierPhoneField.getText().trim();
                 String productCategory = (String) categoryBox.getSelectedItem();
                 LocalDate today = LocalDate.now();
                 Double alcoholPct = null;

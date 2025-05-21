@@ -79,13 +79,13 @@ INSERT INTO `order` (
     is_happy_hour, status_label, user_id, payment_method_label
 ) VALUES
       ('2025-04-01', NULL,  0,'RAS',           FALSE,'En cours', 1,'Pas payée'),
-      ('2025-04-01', NULL, 10,'',              TRUE, 'En cours', 2,'Pas payée'),
+      ('2025-04-01', NULL, 50,'',              TRUE, 'En cours', 2,'Pas payée'),
       ('2025-04-02', NULL,  5,'Client fidèle', FALSE,'En cours', 1,'Pas payée'),
       ('2025-04-02', NULL,  0,'',              TRUE, 'En cours', 3,'Pas payée'),
       ('2025-04-03', NULL,  0,'',              FALSE,'En cours', 2,'Pas payée'),
-      ('2025-04-03', NULL, 20,'Promo spéciale', TRUE, 'En cours', 1,'Pas payée'),
+      ('2025-04-03', NULL, 60,'Promo spéciale', TRUE, 'En cours', 1,'Pas payée'),
       ('2025-04-04', NULL,  0,'',              FALSE,'En cours', 3,'Pas payée'),
-      ('2025-04-04', NULL, 15,'',              TRUE, 'En cours', 2,'Pas payée'),
+      ('2025-04-04', NULL, 50,'',              TRUE, 'En cours', 2,'Pas payée'),
       ('2025-04-05', NULL,  0,'Commande rapide',FALSE,'En cours', 1,'Pas payée'),
       ('2025-04-06', NULL,  0,'',              FALSE,'En cours', 3,'Pas payée');
 

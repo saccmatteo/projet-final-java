@@ -40,7 +40,6 @@ public class CrudUtils {
     }
 
     // Méthodes pour get des null potentiels
-
     public static Integer getNullableInt(ResultSet rs, String columnLabel) throws SQLException {
         int value = rs.getInt(columnLabel);
         return rs.wasNull() ? null : value;

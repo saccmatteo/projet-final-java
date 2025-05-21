@@ -5,7 +5,6 @@ import java.util.Date;
 
 public class Product {
     private Integer id;
-    private Integer supplierPhoneNumber;
     private Integer nbInStock;
     private Integer minTreshold;
 
@@ -15,6 +14,7 @@ public class Product {
     private String label;
     private String description;
     private String supplierLabel;
+    private String supplierPhoneNumber;
     private String categoryLabel;
 
     private Boolean isGlutenFree;
@@ -23,7 +23,7 @@ public class Product {
 
     // CONSTRUCTOR
         // Java -> BD -> Pas besoin d'ID grâce à AUTO INCREMENT
-    public Product(String label, Double price, Integer nbInStock, Integer minTreshold, Boolean isGlutenFree, Double alcoholPercentage, LocalDate distributionDate, LocalDate lastRestockDate, String description, String supplierLabel, Integer supplierPhoneNumber, String categoryLabel) {
+    public Product(String label, Double price, Integer nbInStock, Integer minTreshold, Boolean isGlutenFree, Double alcoholPercentage, LocalDate distributionDate, LocalDate lastRestockDate, String description, String supplierLabel, String supplierPhoneNumber, String categoryLabel) {
         this.label = label;
         this.price = price;
         this.nbInStock = nbInStock;
@@ -38,7 +38,7 @@ public class Product {
         this.categoryLabel = categoryLabel;
     }
         // BD -> Java
-    public Product(Integer id, String label, Double price, Integer nbInStock, Integer minTreshold, Boolean isGlutenFree, Double alcoholPercentage, LocalDate distributionDate, LocalDate lastRestockDate, String description, String supplierLabel, int supplierPhoneNumber, String categoryLabel) {
+    public Product(Integer id, String label, Double price, Integer nbInStock, Integer minTreshold, Boolean isGlutenFree, Double alcoholPercentage, LocalDate distributionDate, LocalDate lastRestockDate, String description, String supplierLabel, String supplierPhoneNumber, String categoryLabel) {
         this(label, price, nbInStock, minTreshold, isGlutenFree, alcoholPercentage, distributionDate, lastRestockDate, description, supplierLabel, supplierPhoneNumber, categoryLabel);
         this.id = id;
     }
@@ -77,7 +77,7 @@ public class Product {
     public String getSupplierLabel(){
         return supplierLabel;
     }
-    public Integer getSupplierPhoneNumber(){
+    public String getSupplierPhoneNumber(){
         return supplierPhoneNumber;
     }
     public String getCategoryLabel() {

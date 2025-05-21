@@ -51,7 +51,7 @@ CREATE TABLE `order` (
                          FOREIGN KEY (user_id)              REFERENCES `user`(id),
                          FOREIGN KEY (payment_method_label) REFERENCES paymentMethod(label),
 
-                         CHECK (discount_percentage IS NULL OR (discount_percentage BETWEEN 1 AND 100)),
+                         CHECK (discount_percentage IS NULL OR (discount_percentage BETWEEN 0 AND 100)),
                          CHECK (payment_date IS NULL OR payment_date >= order_date)
 );
 

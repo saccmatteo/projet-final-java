@@ -94,6 +94,10 @@ public class ListingOrderPanel extends JPanel {
         // Methode pour refresh l'affichage
     public void refreshOrders() {
         this.orders = orderController.getAllOrders();
+        for (Order order : orders) {
+            order.setTotaPrice(orderLineController.getTotalPriceOrderLine(order.getId()));
+        }
+
         ordersList.setListData(orders.toArray(new Order[0])); // SET les anciens avec des nouvelles Order (MAJ)
     }
 
