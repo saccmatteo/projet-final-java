@@ -53,7 +53,7 @@ public class ProductDBAccess implements ProductDataAccess {
                         data.getDate("last_restock_date").toLocalDate(),
                         CrudUtils.getNullableString(data, "description"),
                         data.getString("supplier_label"),
-                        data.getInt("supplier.phone_number"),
+                        data.getString("supplier.phone_number"),
                         data.getString("category_label")
                 );
                 products.add(newProduct);
@@ -80,18 +80,28 @@ public class ProductDBAccess implements ProductDataAccess {
     public void createProduct(Product product) {
         try{
             // Category
-            sqlInstruction = "INSERT IGNORE INTO category VALUES (?)";
+            sqlInstruction = "INSERT INTO category (label) " +
+                             "SELECT ? " +
+                             "FROM DUAL " +
+                             "WHERE NOT EXISTS " +
+                             "(SELECT 1 FROM category WHERE label = ?)";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
 
             preparedStatement.setString(1, product.getCategoryLabel());
+            preparedStatement.setString(2, product.getCategoryLabel());
             preparedStatement.executeUpdate();
 
             // Supplier
-            sqlInstruction = "INSERT IGNORE INTO supplier VALUES (?, ?)";
+            sqlInstruction = "INSERT INTO supplier (label, phone_number) " +
+                             "SELECT ?, ? " +
+                             "FROM DUAL " +
+                             "WHERE NOT EXISTS " +
+                             "(SELECT 1 FROM supplier WHERE label = ?)";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
 
             preparedStatement.setString(1, product.getSupplierLabel());
-            preparedStatement.setInt(2, product.getSupplierPhoneNumber());
+            preparedStatement.setString(2, product.getSupplierPhoneNumber());
+            preparedStatement.setString(3, product.getSupplierLabel());
             preparedStatement.executeUpdate();
 
             // Product&é

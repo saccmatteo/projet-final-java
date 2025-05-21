@@ -202,7 +202,7 @@ public class CreateOrderPanel extends JPanel {
             discountField.setEnabled(true);
             happyHourRadio.setSelected(false);
             commandListModel.clear();
-            totalPrice = 0.0;
+            calcTotalPrice();
         }
     }
 

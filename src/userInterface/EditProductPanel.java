@@ -186,7 +186,7 @@ public class EditProductPanel extends JPanel {
                 Boolean newGlutenFree = glutenFree.isSelected();
                 String newDescription = description.getText();
                 String newSupplierName = supplierName.getText();
-                Integer newSupplierPhone = Integer.parseInt(supplierPhone.getText());
+                String newSupplierPhone = supplierPhone.getText().trim();
 
                 Double newAlcoholPercentage = null;
                 if (isAlcohol.isSelected()) {

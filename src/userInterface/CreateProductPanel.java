@@ -174,7 +174,7 @@ public class CreateProductPanel extends JPanel {
                 boolean withGluten = !glutenFreeRadio.isSelected(); // inversion logique
                 String productDescription = descriptionField.getText();
                 String supplierLabel = supplierNameField.getText().trim();
-                int supplierPhoneNb = Integer.parseInt(supplierPhoneField.getText().trim());
+                String supplierPhoneNb = supplierPhoneField.getText().trim();
                 String productCategory = (String) categoryBox.getSelectedItem();
                 LocalDate today = LocalDate.now();
                 Double alcoholPct = null;
