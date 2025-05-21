@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.function.Supplier;
 
 public class ResearchPanel extends JPanel {
-    private String [] researches = {"Boissons alcoolisées", "Produit en dessous du seuil", "Informations commande d'un produit", "Moyenne mensuelle (6 mois)"};
+    private String [] researches = {"Ventes de boissons alcoolisées depuis une date", "Produit en dessous d'un seuil", "Informations commandes d'un produit", "Moyenne mensuelle (6 mois)"};
 
     private JPanel researchPanel, tablePanel, dynamicPanel;
     private JLabel averageProductSelledByMonthLabel, categoryLabel;
@@ -75,7 +75,7 @@ public class ResearchPanel extends JPanel {
             String selectedItem = (String)researchComboBox.getSelectedItem();
             if (selectedItem != null) {
                 switch (selectedItem) {
-                    case "Boissons alcoolisées":
+                    case "Ventes de boissons alcoolisées depuis une date":
                         dynamicPanel.removeAll();
                         tablePanel.removeAll();
 
@@ -99,7 +99,7 @@ public class ResearchPanel extends JPanel {
                         revalidate();
                         repaint();
                         break;
-                    case "Produit en dessous du seuil":
+                    case "Produit en dessous d'un seuil":
                         dynamicPanel.removeAll();
                         tablePanel.removeAll();
 
@@ -113,7 +113,7 @@ public class ResearchPanel extends JPanel {
                         dynamicPanel.revalidate();
                         dynamicPanel.repaint();
                         break;
-                    case "Informations commande d'un produit":
+                    case "Informations commandes d'un produit":
                         dynamicPanel.removeAll();
                         tablePanel.removeAll();
 
@@ -195,7 +195,7 @@ public class ResearchPanel extends JPanel {
             String selectedItem = (String)researchComboBox.getSelectedItem();
             if (selectedItem != null) {
                 switch (selectedItem) {
-                    case "Boissons alcoolisées":
+                    case "Ventes de boissons alcoolisées depuis une date":
                         int day = (int) daySpinner.getValue();
                         int month = (int) monthSpinner.getValue();
                         int year = (int) yearSpinner.getValue();
@@ -204,13 +204,13 @@ public class ResearchPanel extends JPanel {
                         alcoholicDrinksModel = new AlcoholicDrinksModel(researchesController.getAlcDrinksBeforeDate(date));
                         showTable(alcoholicDrinksModel);
                         break;
-                    case "Produit en dessous du seuil":
+                    case "Produit en dessous d'un seuil":
                         int treshold = (int)tresholdSpinner.getValue();
 
                         productsUnderThresholdModel = new ProductsUnderThresholdModel(researchesController.getProductsUnderThreshold(treshold));
                         showTable(productsUnderThresholdModel);
                         break;
-                    case "Informations commande d'un produit":
+                    case "Informations commandes d'un produit":
                         int selectedProductId = productJList.getSelectedValue().getId();
 
                         orderInfosModel = new OrderInfosModel(researchesController.getAllOrdersInfos(selectedProductId));
