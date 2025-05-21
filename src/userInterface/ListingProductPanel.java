@@ -38,7 +38,7 @@ public class ListingProductPanel extends JPanel {
         categoryLabel = new JLabel("Sélectionnez une catégorie : ");
         categoryComboBox = new JComboBox<>(categoryList.toArray(new String[0]));
         categoryComboBox.setSelectedIndex(-1);
-        categoryComboBox.addActionListener(new categoryComboboxListener());
+        categoryComboBox.addActionListener(new CategoryComboboxListener());
 
         //categoryPanel apparence
         categoryPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -98,7 +98,7 @@ public class ListingProductPanel extends JPanel {
             productJList.setListData(new Product[0]);
         }
     }
-    private class categoryComboboxListener implements ActionListener {
+    private class CategoryComboboxListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             //CASTING OBLIGATOIRE CAR LE SELECTED ITEM EST UN OBJECT ET PAS UN STRING

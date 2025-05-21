@@ -30,26 +30,25 @@ public class DeleteProductPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             Product selected = listingProductPanel.getProductJList().getSelectedValue();
 
-            if (selected == null) {
-                JOptionPane.showMessageDialog(null, "Aucun produit sélectionnée.", "Erreur", JOptionPane.ERROR_MESSAGE);
-                return;
+            if (selected != null) {
+                int reponse = JOptionPane.showOptionDialog(
+                        null,
+                        "Voulez-vous supprimer ce produit ?",
+                        "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.WARNING_MESSAGE,
+                        null,
+                        new Object[]{"Oui", "Non"},
+                        null
+                );
+                if (reponse == JOptionPane.YES_OPTION) {
+                    listingProductPanel.getProductController().deleteProduct(selected.getId());
+                    listingProductPanel.refreshAndFilter();
+
+                    JOptionPane.showMessageDialog(null, "Produit supprimée avec succès", "Suppression confirmée", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
-
-            int reponse = JOptionPane.showOptionDialog(
-                    null,
-                    "Voulez-vous supprimer ce produit ?",
-                    "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.WARNING_MESSAGE,
-                    null,
-                    new Object[]{"Oui", "Non"},
-                    null
-            );
-
-            if (reponse == JOptionPane.YES_OPTION) {
-                listingProductPanel.getProductController().deleteProduct(selected.getId());
-                listingProductPanel.refreshAndFilter();
-
-                JOptionPane.showMessageDialog(null, "Produit supprimée avec succès", "Suppression confirmée", JOptionPane.INFORMATION_MESSAGE);
+            else {
+                JOptionPane.showMessageDialog(null, "Aucun produit sélectionnée.", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
