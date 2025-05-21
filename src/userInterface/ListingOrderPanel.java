@@ -78,6 +78,9 @@ public class ListingOrderPanel extends JPanel {
     //utiliser cette méthode pour refresh dans l'affichage
     public void refreshOrders() {
         this.orders = orderController.getAllOrders();
+        for (Order order : orders) {
+            order.setTotaPrice(orderLineController.getTotalPriceOrderLine(order.getId()));
+        }
         ordersList.setListData(orders.toArray(new Order[0]));
     }
 
