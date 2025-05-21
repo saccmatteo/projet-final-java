@@ -16,41 +16,45 @@ public class DeleteProductPanel extends JPanel {
     public DeleteProductPanel() {
         this.setLayout(new BorderLayout());
         this.listingProductPanel = new ListingProductPanel();
-        this.add(listingProductPanel, BorderLayout.CENTER);
 
         deleteButton = new JButton("Supprimer le produit");
         deleteButton.setFont(new Font("Arial", Font.BOLD, 20));
         deleteButton.setBorder(new EmptyBorder(10, 15, 10, 15));
 
         deleteButton.addActionListener(new DeleteButtonListener());
+
+        this.add(listingProductPanel, BorderLayout.CENTER);
         this.add(deleteButton, BorderLayout.SOUTH);
     }
+
+    // LISTENERS
     private class DeleteButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Product selected = listingProductPanel.getProductJList().getSelectedValue();
+            Product selectedProduct = listingProductPanel.getProductJList().getSelectedValue();
 
-            if (selected == null) {
+            if (selectedProduct != null) {
+                int reponse = JOptionPane.showOptionDialog(
+                        null,
+                        "Voulez-vous supprimer ce produit ?",
+                        "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.WARNING_MESSAGE,
+                        null,
+                        new Object[]{"Oui", "Non"},
+                        null
+                );
+
+                if (reponse == JOptionPane.YES_OPTION) {
+                    listingProductPanel.getProductController().deleteProduct(selectedProduct.getId());
+                    listingProductPanel.refreshAndFilter();
+
+                    JOptionPane.showMessageDialog(null, "Produit supprimée avec succès", "Suppression confirmée", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }else{
                 JOptionPane.showMessageDialog(null, "Aucun produit sélectionnée.", "Erreur", JOptionPane.ERROR_MESSAGE);
-                return;
             }
 
-            int reponse = JOptionPane.showOptionDialog(
-                    null,
-                    "Voulez-vous supprimer ce produit ?",
-                    "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.WARNING_MESSAGE,
-                    null,
-                    new Object[]{"Oui", "Non"},
-                    null
-            );
 
-            if (reponse == JOptionPane.YES_OPTION) {
-                listingProductPanel.getProductController().deleteProduct(selected.getId());
-                listingProductPanel.refreshAndFilter();
-
-                JOptionPane.showMessageDialog(null, "Produit supprimée avec succès", "Suppression confirmée", JOptionPane.INFORMATION_MESSAGE);
-            }
         }
     }
 }

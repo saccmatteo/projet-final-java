@@ -1,6 +1,5 @@
 package userInterface;
 
-import model.OrderInfos;
 import model.ProductsUnderThreshold;
 
 import javax.swing.table.AbstractTableModel;
@@ -22,22 +21,24 @@ public class ProductsUnderThresholdModel extends AbstractTableModel {
         fireTableDataChanged();
     }
 
-    public void setProductsUnderThreshold(ArrayList<ProductsUnderThreshold> productsUnderThreshold) {
-        ProductsUnderThreshold = productsUnderThreshold;
-    }
 
+    // GETTERS
     public int getColumnCount() {
         return columnNames.size();
     }
-
     public int getRowCount() {
         return ProductsUnderThreshold.size();
     }
-
     public String getColumnName(int col) {
         return columnNames.get(col);
     }
 
+    // SETTERS
+    public void setProductsUnderThreshold(ArrayList<ProductsUnderThreshold> productsUnderThreshold) {
+        ProductsUnderThreshold = productsUnderThreshold;
+    }
+
+    // METHODES
     public Object getValueAt(int row, int col) {
         ProductsUnderThreshold productsUnderThreshold = ProductsUnderThreshold.get(row);
         switch (col) {
@@ -57,7 +58,6 @@ public class ProductsUnderThresholdModel extends AbstractTableModel {
                 return null;
         }
     }
-
     @Override
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {
@@ -77,4 +77,6 @@ public class ProductsUnderThresholdModel extends AbstractTableModel {
                 return null;
         }
     }
+
+
 }

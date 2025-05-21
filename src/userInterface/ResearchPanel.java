@@ -1,7 +1,9 @@
 package userInterface;
 
+import controller.CategoryController;
 import controller.ProductController;
 import controller.ResearchesController;
+import jdk.jfr.Category;
 import model.Product;
 
 import javax.swing.*;
@@ -14,8 +16,6 @@ import java.util.ArrayList;
 import java.util.function.Supplier;
 
 public class ResearchPanel extends JPanel {
-    private String [] researches = {"Boissons alcoolisées", "Produit en dessous du seuil", "Informations commande d'un produit", "Quantité moyenne mensuelle d'un produit"};
-
     private JPanel researchPanel, tablePanel, dynamicPanel;
     private JLabel averageProductSelledByMonthLabel;
     private JComboBox researchComboBox;
@@ -31,23 +31,25 @@ public class ResearchPanel extends JPanel {
 
     private ResearchesController researchesController;
     private ProductController productController;
+    private CategoryController categoryController;
 
     public ResearchPanel() {
         // Initialisation des variables
         setLayout(new BorderLayout());
         setResearchesController(new ResearchesController());
         setProductController(new ProductController());
-            // Panels
+        setCategoryController(new CategoryController());
+
+        // Panels
         researchPanel = new JPanel();
         dynamicPanel = new JPanel();
         tablePanel = new JPanel();
-            // J trucs
-        researchComboBox = new JComboBox(researches);
+            // ResearchCombobox
+        researchComboBox = new JComboBox(categoryController.getAllCategories().toArray(new String[0]));
         researchComboBox.setSelectedIndex(-1);
         researchButton = new JButton("Effectuer la recherche");
-
-        // Listeners
-        researchComboBox.addActionListener(new researchListener());
+            // Listeners
+        researchComboBox.addActionListener(new ResearchComboboxListener());
         researchButton.addActionListener(new ResearchButtonListener());
 
         // Ajout au panels
@@ -63,13 +65,88 @@ public class ResearchPanel extends JPanel {
         this.setVisible(true);
     }
 
-    private class researchListener implements ActionListener {
+    // SETTERS
+    public void setResearchesController(ResearchesController researchesController) {
+        this.researchesController = researchesController;
+    }
+    public void setProductController(ProductController productController) {
+        this.productController = productController;
+    }
+    public void setCategoryController(CategoryController categoryController) {
+        this.categoryController = categoryController;
+    }
+
+    // METHODES
+    public void createProductList(){
+        ArrayList<Product> products = productController.getAllProducts();
+        productJList = new JList<>(products.toArray(new Product[0]));
+        productJList.setVisibleRowCount(5);
+
+        JScrollPane listScroll = new JScrollPane(productJList);
+        dynamicPanel.add(new JLabel("Choisir un produit :"));
+        dynamicPanel.add(listScroll);
+    }
+    private void showTable(AbstractTableModel model) {
+        table = new JTable(model);
+        table.setEnabled(false);
+        table.setRowHeight(50);
+
+        scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(1000, 800));
+        tablePanel.add(scrollPane);
+
+        tablePanel.revalidate();
+        tablePanel.repaint();
+    }
+
+    // LISTENERS
+    private class ResearchButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String selectedItem = (String)researchComboBox.getSelectedItem();
-            if (selectedItem != null) {
-                switch (selectedItem) {
-                    case "Boissons alcoolisées":
+            int indexSelectedItem = researchComboBox.getSelectedIndex();
+            if (researchComboBox.getSelectedItem() != null) {
+                switch (indexSelectedItem) {
+                    case 0:
+                        int day = (int) daySpinner.getValue();
+                        int month = (int) monthSpinner.getValue();
+                        int year = (int) yearSpinner.getValue();
+                        LocalDate date = LocalDate.of(year, month, day);
+
+                        alcoholicDrinksModel = new AlcoholicDrinksModel(researchesController.getAlcDrinksBeforeDate(date));
+                        showTable(alcoholicDrinksModel);
+                        break;
+                    case 1:
+                        int treshold = (int)tresholdSpinner.getValue();
+
+                        productsUnderThresholdModel = new ProductsUnderThresholdModel(researchesController.getProductsUnderThreshold(treshold));
+                        showTable(productsUnderThresholdModel);
+                        break;
+                    case 2:
+                        int selectedProductId = productJList.getSelectedValue().getId();
+
+                        orderInfosModel = new OrderInfosModel(researchesController.getAllOrdersInfos(selectedProductId));
+                        showTable(orderInfosModel);
+                        break;
+                    case 3:
+                        selectedProductId = productJList.getSelectedValue().getId();
+                        averageProductSelledByMonthLabel.setText("Moyenne par mois : " + String.format("%.2f", productController.getAverageProductSelledByMonth(selectedProductId)));
+
+                        tablePanel.revalidate();
+                        tablePanel.repaint();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+    private class ResearchComboboxListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int indexSelectedItem = researchComboBox.getSelectedIndex();
+            if (researchComboBox.getSelectedItem() != null) {
+                switch (indexSelectedItem) {
+                    case 0:
                         dynamicPanel.removeAll();
                         tablePanel.removeAll();
 
@@ -79,17 +156,17 @@ public class ResearchPanel extends JPanel {
                         yearSpinner = new JSpinner(new SpinnerNumberModel(LocalDate.now().getYear(), 1900, 2100, 1));
 
                         // Ajout au panelDynamic (South)
-                        dynamicPanel.add(new JLabel("Jour:"));
+                        dynamicPanel.add(new JLabel("Jour :"));
                         dynamicPanel.add(daySpinner);
-                        dynamicPanel.add(new JLabel("Mois:"));
+                        dynamicPanel.add(new JLabel("Mois :"));
                         dynamicPanel.add(monthSpinner);
-                        dynamicPanel.add(new JLabel("Année:"));
+                        dynamicPanel.add(new JLabel("Année :"));
                         dynamicPanel.add(yearSpinner);
 
                         revalidate();
                         repaint();
                         break;
-                    case "Produit en dessous du seuil":
+                    case 1:
                         dynamicPanel.removeAll();
                         tablePanel.removeAll();
 
@@ -97,13 +174,13 @@ public class ResearchPanel extends JPanel {
                         tresholdSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
 
                         // Ajout au panelDynamic (South)
-                        dynamicPanel.add(new JLabel("Seuil:"));
+                        dynamicPanel.add(new JLabel("Seuil :"));
                         dynamicPanel.add(tresholdSpinner);
 
                         dynamicPanel.revalidate();
                         dynamicPanel.repaint();
                         break;
-                    case "Informations commande d'un produit":
+                    case 2:
                         dynamicPanel.removeAll();
                         tablePanel.removeAll();
 
@@ -112,7 +189,7 @@ public class ResearchPanel extends JPanel {
                         revalidate();
                         repaint();
                         break;
-                    case "Quantité moyenne mensuelle d'un produit":
+                    case 3:
                         dynamicPanel.removeAll();
                         tablePanel.removeAll();
 
@@ -130,80 +207,4 @@ public class ResearchPanel extends JPanel {
         }
     }
 
-    // SETTERS
-        // Controller
-    public void setResearchesController(ResearchesController researchesController) {
-        this.researchesController = researchesController;
-    }
-
-    public void setProductController(ProductController productController) {
-        this.productController = productController;
-    }
-
-    // METHODES
-    public void createProductList(){
-        ArrayList<Product> products = productController.getAllProducts();
-        productJList = new JList<>(products.toArray(new Product[0]));
-        productJList.setVisibleRowCount(5);
-        JScrollPane listScroll = new JScrollPane(productJList);
-        dynamicPanel.add(new JLabel("Choisir un produit :"));
-        dynamicPanel.add(listScroll);
-    }
-
-    private void showTable(AbstractTableModel model) {
-        tablePanel.removeAll();
-
-        table = new JTable(model);
-        table.setEnabled(false);
-        table.setRowHeight(50);
-
-        scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(1000, 800));
-        tablePanel.add(scrollPane);
-
-        tablePanel.revalidate();
-        tablePanel.repaint();
-    }
-
-    // LISTENERS
-    private class ResearchButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String selectedItem = (String)researchComboBox.getSelectedItem();
-            if (selectedItem != null) {
-                switch (selectedItem) {
-                    case "Boissons alcoolisées":
-                        int day = (int) daySpinner.getValue();
-                        int month = (int) monthSpinner.getValue();
-                        int year = (int) yearSpinner.getValue();
-                        LocalDate date = LocalDate.of(year, month, day);
-
-                        alcoholicDrinksModel = new AlcoholicDrinksModel(researchesController.getAlcDrinksBeforeDate(date));
-                        showTable(alcoholicDrinksModel);
-                        break;
-                    case "Produit en dessous du seuil":
-                        int treshold = (int)tresholdSpinner.getValue();
-
-                        productsUnderThresholdModel = new ProductsUnderThresholdModel(researchesController.getProductsUnderThreshold(treshold));
-                        showTable(productsUnderThresholdModel);
-                        break;
-                    case "Informations commande d'un produit":
-                        int selectedProductId = productJList.getSelectedValue().getId();
-
-                        orderInfosModel = new OrderInfosModel(researchesController.getAllOrdersInfos(selectedProductId));
-                        showTable(orderInfosModel);
-                        break;
-                    case "Quantité moyenne mensuelle d'un produit":
-                        selectedProductId = productJList.getSelectedValue().getId();
-                        averageProductSelledByMonthLabel.setText("Moyenne par mois : " + String.format("%.2f", productController.getAverageProductSelledByMonth(selectedProductId)));
-
-                        tablePanel.revalidate();
-                        tablePanel.repaint();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-    }
 }

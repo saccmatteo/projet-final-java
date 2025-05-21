@@ -1,5 +1,6 @@
 package userInterface;
 
+import controller.CategoryController;
 import controller.ProductController;
 import model.Product;
 
@@ -9,22 +10,19 @@ import java.awt.event.*;
 import java.time.LocalDate;
 
 public class EditProductPanel extends JPanel {
-    private Product product;
-    private ProductController productController;
-
     private JTextField label, price, alcoholPercentage, treshold, supplierName, supplierPhone, nbStock, description;
     private JComboBox<String> category;
     private JRadioButton glutenFree, isAlcohol;
     private JButton cancelButton, saveButton;
 
-    private final String[] categories = {
-            "Boisson alcoolisée", "Soft", "Snacks", "Sans gluten",
-            "Boisson chaude", "Glace"
-    };
+    private Product product;
+    private ProductController productController;
+    private CategoryController categoryController;
 
     public EditProductPanel(Product product) {
         this.product = product;
         setProductController(new ProductController());
+        setCategoryController(new CategoryController());
 
         setLayout(new BorderLayout());
 
@@ -45,7 +43,16 @@ public class EditProductPanel extends JPanel {
         add(buttonsPanel, BorderLayout.SOUTH);
     }
 
-    //initialiser les composants du formulaire
+    // SETTERS
+    public void setCategoryController(CategoryController categoryController) {
+        this.categoryController = categoryController;
+    }
+    public void setProductController(ProductController productController) {
+        this.productController = productController;
+    }
+
+    // METHODES
+        // Déclare les composants du formulaire
     private void initFormComponents() {
         label = new JTextField();
         price = new JTextField();
@@ -56,15 +63,14 @@ public class EditProductPanel extends JPanel {
         supplierName = new JTextField();
         supplierPhone = new JTextField();
 
-        category = new JComboBox<>(categories);
+        category = new JComboBox<>(categoryController.getAllCategories() .toArray(new String[0]));
         glutenFree = new JRadioButton("Sans gluten");
         isAlcohol = new JRadioButton("Alcoolisé");
 
         glutenFree.addItemListener(new GlutenFreeItemListener());
         isAlcohol.addItemListener(new IsAlcoholItemListener());
     }
-
-    //Créé le formulaire
+        //Créée le formulaire
     private JPanel createFormPanel() {
         JPanel formPanel = new JPanel(new GridLayout(11, 2));
 
@@ -100,8 +106,7 @@ public class EditProductPanel extends JPanel {
 
         return formPanel;
     }
-
-    //va remplir les textFields du formulaire
+        // Remplie les textFields du formulaire
     private void loadFields() {
         label.setText(product.getLabel());
         price.setText(String.valueOf(product.getPrice()));
@@ -111,7 +116,7 @@ public class EditProductPanel extends JPanel {
         supplierName.setText(product.getSupplierLabel());
         supplierPhone.setText(String.valueOf(product.getSupplierPhoneNumber()));
 
-        glutenFree.setSelected(!product.getGlutenFree());
+        glutenFree.setSelected(product.getGlutenFree());
         isAlcohol.setSelected(product.getAlcoholPercentage() != null);
 
         if (product.getAlcoholPercentage() != null) {
@@ -131,13 +136,15 @@ public class EditProductPanel extends JPanel {
         category.setEnabled(!(glutenFree.isSelected() || isAlcohol.isSelected()));
     }
 
+    // LISTENERS
     private class GlutenFreeItemListener implements ItemListener {
         @Override
         public void itemStateChanged(ItemEvent e) {
             if (glutenFree.isSelected()) {
-                isAlcohol.setSelected(false);
+                isAlcohol.setSelected(false); // Pour eviter de faire ButtonGroup avec des RadioButtons
                 alcoholPercentage.setText("");
                 alcoholPercentage.setEnabled(false);
+
                 category.setSelectedItem("Sans gluten");
                 category.setEnabled(false);
             } else if (!isAlcohol.isSelected()) {
@@ -153,11 +160,13 @@ public class EditProductPanel extends JPanel {
             if (isAlcohol.isSelected()) {
                 glutenFree.setSelected(false);
                 alcoholPercentage.setEnabled(true);
+
                 category.setSelectedItem("Boisson alcoolisée");
                 category.setEnabled(false);
             } else if (!glutenFree.isSelected()) {
                 alcoholPercentage.setText("");
                 alcoholPercentage.setEnabled(false);
+
                 category.setSelectedIndex(-1);
                 category.setEnabled(true);
             }
@@ -168,8 +177,8 @@ public class EditProductPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             removeAll();
-            UpdateProductPanel updateProductPanel = new UpdateProductPanel();
-            add(updateProductPanel, BorderLayout.CENTER);
+            add(new UpdateProductPanel(), BorderLayout.CENTER);
+
             revalidate();
             repaint();
         }
@@ -180,13 +189,13 @@ public class EditProductPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             try {
                 String newLabel = label.getText();
-                Double newPrice = Double.parseDouble(price.getText());
-                Integer newStock = Integer.parseInt(nbStock.getText());
-                Integer newTreshold = Integer.parseInt(treshold.getText());
+                Double newPrice = Double.parseDouble(price.getText().trim());
+                Integer newStock = Integer.parseInt(nbStock.getText().trim());
+                Integer newTreshold = Integer.parseInt(treshold.getText().trim());
                 Boolean newGlutenFree = glutenFree.isSelected();
                 String newDescription = description.getText();
                 String newSupplierName = supplierName.getText();
-                Integer newSupplierPhone = Integer.parseInt(supplierPhone.getText());
+                Integer newSupplierPhone = Integer.parseInt(supplierPhone.getText().trim());
 
                 Double newAlcoholPercentage = null;
                 if (isAlcohol.isSelected()) {
@@ -216,8 +225,10 @@ public class EditProductPanel extends JPanel {
                         newSupplierPhone,
                         newCategory
                 );
+
                 productController.updateProduct(updatedProduct);
                 JOptionPane.showMessageDialog(EditProductPanel.this, "Produit mis à jour avec succès !");
+
                 removeAll();
                 add(new UpdateProductPanel());
                 revalidate();
@@ -228,11 +239,5 @@ public class EditProductPanel extends JPanel {
                 JOptionPane.showMessageDialog(EditProductPanel.this, "Erreur inattendue : " + ex.getMessage());
             }
         }
-    }
-
-
-
-    public void setProductController(ProductController productController) {
-        this.productController = productController;
     }
 }

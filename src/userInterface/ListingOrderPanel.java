@@ -70,8 +70,6 @@ public class ListingOrderPanel extends JPanel {
         }else{
             commandLabel.setText("Aucune commande à afficher.");
         }
-
-
     }
 
     // GETTERS

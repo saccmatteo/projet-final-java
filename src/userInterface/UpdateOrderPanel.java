@@ -16,7 +16,6 @@ public class UpdateOrderPanel extends JPanel {
         this.setLayout(new BorderLayout());
         listingOrderPanel = new ListingOrderPanel();
 
-        // Style du bouton
         updateButton = new JButton("Modifier la commande");
         updateButton.setFont(new Font("Arial", Font.BOLD, 20));
         updateButton.setBorder(new EmptyBorder(10, 15, 10, 15));

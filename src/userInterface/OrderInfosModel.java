@@ -23,22 +23,24 @@ public class OrderInfosModel extends AbstractTableModel {
         fireTableDataChanged();
     }
 
-    public void setOrdersInfos(ArrayList<OrderInfos> ordersInfos) {
-        this.ordersInfos = ordersInfos;
-    }
 
+    // GETTERS
     public int getColumnCount() {
         return columnNames.size();
     }
-
     public int getRowCount() {
         return ordersInfos.size();
     }
-
     public String getColumnName(int col) {
         return columnNames.get(col);
     }
 
+    // SETTERS
+    public void setOrdersInfos(ArrayList<OrderInfos> ordersInfos) {
+        this.ordersInfos = ordersInfos;
+    }
+
+    // METHODES
     public Object getValueAt(int row, int col) {
         OrderInfos orderInfo = ordersInfos.get(row);
         switch (col) {
@@ -58,7 +60,6 @@ public class OrderInfosModel extends AbstractTableModel {
                 return null;
         }
     }
-
     @Override
     public Class<?> getColumnClass(int columnIndex) {
 

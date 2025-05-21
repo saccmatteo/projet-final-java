@@ -1,5 +1,6 @@
 package userInterface;
 
+import controller.CategoryController;
 import controller.ProductController;
 import model.Product;
 
@@ -9,43 +10,50 @@ import java.awt.event.*;
 import java.time.LocalDate;
 
 public class CreateProductPanel extends JPanel {
-    private final String[] categories = {
-            "Boisson alcoolisée", "Soft", "Snacks", "Sans gluten",
-            "Boisson chaude", "Glace"
-    };
-
-    private ProductController productController;
 
     private JTextField labelField, priceField, alcoholPercentageField, tresholdField, supplierNameField,
-            supplierPhoneField, nbStockField, descriptionField;
+    supplierPhoneField, nbStockField, descriptionField;
     private JComboBox<String> categoryBox;
     private JRadioButton glutenFreeRadio, isAlcoholRadio;
     private JButton cancelButton, submitButton, resetButton;
 
+    private CategoryController categoryController;
+    private ProductController productController;
+
     public CreateProductPanel() {
         setLayout(new BorderLayout());
-        this.productController = new ProductController();
+        setProductController(new ProductController());
+        setCategoryController(new CategoryController());
 
         initFormComponents();
 
-        cancelButton = new JButton("Annuler");
-        resetButton = new JButton("Réinitialiser");
-        submitButton = new JButton("Ajouter le produit");
-
-        cancelButton.addActionListener(new CancelButtonListener());
-        resetButton.addActionListener(new ResetButtonListener());
-        submitButton.addActionListener(new SubmitButtonListener());
-
+        // ButtonPanel
         JPanel buttonsPanel = new JPanel(new FlowLayout());
-        buttonsPanel.add(cancelButton);
+        resetButton = new JButton("Réinitialiser");
+        cancelButton = new JButton("Annuler");
+        submitButton = new JButton("Ajouter le produit");
+            // Listeners
+        resetButton.addActionListener(new ResetButtonListener());
+        cancelButton.addActionListener(new CancelButtonListener());
+        submitButton.addActionListener(new SubmitButtonListener());
+            // Ajout au panel
         buttonsPanel.add(resetButton);
+        buttonsPanel.add(cancelButton);
         buttonsPanel.add(submitButton);
 
-        add(createFormPanel(), BorderLayout.CENTER);
-        add(buttonsPanel, BorderLayout.SOUTH);
+        this.add(createFormPanel(), BorderLayout.CENTER);
+        this.add(buttonsPanel, BorderLayout.SOUTH);
     }
 
-    //initialiser les composants
+    // SETTERS
+    public void setProductController(ProductController productController) {
+        this.productController = productController;
+    }
+    public void setCategoryController(CategoryController categoryController) {
+        this.categoryController = categoryController;
+    }
+    // METHODES
+        // Déclare les composants
     private void initFormComponents() {
         labelField = new JTextField();
         priceField = new JTextField();
@@ -57,17 +65,16 @@ public class CreateProductPanel extends JPanel {
         supplierNameField = new JTextField();
         supplierPhoneField = new JTextField();
 
-        categoryBox = new JComboBox<>(categories);
+        categoryBox = new JComboBox<>(categoryController.getAllCategories().toArray(new String[0]));
         categoryBox.setSelectedIndex(-1);
 
         glutenFreeRadio = new JRadioButton("Sans gluten");
         isAlcoholRadio = new JRadioButton("Alcoolisé");
-
+        // Listeners
         glutenFreeRadio.addItemListener(new GlutenFreeItemListener());
         isAlcoholRadio.addItemListener(new IsAlcoholItemListener());
     }
-
-    //créé le formulaire
+        // Créée le formulaire
     private JPanel createFormPanel() {
         JPanel formPanel = new JPanel(new GridLayout(11, 2, 10, 10));
 
@@ -104,6 +111,7 @@ public class CreateProductPanel extends JPanel {
         return formPanel;
     }
 
+    // LISTENERS
     private class GlutenFreeItemListener implements ItemListener {
         @Override
         public void itemStateChanged(ItemEvent e) {
@@ -119,7 +127,6 @@ public class CreateProductPanel extends JPanel {
             }
         }
     }
-
     private class IsAlcoholItemListener implements ItemListener {
         @Override
         public void itemStateChanged(ItemEvent e) {
@@ -136,14 +143,6 @@ public class CreateProductPanel extends JPanel {
             }
         }
     }
-
-    private class CancelButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            SwingUtilities.getWindowAncestor(CreateProductPanel.this).dispose();
-        }
-    }
-
     private class ResetButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -160,20 +159,29 @@ public class CreateProductPanel extends JPanel {
             categoryBox.setSelectedIndex(-1);
             categoryBox.setEnabled(true);
             descriptionField.setText("");
+
+            // Pas mieux ? Moins long ...
+//            SwingUtilities.getWindowAncestor(CreateProductPanel.this).dispose();
+//            new CreateProductPanel();
         }
     }
-
+    private class CancelButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            SwingUtilities.getWindowAncestor(CreateProductPanel.this).dispose();
+        }
+    }
     private class SubmitButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                String productLabel = labelField.getText().trim();
+                String productLabel = labelField.getText();
                 double productPrice = Double.parseDouble(priceField.getText().trim());
                 int stock = Integer.parseInt(nbStockField.getText().trim());
                 int productThreshold = Integer.parseInt(tresholdField.getText().trim());
-                boolean withGluten = !glutenFreeRadio.isSelected(); // inversion logique
+                boolean glutenFree = glutenFreeRadio.isSelected();
                 String productDescription = descriptionField.getText();
-                String supplierLabel = supplierNameField.getText().trim();
+                String supplierLabel = supplierNameField.getText();
                 int supplierPhoneNb = Integer.parseInt(supplierPhoneField.getText().trim());
                 String productCategory = (String) categoryBox.getSelectedItem();
                 LocalDate today = LocalDate.now();
@@ -188,8 +196,8 @@ public class CreateProductPanel extends JPanel {
                         productPrice,
                         stock,
                         productThreshold,
-                        withGluten,
-                        alcoholPct, // ou (isAlcoholRadio.isSelected()) ? Double.parseDouble(alcoholPercentageField.getText().trim()) : null,
+                        glutenFree,
+                        alcoholPct,
                         today,
                         today,
                         productDescription,
@@ -200,6 +208,7 @@ public class CreateProductPanel extends JPanel {
 
                 productController.createProduct(newProduct);
                 JOptionPane.showMessageDialog(null, "Produit créé avec succès !");
+
                 new ResetButtonListener().actionPerformed(null);
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Erreur : Veuillez entrer des valeurs numériques valides pour les champs concernés.", "Erreur", JOptionPane.ERROR_MESSAGE);
