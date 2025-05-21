@@ -12,37 +12,29 @@ public class OrderLine {
         this.product = product;
     }
 
-    public OrderLine(Integer quantity, Double unitPrice) {
-        this.quantity = quantity;
-        this.unitPrice = unitPrice;
-    }
-
-    // Getters
+    // GETTERS
     public Double getUnitPrice() {
         return unitPrice;
     }
-
     public Integer getQuantity() {
         return quantity;
     }
     public Product getProduct() {
         return product;
     }
-
     public Order getOrder() {
         return order;
     }
 
-    // Setters
+    // SETTERS
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
+    // METHODES
     public void addQuantity(Integer quantity) {
         this.quantity += quantity;
     }
-
-    // Methodes
     public String toString(){
         return quantity + " " + product.getLabel() + " - " + String.format("%.2f", unitPrice * quantity) + "€";
     }

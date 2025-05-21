@@ -68,7 +68,7 @@ public class ListingOrderPanel extends JPanel {
             this.add(commandLabel, BorderLayout.NORTH);
             this.add(ordersScrollPane, BorderLayout.CENTER);
         }else{
-            commandLabel.setText("Aucune commande à afficher.");
+            JOptionPane.showMessageDialog(null, "Aucune commande à afficher.");
         }
     }
 

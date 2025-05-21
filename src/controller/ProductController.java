@@ -27,7 +27,7 @@ public class ProductController {
         manager.createProduct(product);
     }
 
-    public void deleteProduct(int productId) {
+    public void deleteProduct(Integer productId) {
         manager.deleteProduct(productId);
     }
 

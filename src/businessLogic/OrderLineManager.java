@@ -18,11 +18,11 @@ public class OrderLineManager {
     public Double getTotalPriceOrderLine(Integer idOrder){
         return dao.getTotalPriceOrderLine(idOrder);
     }
-    public void createOrderLine(OrderLine orderLine, int orderId){
+    public void createOrderLine(OrderLine orderLine, Integer orderId){
         dao.createOrderLine(orderLine, orderId);
     }
 
-    public void updateOrderLine(int newQuantity, int orderId, int productId) {
-        dao.updateOrderLine(newQuantity, orderId, productId);
-    }
+//    public void updateOrderLine(Integer newQuantity, Integer orderId, Integer productId) {
+//        dao.updateOrderLine(newQuantity, orderId, productId);
+//    }
 }

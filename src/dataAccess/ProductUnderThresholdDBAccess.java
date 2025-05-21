@@ -2,9 +2,7 @@ package dataAccess;
 
 import interfaces.ProductUnderThresholdDataAccess;
 import model.ProductsUnderThreshold;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class ProductUnderThresholdDBAccess implements ProductUnderThresholdDataAccess {
@@ -13,7 +11,7 @@ public class ProductUnderThresholdDBAccess implements ProductUnderThresholdDataA
     ResultSet data;
 
     @Override
-    public ArrayList<ProductsUnderThreshold> getAllProductsUnderTreshold(int threshold) {
+    public ArrayList<ProductsUnderThreshold> getAllProductsUnderTreshold(Integer threshold) {
         ArrayList<ProductsUnderThreshold> productsUnderThreshold = new ArrayList<>();
         try {
             sqlInstruction =
@@ -44,6 +42,9 @@ public class ProductUnderThresholdDBAccess implements ProductUnderThresholdDataA
                 );
                 productsUnderThreshold.add(newProductUnderThreshold);
             }
+
+            data.close();
+            preparedStatement.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

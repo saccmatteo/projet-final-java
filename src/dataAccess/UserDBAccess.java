@@ -16,7 +16,7 @@ public class UserDBAccess implements UserDataAccess {
     public ArrayList<User> getAllUsers() {
         ArrayList<User> users = new ArrayList<>();
         try{
-            sqlInstruction = "SELECT id, last_name, first_name FROM user";
+            sqlInstruction = "SELECT * FROM user";
             preparedStatement = dataAccess.SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             data = preparedStatement.executeQuery();
 
@@ -24,9 +24,12 @@ public class UserDBAccess implements UserDataAccess {
                 User newUser = new User(
                         data.getInt("id"),
                         data.getString("last_name"),
-                        data.getString("first_name"));
+                        data.getString("first_name"),
+                        data.getString("function_Label"));
                 users.add(newUser);
             }
+            data.close();
+            preparedStatement.close();
         } catch (SQLException e){
             System.out.println(e.getMessage());
         }

@@ -17,7 +17,7 @@ public class OrderInfosManager {
         this.dao = dao;
     }
 
-    public ArrayList<OrderInfos> getAllOrdersInfos(int productId) {
+    public ArrayList<OrderInfos> getAllOrdersInfos(Integer productId) {
         return dao.getAllOrdersInfos(productId);
     }
 }

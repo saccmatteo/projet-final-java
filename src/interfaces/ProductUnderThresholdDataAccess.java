@@ -5,5 +5,5 @@ import model.ProductsUnderThreshold;
 import java.util.ArrayList;
 
 public interface ProductUnderThresholdDataAccess {
-    public ArrayList<ProductsUnderThreshold> getAllProductsUnderTreshold(int treshold);
+    ArrayList<ProductsUnderThreshold> getAllProductsUnderTreshold(Integer treshold);
 }

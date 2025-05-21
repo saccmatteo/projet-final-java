@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.function.Supplier;
 
 public class ResearchPanel extends JPanel {
+    private String [] researches = {"Ventes de boissons alcoolisées depuis une date", "Produit en dessous d'un seuil", "Informations commandes d'un produit", "Moyenne mensuelle (6 mois)"};
+
     private JPanel researchPanel, tablePanel, dynamicPanel;
     private JLabel averageProductSelledByMonthLabel;
     private JComboBox researchComboBox;
@@ -31,21 +33,19 @@ public class ResearchPanel extends JPanel {
 
     private ResearchesController researchesController;
     private ProductController productController;
-    private CategoryController categoryController;
 
     public ResearchPanel() {
         // Initialisation des variables
         setLayout(new BorderLayout());
         setResearchesController(new ResearchesController());
         setProductController(new ProductController());
-        setCategoryController(new CategoryController());
 
         // Panels
         researchPanel = new JPanel();
         dynamicPanel = new JPanel();
         tablePanel = new JPanel();
             // ResearchCombobox
-        researchComboBox = new JComboBox(categoryController.getAllCategories().toArray(new String[0]));
+        researchComboBox = new JComboBox(researches);
         researchComboBox.setSelectedIndex(-1);
         researchButton = new JButton("Effectuer la recherche");
             // Listeners
@@ -71,9 +71,6 @@ public class ResearchPanel extends JPanel {
     }
     public void setProductController(ProductController productController) {
         this.productController = productController;
-    }
-    public void setCategoryController(CategoryController categoryController) {
-        this.categoryController = categoryController;
     }
 
     // METHODES

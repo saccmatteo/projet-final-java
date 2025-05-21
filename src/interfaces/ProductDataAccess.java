@@ -5,9 +5,9 @@ import model.Product;
 import java.util.ArrayList;
 
 public interface ProductDataAccess {
-    Integer getAllProductSelled(Integer idProduct);
+    Integer getAllProductSelledLast6Months(Integer idProduct);
     ArrayList<Product> getAllProducts();
-    void deleteProduct(int productId);
+    void deleteProduct(Integer productId);
     void createProduct(Product product);
     void updateProduct(Product product);
 }

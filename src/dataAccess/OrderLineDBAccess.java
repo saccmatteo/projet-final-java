@@ -31,7 +31,7 @@ public class OrderLineDBAccess implements OrderLineDataAccess {
         return totalPrice;
     }
 
-    public void createOrderLine(OrderLine orderLine, int orderId){
+    public void createOrderLine(OrderLine orderLine, Integer orderId){
         try{
             sqlInstruction = "INSERT INTO orderline(order_id, product_id, quantity, unit_price) VALUES(?, ?, ?, ?)";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
@@ -47,7 +47,7 @@ public class OrderLineDBAccess implements OrderLineDataAccess {
         }
     }
 
-    public void updateOrderLine(int newQuantity, int orderId, int productId) {
+    public void updateOrderLine(Integer newQuantity, Integer orderId, Integer productId) {
         try {
             sqlInstruction = "UPDATE orderline SET quantity = ? WHERE order_id = ? AND product_id = ?";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);

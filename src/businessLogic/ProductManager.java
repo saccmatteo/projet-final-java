@@ -18,7 +18,7 @@ public class ProductManager {
     }
 
     public Double getAverageProductSelledByMonth(Integer idProduct) {
-        return dao.getAllProductSelled(idProduct) / 12.0;
+        return dao.getAllProductSelledLast6Months(idProduct) / 12.0;
     }
 
     public ArrayList<Product> getAllProducts (){
@@ -29,7 +29,7 @@ public class ProductManager {
         dao.createProduct(product);
     }
 
-    public void deleteProduct(int productId) {
+    public void deleteProduct(Integer productId) {
         dao.deleteProduct(productId);
     }
 

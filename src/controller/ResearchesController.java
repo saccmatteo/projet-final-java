@@ -25,11 +25,11 @@ public class ResearchesController {
         return alcoholicDrinkManager.getAlcDrinksBeforeDate(date);
     }
 
-    public ArrayList<ProductsUnderThreshold> getProductsUnderThreshold(int threshold) {
+    public ArrayList<ProductsUnderThreshold> getProductsUnderThreshold(Integer threshold) {
         return productUnderThresholdManager.getAllProductsUnderThreshold(threshold);
     }
 
-    public ArrayList<OrderInfos> getAllOrdersInfos(int productId) {
+    public ArrayList<OrderInfos> getAllOrdersInfos(Integer productId) {
         return orderInfosManager.getAllOrdersInfos(productId);
     }
 }

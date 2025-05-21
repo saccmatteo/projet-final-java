@@ -15,7 +15,7 @@ public class OrderDBAccess implements OrderDataAccess {
         orders = new ArrayList<>();
         try {
             sqlInstruction =
-                    "SELECT `order`.*, user.last_name, user.first_name " +
+                    "SELECT `order`.*, user.* " +
                     "FROM `order` JOIN user ON `order`.user_id = user.id " +
                     "WHERE `order`.status_label = ?" +
                     "ORDER BY `order`.order_date DESC, `order`.id DESC";
@@ -35,7 +35,8 @@ public class OrderDBAccess implements OrderDataAccess {
                         data.getString("payment_method_label"),
                         new User(data.getInt("user_id"),
                                 data.getString("user.last_name"),
-                                data.getString("user.first_name")
+                                data.getString("user.first_name"),
+                                data.getString("user.function_label")
                         )
                 );
                 orders.add(newOrder);
@@ -72,7 +73,7 @@ public class OrderDBAccess implements OrderDataAccess {
         return -1;
     }
 
-    public void deleteOrder(int orderId) {
+    public void deleteOrder(Integer orderId) {
         try {
             sqlInstruction = "DElETE FROM orderline WHERE order_id = ?";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
@@ -88,7 +89,7 @@ public class OrderDBAccess implements OrderDataAccess {
             System.out.println(e.getMessage());
         }
     }
-    public void updateClosedOrder(int orderId, PaymentMethod method) {
+    public void updateClosedOrder(Integer orderId, PaymentMethod method) {
         try {
             sqlInstruction = "UPDATE `order` SET status_label = ?, payment_method_label = ? WHERE id = ?";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);

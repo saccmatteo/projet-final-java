@@ -11,13 +11,15 @@ public class ProductDBAccess implements ProductDataAccess {
     private PreparedStatement preparedStatement;
     private ResultSet data;
 
-    public Integer getAllProductSelled(Integer idProduct){
+    public Integer getAllProductSelledLast6Months(Integer idProduct){
         Integer totalProductSelled = 0;
         try{
-            sqlInstruction = "SELECT SUM(ol.quantity) 'totalQuantity' " +
-                             "FROM orderline ol INNER JOIN `order` o " +
-                             "ON ol.order_id = o.id " +
-                             "WHERE ol.product_id = ?";
+            sqlInstruction =
+                    "SELECT SUM(ol.quantity) AS totalQuantity " +
+                            "FROM orderline ol " +
+                            "INNER JOIN `order` o ON ol.order_id = o.id " +
+                            "WHERE ol.product_id = ? " +
+                            "AND o.order_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             preparedStatement.setInt(1, idProduct);
             data = preparedStatement.executeQuery();
@@ -31,6 +33,7 @@ public class ProductDBAccess implements ProductDataAccess {
         }
         return totalProductSelled;
     }
+
 
     public ArrayList<Product> getAllProducts() {
         ArrayList<Product> products = new ArrayList<>();
@@ -63,8 +66,7 @@ public class ProductDBAccess implements ProductDataAccess {
         }
         return products;
     }
-
-    public void deleteProduct(int productId) {
+    public void deleteProduct(Integer productId) {
         try {
             sqlInstruction = "DELETE FROM product WHERE id = ?";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
@@ -114,7 +116,6 @@ public class ProductDBAccess implements ProductDataAccess {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
-
     public void updateProduct(Product product) {
         try {
             sqlInstruction = "UPDATE product SET label = ?, price = ?, nb_in_stock = ?, min_treshold = ?, is_gluten_free = ?, alcohol_percentage = ?, distribution_date = ?, last_restock_date = ?, description = ?, category_label = ?, supplier_label = ? WHERE id = ?";

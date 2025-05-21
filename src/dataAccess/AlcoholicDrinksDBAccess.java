@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class AlcoholicDrinksDBAccess implements AlcoholicDrinkDataAccess {
@@ -15,7 +16,6 @@ public class AlcoholicDrinksDBAccess implements AlcoholicDrinkDataAccess {
 
     public ArrayList<AlcoholicDrinksInfos> getAlcDrinksBeforeDate(LocalDate date) {
         ArrayList<AlcoholicDrinksInfos> alcoholicDrinks = new ArrayList<>();
-        java.sql.Date sqlDate = java.sql.Date.valueOf(date);
         try {
             sqlInstruction =
                     "SELECT " +
@@ -33,7 +33,7 @@ public class AlcoholicDrinksDBAccess implements AlcoholicDrinkDataAccess {
 
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             preparedStatement.setString(1, "Boisson alcoolisée");
-            preparedStatement.setDate(2, sqlDate);
+            preparedStatement.setDate(2, Date.valueOf(date));
             data = preparedStatement.executeQuery();
 
             while(data.next()) {
@@ -48,7 +48,8 @@ public class AlcoholicDrinksDBAccess implements AlcoholicDrinkDataAccess {
                 );
                 alcoholicDrinks.add(newAlcoholicDrink);
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return alcoholicDrinks;

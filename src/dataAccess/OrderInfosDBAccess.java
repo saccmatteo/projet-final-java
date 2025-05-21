@@ -12,7 +12,7 @@ public class OrderInfosDBAccess implements OrderInfosDataAccess {
     PreparedStatement preparedStatement;
     ResultSet data;
 
-    public ArrayList<OrderInfos> getAllOrdersInfos(int productID){
+    public ArrayList<OrderInfos> getAllOrdersInfos(Integer productID){
         ArrayList<OrderInfos> ordersInfos = new ArrayList<>();
         try {
             sqlInstruction =

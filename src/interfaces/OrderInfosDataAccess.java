@@ -6,5 +6,5 @@ import model.Product;
 import java.util.ArrayList;
 
 public interface OrderInfosDataAccess {
-    public ArrayList<OrderInfos> getAllOrdersInfos(int productId);
+    ArrayList<OrderInfos> getAllOrdersInfos(Integer productId);
 }
