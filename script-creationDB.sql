@@ -93,7 +93,7 @@ CREATE TABLE orderLine (
                                ON DELETE CASCADE
                                ON UPDATE CASCADE,
                            FOREIGN KEY (product_id) REFERENCES product(id)
-                               ON DELETE RESTRICT
+                               ON DELETE CASCADE
                                ON UPDATE CASCADE,
 
                            CHECK (quantity > 0),

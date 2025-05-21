@@ -71,6 +71,12 @@ public class ProductDBAccess implements ProductDataAccess {
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             preparedStatement.setInt(1, productId);
             preparedStatement.executeUpdate();
+
+            // Supprimer les commandes devenues vides
+            sqlInstruction = "DELETE FROM `order` WHERE id NOT IN (SELECT DISTINCT order_id FROM orderLine)";
+            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());
