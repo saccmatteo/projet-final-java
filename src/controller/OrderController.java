@@ -4,6 +4,7 @@ import businessLogic.OrderManager;
 import model.Order;
 import model.PaymentMethod;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class OrderController {
@@ -25,12 +26,12 @@ public class OrderController {
         return manager.createOrder(order);
     }
 
-    public void deleteOrder(int commandId) {
+    public void deleteOrder(Integer commandId) {
         manager.deleteOrder(commandId);
     }
 
-    public void updateClosedOrder(int commandId, PaymentMethod method) {
-        manager.updateClosedOrder(commandId, method);
+    public void updateClosedOrder(LocalDate paymentDate, Integer commandId, PaymentMethod method) {
+        manager.updateClosedOrder(paymentDate, commandId, method);
     }
 
     public void updateOrder(Order order) {

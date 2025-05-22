@@ -117,7 +117,7 @@ public class ProductDBAccess implements ProductDataAccess {
             preparedStatement.setString(3, product.getSupplierLabel());
             preparedStatement.executeUpdate();
 
-            // Product&é
+            // Product
             sqlInstruction = "INSERT INTO product(label, price, nb_in_stock, min_treshold, is_gluten_free, alcohol_percentage, distribution_date, last_restock_date, description, category_label, supplier_label) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
 

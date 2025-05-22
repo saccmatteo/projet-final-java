@@ -5,6 +5,7 @@ import model.Order;
 import interfaces.OrderDataAccess;
 import model.PaymentMethod;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class OrderManager {
@@ -26,12 +27,12 @@ public class OrderManager {
         return dao.createOrder(order);
     }
 
-    public void deleteOrder(int commandId) {
+    public void deleteOrder(Integer commandId) {
         dao.deleteOrder(commandId);
     }
 
-    public void updateClosedOrder(int commandId, PaymentMethod method) {
-        dao.updateClosedOrder(commandId, method);
+    public void updateClosedOrder(LocalDate paymentDate, Integer commandId, PaymentMethod method) {
+        dao.updateClosedOrder(paymentDate, commandId, method);
     }
 
     public void updateOrder(Order order) {

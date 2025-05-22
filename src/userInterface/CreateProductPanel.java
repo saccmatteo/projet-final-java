@@ -63,6 +63,11 @@ public class CreateProductPanel extends JPanel {
     // METHODES
         // Déclare les composants
     private void initFormComponents() {
+        // Panels
+        formPanel = new JPanel(new GridLayout(11, 2, 10, 10));
+        buttonsPanel = new JPanel(new FlowLayout());
+
+        // TextField
         labelField = new JTextField();
         priceField = new JTextField();
         alcoholPercentageField = new JTextField();
@@ -73,31 +78,31 @@ public class CreateProductPanel extends JPanel {
         supplierNameField = new JTextField();
         supplierPhoneField = new JTextField();
 
+        // ComboBox
         categoryBox = new JComboBox<>(categoryController.getAllCategories().toArray(new String[0]));
         categoryBox.setSelectedIndex(-1);
 
+        // CheckBox
         glutenFreeCheckBox = new JCheckBox("Sans gluten");
         isAlcoholCheckBox = new JCheckBox("Alcoolisé");
 
+        // Buttons
         cancelButton = new JButton("Annuler");
         resetButton = new JButton("Réinitialiser");
         submitButton = new JButton("Ajouter le produit");
 
-
         // Listeners
         supplierNameField.getDocument().addDocumentListener(new RefreshPhoneNumbeListener());
-
         categoryBox.addItemListener(new CategoryItemListener());
         isAlcoholCheckBox.addItemListener(new IsAlcoholItemListener());
-
+            // Buttons
         cancelButton.addActionListener(new CancelButtonListener());
         resetButton.addActionListener(new ResetButtonListener());
         submitButton.addActionListener(new SubmitButtonListener());
     }
         // Créé le formulaire
     private void createFormPanel() {
-        formPanel = new JPanel(new GridLayout(11, 2, 10, 10));
-
+        // FormPanel
         formPanel.add(new JLabel("Nom du produit :"));
         formPanel.add(labelField);
 
@@ -128,7 +133,7 @@ public class CreateProductPanel extends JPanel {
         formPanel.add(new JLabel("Numéro du fournisseur :"));
         formPanel.add(supplierPhoneField);
 
-        buttonsPanel = new JPanel(new FlowLayout());
+        // ButtonsPanel
         buttonsPanel.add(cancelButton);
         buttonsPanel.add(resetButton);
         buttonsPanel.add(submitButton);
@@ -225,12 +230,11 @@ public class CreateProductPanel extends JPanel {
                 if (productCategory == null || productCategory.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Veuillez sélectionner une catégorie.", "Erreur...", JOptionPane.ERROR_MESSAGE);
                 }else{
-                    LocalDate today = LocalDate.now();
 
                     Double alcoholPct = null;
                     if (isAlcoholCheckBox.isSelected()) {
                         String alcoholText = alcoholPercentageField.getText().trim();
-                        if (alcoholText.isEmpty()) {
+                        if (alcoholText.isEmpty()) { // Si alcoholText pas vide
                             JOptionPane.showMessageDialog(null, "Veuillez entrer un taux d'alcool entre 1 et 100.", "Erreur...", JOptionPane.ERROR_MESSAGE);
                         }else{
                             try {
@@ -254,8 +258,8 @@ public class CreateProductPanel extends JPanel {
                                 productThreshold,
                                 withGluten,
                                 alcoholPct,
-                                today,
-                                today,
+                                LocalDate.now(),
+                                LocalDate.now(),
                                 productDescription,
                                 supplierLabel,
                                 supplierPhoneNb,
@@ -269,9 +273,6 @@ public class CreateProductPanel extends JPanel {
                         JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur...", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-
-
-
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Erreur : Veuillez entrer des valeurs numériques valides pour les champs concernés.", "Erreur", JOptionPane.ERROR_MESSAGE);
             }

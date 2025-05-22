@@ -23,10 +23,7 @@ public class AlcoholicDrinksModel extends AbstractTableModel {
         fireTableDataChanged(); // Pour rafraichir la table au cas où
     }
 
-    public void setAlcoholicDrinks(ArrayList<AlcoholicDrinksInfos> alcoholicDrinks) {
-        this.alcoholicDrinks = alcoholicDrinks;
-    }
-
+    // GETTERS
     @Override
     public int getColumnCount() {
         return columnNames.size();
@@ -40,6 +37,13 @@ public class AlcoholicDrinksModel extends AbstractTableModel {
         return columnNames.get(column);
     }
 
+
+    // SETTERS
+    public void setAlcoholicDrinks(ArrayList<AlcoholicDrinksInfos> alcoholicDrinks) {
+        this.alcoholicDrinks = alcoholicDrinks;
+    }
+
+    // METHODES
     public Object getValueAt(int row, int column) {
         AlcoholicDrinksInfos alcoholicDrink = alcoholicDrinks.get(row);
         switch (column) {
@@ -59,7 +63,6 @@ public class AlcoholicDrinksModel extends AbstractTableModel {
                 return null;
         }
     }
-
     @Override
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {

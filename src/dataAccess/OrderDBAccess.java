@@ -3,6 +3,7 @@ package dataAccess;
 import interfaces.OrderDataAccess;
 import model.*;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class OrderDBAccess implements OrderDataAccess {
@@ -77,7 +78,7 @@ public class OrderDBAccess implements OrderDataAccess {
         return -1;
     }
 
-    public void deleteOrder(int orderId) {
+    public void deleteOrder(Integer orderId) {
         try {
             sqlInstruction = "DElETE FROM orderline WHERE order_id = ?";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
@@ -93,13 +94,14 @@ public class OrderDBAccess implements OrderDataAccess {
             System.out.println(e.getMessage());
         }
     }
-    public void updateClosedOrder(int orderId, PaymentMethod method) {
+    public void updateClosedOrder(LocalDate paymentDate, Integer orderId, PaymentMethod method) {
         try {
-            sqlInstruction = "UPDATE `order` SET status_label = ?, payment_method_label = ? WHERE id = ?";
+            sqlInstruction = "UPDATE `order` SET payment_date = ?, status_label = ?, payment_method_label = ? WHERE id = ?";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
-            preparedStatement.setString(1, OrderStatus.COMPLETED.toString());
-            preparedStatement.setString(2, method.getLabel());
-            preparedStatement.setInt(3, orderId);
+            preparedStatement.setDate(1, Date.valueOf(paymentDate));
+            preparedStatement.setString(2, OrderStatus.COMPLETED.toString());
+            preparedStatement.setString(3, method.getLabel());
+            preparedStatement.setInt(4, orderId);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
