@@ -127,6 +127,7 @@ public class Product {
         if (nbInStock < 0) {
             throw new ProductNbInStockException(nbInStock, "Le stock ne peut pas être négatif.");
         }
+
         this.nbInStock = nbInStock;
     }
 

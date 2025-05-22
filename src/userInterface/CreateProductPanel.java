@@ -1,12 +1,16 @@
 package userInterface;
 
 import controller.ProductController;
+import controller.SupplierController;
 import model.Product;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class CreateProductPanel extends JPanel {
     private final String[] categories = {
@@ -15,6 +19,7 @@ public class CreateProductPanel extends JPanel {
     };
 
     private ProductController productController;
+    private SupplierController supplierController;
 
     private JTextField labelField, priceField, alcoholPercentageField, tresholdField, supplierNameField,
             supplierPhoneField, nbStockField, descriptionField;
@@ -25,6 +30,7 @@ public class CreateProductPanel extends JPanel {
     public CreateProductPanel() {
         setLayout(new BorderLayout());
         this.productController = new ProductController();
+        this.supplierController = new SupplierController();
 
         initFormComponents();
 
@@ -35,6 +41,7 @@ public class CreateProductPanel extends JPanel {
         cancelButton.addActionListener(new CancelButtonListener());
         resetButton.addActionListener(new ResetButtonListener());
         submitButton.addActionListener(new SubmitButtonListener());
+        supplierNameField.getDocument().addDocumentListener(new RefreshPriceListener());
 
         JPanel buttonsPanel = new JPanel(new FlowLayout());
         buttonsPanel.add(cancelButton);
@@ -102,6 +109,35 @@ public class CreateProductPanel extends JPanel {
         formPanel.add(supplierPhoneField);
 
         return formPanel;
+    }
+
+    private class RefreshPriceListener implements DocumentListener {
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            setExistingPhoneNumber();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            setExistingPhoneNumber();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            // Pas utile dans notre cas
+        }
+    }
+
+    public void setExistingPhoneNumber(){
+        String phoneNumberExisting = supplierController.getSupplierPhoneNumberByName(supplierNameField.getText());
+
+        if (phoneNumberExisting != null) {
+            supplierPhoneField.setText(phoneNumberExisting);
+            supplierPhoneField.setEnabled(false);
+        } else {
+            supplierPhoneField.setEnabled(true);
+            supplierPhoneField.setText("");
+        }
     }
 
     private class CategoryItemListener implements ItemListener {

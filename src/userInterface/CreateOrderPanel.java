@@ -40,7 +40,6 @@ public class CreateOrderPanel extends JPanel {
         setLayout(new BorderLayout());
 
         initFormComponents();
-
         createFormPanel();
 
         add(usersPanel, BorderLayout.NORTH);
@@ -77,7 +76,7 @@ public class CreateOrderPanel extends JPanel {
 
         commentsText = new JTextField();
         discountField = new JTextField();
-        discountField.getDocument().addDocumentListener(new refreshPriceListener());
+        discountField.getDocument().addDocumentListener(new RefreshPriceListener());
 
         addProdButton = new JButton("Ajouter produit");
         deleteProdButton = new JButton("Supprimer produit");
@@ -292,6 +291,7 @@ public class CreateOrderPanel extends JPanel {
                 }
             }
 
+
             try {
                 Order order = new Order(LocalDate.now(),
                         null,
@@ -328,7 +328,7 @@ public class CreateOrderPanel extends JPanel {
         }
     }
 
-    private class refreshPriceListener implements DocumentListener {
+    private class RefreshPriceListener implements DocumentListener {
         @Override
         public void insertUpdate(DocumentEvent e) {
             calcTotalPrice();
