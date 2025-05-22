@@ -136,7 +136,11 @@ public class CreateProductPanel extends JPanel {
     private class CancelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            SwingUtilities.getWindowAncestor(CreateProductPanel.this).dispose();
+            removeAll();
+            add(new ListingProductPanel());
+
+            revalidate();
+            repaint();
         }
     }
 

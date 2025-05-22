@@ -98,9 +98,9 @@ public class ResearchPanel extends JPanel {
                         dynamicPanel.add(new JLabel("Année:"));
                         dynamicPanel.add(yearSpinner);
 
-                        DateChangeListener dateChangeListener = new DateChangeListener();
-                        monthSpinner.addChangeListener(dateChangeListener);
-                        yearSpinner.addChangeListener(dateChangeListener);
+                        monthSpinner.addChangeListener(new DateChangeListener());
+                        yearSpinner.addChangeListener(new DateChangeListener());
+
 
                         revalidate();
                         repaint();
@@ -283,16 +283,23 @@ public class ResearchPanel extends JPanel {
             int year = (int) yearSpinner.getValue();
             int month = (int) monthSpinner.getValue();
 
-            int maxDays = java.time.YearMonth.of(year, month).lengthOfMonth();
+            int maxDays = java.time.YearMonth.of(year, month).lengthOfMonth(); // Nombre de jours dans un mois (annee bissextile et tout)
 
             SpinnerNumberModel dayModel = (SpinnerNumberModel) daySpinner.getModel();
-            int currentDay = (int) dayModel.getValue();
 
             dayModel.setMaximum(maxDays);
 
+            int currentDay = (int) dayModel.getValue();
             if (currentDay > maxDays) {
                 dayModel.setValue(maxDays);
             }
+
+            SpinnerNumberModel yearModel = (SpinnerNumberModel) yearSpinner.getModel();
+            int currentYear = (int) yearModel.getValue();
+            if (currentYear > LocalDate.now().getYear()) {
+                yearModel.setValue(LocalDate.now().getYear());
+            }
+
         }
     }
 }
