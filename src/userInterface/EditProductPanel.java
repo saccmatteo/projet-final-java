@@ -2,14 +2,15 @@ package userInterface;
 
 import controller.CategoryController;
 import controller.ProductController;
+import controller.SupplierController;
 import model.Product;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Locale;
 
 public class EditProductPanel extends JPanel {
     private Product product;
@@ -20,11 +21,14 @@ public class EditProductPanel extends JPanel {
     private JCheckBox glutenFreeCheckBox, isAlcoholCheckBox;
     private JButton cancelButton, saveButton;
     private CategoryController categoryController;
+    private SupplierController supplierController;
 
     public EditProductPanel(Product product) {
         this.product = product;
         setProductController(new ProductController());
         setCategoryController(new CategoryController());
+        setSupplierController(new SupplierController());
+
 
         setLayout(new BorderLayout());
 
@@ -54,6 +58,7 @@ public class EditProductPanel extends JPanel {
         nbStock = new JTextField();
         description = new JTextField();
         supplierName = new JTextField();
+        supplierName.getDocument().addDocumentListener(new RefreshPhoneNumbeListener());
         supplierPhone = new JTextField();
 
 
@@ -250,11 +255,45 @@ public class EditProductPanel extends JPanel {
         }
     }
 
+    private class RefreshPhoneNumbeListener implements DocumentListener {
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            setExistingPhoneNumber();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            setExistingPhoneNumber();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            // Pas utile dans notre cas
+        }
+    }
+
+    public void setExistingPhoneNumber(){
+        SwingUtilities.invokeLater(() -> {
+            String phone = supplierController.getSupplierPhoneNumberByName(supplierName.getText().trim());
+            if (phone != null && !phone.isEmpty()) {
+                supplierPhone.setText(phone);
+                supplierPhone.setEnabled(false);
+            } else {
+                supplierPhone.setEnabled(true);
+                supplierPhone.setText("");
+            }
+        });
+    }
+
     public void setCategoryController(CategoryController categoryController) {
         this.categoryController = categoryController;
     }
 
     public void setProductController(ProductController productController) {
         this.productController = productController;
+    }
+
+    public void setSupplierController(SupplierController supplierController) {
+        this.supplierController = supplierController;
     }
 }
