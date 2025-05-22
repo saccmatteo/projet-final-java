@@ -10,7 +10,6 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class CreateProductPanel extends JPanel {
     private final String[] categories = {
@@ -41,7 +40,7 @@ public class CreateProductPanel extends JPanel {
         cancelButton.addActionListener(new CancelButtonListener());
         resetButton.addActionListener(new ResetButtonListener());
         submitButton.addActionListener(new SubmitButtonListener());
-        supplierNameField.getDocument().addDocumentListener(new RefreshPriceListener());
+        supplierNameField.getDocument().addDocumentListener(new RefreshPhoneNumbeListener());
 
         JPanel buttonsPanel = new JPanel(new FlowLayout());
         buttonsPanel.add(cancelButton);
@@ -111,7 +110,7 @@ public class CreateProductPanel extends JPanel {
         return formPanel;
     }
 
-    private class RefreshPriceListener implements DocumentListener {
+    private class RefreshPhoneNumbeListener implements DocumentListener {
         @Override
         public void insertUpdate(DocumentEvent e) {
             setExistingPhoneNumber();
@@ -131,7 +130,7 @@ public class CreateProductPanel extends JPanel {
     public void setExistingPhoneNumber(){
         String phoneNumberExisting = supplierController.getSupplierPhoneNumberByName(supplierNameField.getText());
 
-        if (phoneNumberExisting != null) {
+        if (phoneNumberExisting != null && !phoneNumberExisting.isEmpty()) {
             supplierPhoneField.setText(phoneNumberExisting);
             supplierPhoneField.setEnabled(false);
         } else {
@@ -196,6 +195,7 @@ public class CreateProductPanel extends JPanel {
             categoryBox.setSelectedIndex(-1);
             categoryBox.setEnabled(true);
             descriptionField.setText("");
+            supplierPhoneField.setEnabled(true);
         }
     }
 
