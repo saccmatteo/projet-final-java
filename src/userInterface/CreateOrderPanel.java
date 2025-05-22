@@ -322,11 +322,11 @@ public class CreateOrderPanel extends JPanel {
                     orderLineController.createOrderLine(orderLine, orderId);
 
                     // MAJ en stock
-                        //Récupérer le produit
+                        //recuperer le produit
                     Product product = orderLine.getProduct();
-                        //Calculer newStock
+                        //calculer newStock
                     int newStock = product.getNbInStock() - orderLine.getQuantity();
-                        // Mettre à jour en base (adapter selon ta méthode dans ProductDBAccess)
+                        //maj bd
                     productController.updateStock(product, newStock);
                     listingProductPanel.refreshAndFilter();
                 }
