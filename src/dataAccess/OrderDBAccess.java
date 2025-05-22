@@ -23,22 +23,26 @@ public class OrderDBAccess implements OrderDataAccess {
             preparedStatement.setString(1, OrderStatus.IN_PROGRESS.getLabel());
             data = preparedStatement.executeQuery();
 
-            while (data.next()) {
-                Order newOrder = new Order(
-                        data.getInt("id"),
-                        data.getDate("order_date").toLocalDate(),
-                        CrudUtils.getNullableDate(data, "payment_date"), //si c'est en cours en gros cv etre null car pas encore payé
-                        CrudUtils.getNullableInt(data, "discount_percentage"),
-                        CrudUtils.getNullableString(data, "comment"),
-                        data.getBoolean("is_happy_hour"),
-                        data.getString("status_label"),
-                        data.getString("payment_method_label"),
-                        new User(data.getInt("user_id"),
-                                data.getString("user.last_name"),
-                                data.getString("user.first_name")
-                        )
-                );
-                orders.add(newOrder);
+            try {
+                while (data.next()) {
+                    Order newOrder = new Order(
+                            data.getInt("id"),
+                            data.getDate("order_date").toLocalDate(),
+                            CrudUtils.getNullableDate(data, "payment_date"), //si c'est en cours en gros cv etre null car pas encore payé
+                            CrudUtils.getNullableInt(data, "discount_percentage"),
+                            CrudUtils.getNullableString(data, "comment"),
+                            data.getBoolean("is_happy_hour"),
+                            data.getString("status_label"),
+                            data.getString("payment_method_label"),
+                            new User(data.getInt("user_id"),
+                                    data.getString("user.last_name"),
+                                    data.getString("user.first_name")
+                            )
+                    );
+                    orders.add(newOrder);
+                }
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

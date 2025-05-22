@@ -160,25 +160,42 @@ public class CreateOrderPanel extends JPanel {
                 return;
             }
 
+            String input = JOptionPane.showInputDialog(null, "Combien de " + selectedProd.getLabel() + " ?");
+            if (input == null) {
+                // L'utilisateur a appuyé sur "Annuler"
+                return;
+            }
+
+            input = input.trim();
+
+            if (input.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Veuillez entrer un nombre.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             int nbProd;
             try {
-                nbProd = Integer.parseInt(JOptionPane.showInputDialog(null, "Combien de " + selectedProd.getLabel() + " ?"));
-            } catch (Exception ex) {
+                nbProd = Integer.parseInt(input);
+                if (nbProd <= 0) {
+                    JOptionPane.showMessageDialog(null, "La quantité doit être supérieure à 0.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Veuillez entrer un nombre valide.", "Erreur", JOptionPane.ERROR_MESSAGE);
                 return;
-            } // à regarder si le le produit est null ou si c'est 0 non ?
-
-            int productQuantity = nbProd;
-            if (productQuantity <= 0) {
-                // Faire exception non ?
             }
 
             OrderLine existingOl = findOrderLine(selectedProd);
-            if (existingOl == null) {
-                commandListModel.addElement(new OrderLine(productQuantity, selectedProd.getPrice(), selectedProd));
-            } else {
-                existingOl.addQuantity(productQuantity);
+            try {
+                if (existingOl == null) {
+                    commandListModel.addElement(new OrderLine(nbProd, selectedProd.getPrice(), selectedProd));
+                } else {
+                    existingOl.addQuantity(nbProd);
+                }
+                calcTotalPrice();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Quantité invalide", JOptionPane.ERROR_MESSAGE);
             }
-            calcTotalPrice();
         }
     }
 
@@ -201,6 +218,7 @@ public class CreateOrderPanel extends JPanel {
             discountField.setText("");
             discountField.setEnabled(true);
             happyHourRadio.setSelected(false);
+            listingProductPanel.getCategoryComboBox().setSelectedIndex(-1);
             commandListModel.clear();
             calcTotalPrice();
         }
@@ -214,32 +232,47 @@ public class CreateOrderPanel extends JPanel {
                 return;
             }
 
-            int discount = 0;
+            String txt = discountField.getText().trim();
+            Integer discount = null;
+
+            if (txt.isEmpty()) {
+                discount = null;
+            } else {
+                try {
+                    int val = Integer.parseInt(txt);
+                    if (val < 0 || val > 100) {
+                        JOptionPane.showMessageDialog(null, "Le pourcentage de remise doit être entre 0 et 100.", "Erreur...", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    discount = val;
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Le pourcentage de remise doit être un nombre valide.", "Erreur...", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+
             try {
-                discount = Integer.parseInt(discountField.getText().trim());
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Réduction invalide.");
-                return;
-            }
+                Order order = new Order(LocalDate.now(),
+                        null,
+                        discount,
+                        commentsText.getText(),
+                        happyHourRadio.isSelected(),
+                        OrderStatus.IN_PROGRESS.getLabel(),
+                        PaymentMethod.NOTPAID.getLabel(),
+                        selectedUser
+                );
+                int orderId = orderController.createOrder(order);
+                order.setId(orderId);
 
-            Order order = new Order(LocalDate.now(),
-                    null,
-                    discount,
-                    commentsText.getText(),
-                    happyHourRadio.isSelected(),
-                    OrderStatus.IN_PROGRESS.getLabel(),
-                    PaymentMethod.NOTPAID.getLabel(),
-                    selectedUser
-            );
-            int orderId = orderController.createOrder(order);
-            order.setId(orderId);
-
-            for (int i = 0; i < commandListModel.getSize(); i++) {
-                OrderLine orderLine = commandListModel.getElementAt(i);
-                orderLineController.createOrderLine(orderLine, orderId);
+                for (int i = 0; i < commandListModel.getSize(); i++) {
+                    OrderLine orderLine = commandListModel.getElementAt(i);
+                    orderLineController.createOrderLine(orderLine, orderId);
+                }
+                JOptionPane.showMessageDialog(null, "Commande enregistrée avec succès !");
+                new ResetButtonListener().actionPerformed(null);
+            } catch (Exception exception) {
+                JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur...", JOptionPane.ERROR_MESSAGE);
             }
-            JOptionPane.showMessageDialog(null, "Commande enregistrée avec succès !");
-            new ResetButtonListener().actionPerformed(null); // Reset après création
         }
     }
 
@@ -277,13 +310,24 @@ public class CreateOrderPanel extends JPanel {
             OrderLine ol = commandListModel.getElementAt(i);
             rawTotal += ol.getProduct().getPrice() * ol.getQuantity();
         }
+
         // Calcul du pourcentage de remise
-        int discountPct;
+        int discountPct = 0;
         String txt = discountField.getText().trim();
-        discountPct = txt.isEmpty() ? 0 : Integer.parseInt(txt);
-        if (discountPct < 0 || discountPct > 100) {
-            discountPct = 0;
+
+        if (!txt.isEmpty()) {
+            try {
+                int val = Integer.parseInt(txt);
+                if (val >= 0 && val <= 100) {
+                    discountPct = val;
+                } else {
+                    discountPct = 0;
+                }
+            } catch (NumberFormatException e) {
+                discountPct = 0;
+            }
         }
+
         // Application de la remise
         double net = (100 - discountPct) / 100.0 * rawTotal;
         // Affichage

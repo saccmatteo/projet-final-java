@@ -1,7 +1,10 @@
 package dataAccess;
 
+import exceptions.ProductLabelException;
 import model.Product;
 import interfaces.ProductDataAccess;
+
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -40,23 +43,27 @@ public class ProductDBAccess implements ProductDataAccess {
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             data = preparedStatement.executeQuery();
 
-            while (data.next()) {
-                Product newProduct = new Product(
-                        data.getInt("id"),
-                        data.getString("label"),
-                        data.getDouble("price"),
-                        data.getInt("nb_in_stock"),
-                        data.getInt("min_treshold"),
-                        data.getBoolean("is_gluten_free"),
-                        CrudUtils.getNullableDouble(data, "alcohol_percentage"),
-                        data.getDate("distribution_date").toLocalDate(),
-                        data.getDate("last_restock_date").toLocalDate(),
-                        CrudUtils.getNullableString(data, "description"),
-                        data.getString("supplier_label"),
-                        data.getString("supplier.phone_number"),
-                        data.getString("category_label")
-                );
-                products.add(newProduct);
+            try {
+                while (data.next()) {
+                    Product newProduct = new Product(
+                            data.getInt("id"),
+                            data.getString("label"),
+                            data.getDouble("price"),
+                            data.getInt("nb_in_stock"),
+                            data.getInt("min_treshold"),
+                            data.getBoolean("is_gluten_free"),
+                            CrudUtils.getNullableDouble(data, "alcohol_percentage"),
+                            data.getDate("distribution_date").toLocalDate(),
+                            data.getDate("last_restock_date").toLocalDate(),
+                            CrudUtils.getNullableString(data, "description"),
+                            data.getString("supplier_label"),
+                            data.getString("supplier.phone_number"),
+                            data.getString("category_label")
+                    );
+                    products.add(newProduct);
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
         }
         catch (SQLException e) {

@@ -7,6 +7,8 @@ import model.Product;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -95,6 +97,10 @@ public class ResearchPanel extends JPanel {
                         dynamicPanel.add(monthSpinner);
                         dynamicPanel.add(new JLabel("Année:"));
                         dynamicPanel.add(yearSpinner);
+
+                        DateChangeListener dateChangeListener = new DateChangeListener();
+                        monthSpinner.addChangeListener(dateChangeListener);
+                        yearSpinner.addChangeListener(dateChangeListener);
 
                         revalidate();
                         repaint();
@@ -211,12 +217,28 @@ public class ResearchPanel extends JPanel {
                         showTable(productsUnderThresholdModel);
                         break;
                     case "Informations commandes d'un produit":
+                        if (productJList.getSelectedValue() == null) {
+                            JOptionPane.showMessageDialog(null,
+                                    "Veuillez sélectionner un produit.",
+                                    "Aucun produit sélectionné",
+                                    JOptionPane.WARNING_MESSAGE);
+                            return;
+                        }
+
                         int selectedProductId = productJList.getSelectedValue().getId();
 
                         orderInfosModel = new OrderInfosModel(researchesController.getAllOrdersInfos(selectedProductId));
                         showTable(orderInfosModel);
                         break;
                     case "Moyenne mensuelle (6 mois)":
+                        if (productJList.getSelectedValue() == null) {
+                            JOptionPane.showMessageDialog(null,
+                                    "Veuillez sélectionner un produit.",
+                                    "Aucun produit sélectionné",
+                                    JOptionPane.WARNING_MESSAGE);
+                            return;
+                        }
+
                         selectedProductId = productJList.getSelectedValue().getId();
                         averageProductSelledByMonthLabel.setText("Moyenne mensuelle des ventes de " + productJList.getSelectedValue().getLabel() + " sur les 6 derniers mois : " + String.format("%.2f", productController.getAllProductSelledLast6Months(selectedProductId) / 6.0));
                         averageProductSelledByMonthLabel.setFont(new Font("Arial", Font.BOLD, 24));
@@ -253,6 +275,24 @@ public class ResearchPanel extends JPanel {
             //CASTING OBLIGATOIRE CAR LE SELECTED ITEM EST UN OBJECT ET PAS UN STRING
             String selectedCategory = (String) categoryCombobox.getSelectedItem();
             updateProductList(selectedCategory);
+        }
+    }
+    private class DateChangeListener implements ChangeListener {
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            int year = (int) yearSpinner.getValue();
+            int month = (int) monthSpinner.getValue();
+
+            int maxDays = java.time.YearMonth.of(year, month).lengthOfMonth();
+
+            SpinnerNumberModel dayModel = (SpinnerNumberModel) daySpinner.getModel();
+            int currentDay = (int) dayModel.getValue();
+
+            dayModel.setMaximum(maxDays);
+
+            if (currentDay > maxDays) {
+                dayModel.setValue(maxDays);
+            }
         }
     }
 }

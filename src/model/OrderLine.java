@@ -1,20 +1,17 @@
 package model;
 
+import exceptions.OrderLineQuantityException;
+
 public class OrderLine {
     private Integer quantity;
     private Double unitPrice;
     private Product product;
     private Order order;
 
-    public OrderLine(Integer quantity, Double unitPrice, Product product) {
-        this.quantity = quantity;
+    public OrderLine(Integer quantity, Double unitPrice, Product product) throws OrderLineQuantityException {
+        setQuantity(quantity);
         this.unitPrice = unitPrice;
         this.product = product;
-    }
-
-    public OrderLine(Integer quantity, Double unitPrice) {
-        this.quantity = quantity;
-        this.unitPrice = unitPrice;
     }
 
     // Getters
@@ -34,7 +31,13 @@ public class OrderLine {
     }
 
     // Setters
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(Integer quantity) throws OrderLineQuantityException {
+        if (quantity == null ) {
+            throw new OrderLineQuantityException(null, "La quantité est obligatoire.");
+        }
+        if (quantity <= 0) {
+            throw new OrderLineQuantityException(quantity, "La quantité ne peut pas être négative.");
+        }
         this.quantity = quantity;
     }
 

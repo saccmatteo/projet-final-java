@@ -3,7 +3,6 @@ INSERT INTO category (label) VALUES
                                  ('Boisson alcoolisée'),
                                  ('Soft'),
                                  ('Snacks'),
-                                 ('Sans gluten'),
                                  ('Boisson chaude'),
                                  ('Glace');
 
@@ -58,10 +57,10 @@ INSERT INTO product (
       ('Barre Granola',  1.80,  40, 5, TRUE,  NULL, '2024-03-26', '2024-03-26', 'Barre granola aux fruits',    'Snacks',          'Nestlé'),
       ('Popcorn Beurre', 2.50,  60, 5, FALSE, NULL, '2024-03-28', '2024-03-28', 'Popcorn au beurre',           'Snacks',          'PepsiCo'),
 
-      -- Sans gluten
-      ('Crackers Sans Gluten',2.50, 30, 5, TRUE,  NULL, '2024-03-15', '2024-03-15', 'Crackers pour allergiques',    'Sans gluten',     'Nestlé'),
-      ('Pain Sans Gluten',    3.00, 40, 5, TRUE,  NULL, '2024-03-18', '2024-03-18', 'Pain sans gluten',             'Sans gluten',     'Nestlé'),
-      ('Pâtes Sans Gluten',   4.00, 25, 3, TRUE,  NULL, '2024-03-20', '2024-03-20', 'Pâtes pour personnes allergiques','Sans gluten',   'Nestlé'),
+      -- Snacks sans gluten
+      ('Crackers Sans Gluten',2.50, 30, 5, TRUE,  NULL, '2024-03-15', '2024-03-15', 'Crackers pour allergiques',    'Snacks',     'Nestlé'),
+      ('Pain Sans Gluten',    3.00, 40, 5, TRUE,  NULL, '2024-03-18', '2024-03-18', 'Pain sans gluten',             'Snacks',     'Nestlé'),
+      ('Pâtes Sans Gluten',   4.00, 25, 3, TRUE,  NULL, '2024-03-20', '2024-03-20', 'Pâtes pour personnes allergiques','Snacks',   'Nestlé'),
 
       -- Boisson chaude
       ('Café Expresso',  2.50,  80,10, TRUE,  NULL, '2024-03-10', '2024-03-10', 'Café expresso torréfié',       'Boisson chaude',  'Starbucks'),
@@ -78,16 +77,16 @@ INSERT INTO `order` (
     order_date, payment_date, discount_percentage, `comment`,
     is_happy_hour, status_label, user_id, payment_method_label
 ) VALUES
-      ('2025-04-01', NULL,  0,'RAS',           FALSE,'En cours', 1,'Pas payée'),
+      ('2025-04-01', NULL,  NULL,'RAS',           FALSE,'En cours', 1,'Pas payée'),
       ('2025-04-01', NULL, 50,'',              TRUE, 'En cours', 2,'Pas payée'),
       ('2025-04-02', NULL,  5,'Client fidèle', FALSE,'En cours', 1,'Pas payée'),
-      ('2025-04-02', NULL,  0,'',              TRUE, 'En cours', 3,'Pas payée'),
-      ('2025-04-03', NULL,  0,'',              FALSE,'En cours', 2,'Pas payée'),
+      ('2025-04-02', NULL,  NULL,'',              TRUE, 'En cours', 3,'Pas payée'),
+      ('2025-04-03', NULL,  NULL,'',              FALSE,'En cours', 2,'Pas payée'),
       ('2025-04-03', NULL, 50,'Promo spéciale', TRUE, 'En cours', 1,'Pas payée'),
-      ('2025-04-04', NULL,  0,'',              FALSE,'En cours', 3,'Pas payée'),
+      ('2025-04-04', NULL,  NULL,'',              FALSE,'En cours', 3,'Pas payée'),
       ('2025-04-04', NULL, 50,'',              TRUE, 'En cours', 2,'Pas payée'),
-      ('2025-04-05', NULL,  0,'Commande rapide',FALSE,'En cours', 1,'Pas payée'),
-      ('2025-04-06', NULL,  0,'',              FALSE,'En cours', 3,'Pas payée');
+      ('2025-04-05', NULL,  NULL,'Commande rapide',FALSE,'En cours', 1,'Pas payée'),
+      ('2025-04-06', NULL,  NULL,'',              FALSE,'En cours', 3,'Pas payée');
 
 -- 9) Lignes de commande
 INSERT INTO orderLine (order_id, product_id, quantity, unit_price) VALUES

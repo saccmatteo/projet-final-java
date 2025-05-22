@@ -115,6 +115,10 @@ public class ListingProductPanel extends JPanel {
         this.productController = productController;
     }
 
+    public JComboBox<String> getCategoryComboBox() {
+        return categoryComboBox;
+    }
+
     public JList<Product> getProductJList() {
         return productJList;
     }

@@ -85,7 +85,12 @@ public class EditOrderPanel extends JPanel {
 
     //va remplir les textFields du formulaire
     private void loadFields() {
-        discountField.setText(String.valueOf(order.getDiscountPercentage()));
+        if (order.getDiscountPercentage() == null) {
+            discountField.setText("");
+        }
+        else {
+            discountField.setText(String.valueOf(order.getDiscountPercentage()));
+        }
         commentField.setText(order.getComment());
         happyHourCheckBox.setSelected(order.getHappyHour());
     }
@@ -105,7 +110,18 @@ public class EditOrderPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                Integer newDiscount = Integer.parseInt(discountField.getText());
+                String discountText = discountField.getText().trim();
+                Integer newDiscount = null;
+
+                if (!discountText.isEmpty()) {
+                    int val = Integer.parseInt(discountText);
+                    if (val < 0 || val > 100) {
+                        JOptionPane.showMessageDialog(EditOrderPanel.this, "Erreur : la remise doit être entre 0 et 100.");
+                        return;
+                    }
+                    newDiscount = val;
+                }
+
                 String newComment = commentField.getText();
                 Boolean newHappyHour = happyHourCheckBox.isSelected();
 
@@ -128,7 +144,7 @@ public class EditOrderPanel extends JPanel {
                 revalidate();
                 repaint();
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(EditOrderPanel.this, "Erreur : le pourcentage de réduction doit être un nombre.");
+                JOptionPane.showMessageDialog(EditOrderPanel.this, "Erreur : le pourcentage de réduction doit être un nombre valide.");
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(EditOrderPanel.this, "Erreur inattendue : " + ex.getMessage());
             }

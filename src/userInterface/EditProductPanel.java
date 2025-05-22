@@ -1,5 +1,6 @@
 package userInterface;
 
+import controller.CategoryController;
 import controller.ProductController;
 import model.Product;
 
@@ -7,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class EditProductPanel extends JPanel {
     private Product product;
@@ -14,17 +17,14 @@ public class EditProductPanel extends JPanel {
 
     private JTextField label, price, alcoholPercentage, treshold, supplierName, supplierPhone, nbStock, description;
     private JComboBox<String> category;
-    private JRadioButton glutenFree, isAlcohol;
+    private JCheckBox glutenFreeCheckBox, isAlcoholCheckBox;
     private JButton cancelButton, saveButton;
-
-    private final String[] categories = {
-            "Boisson alcoolisée", "Soft", "Snacks", "Sans gluten",
-            "Boisson chaude", "Glace"
-    };
+    private CategoryController categoryController;
 
     public EditProductPanel(Product product) {
         this.product = product;
         setProductController(new ProductController());
+        setCategoryController(new CategoryController());
 
         setLayout(new BorderLayout());
 
@@ -56,12 +56,13 @@ public class EditProductPanel extends JPanel {
         supplierName = new JTextField();
         supplierPhone = new JTextField();
 
-        category = new JComboBox<>(categories);
-        glutenFree = new JRadioButton("Sans gluten");
-        isAlcohol = new JRadioButton("Alcoolisé");
 
-        glutenFree.addItemListener(new GlutenFreeItemListener());
-        isAlcohol.addItemListener(new IsAlcoholItemListener());
+        category = new JComboBox<>(categoryController.getAllCategories().toArray(new String[0]));
+        category.addItemListener(new CategoryItemListener());
+        glutenFreeCheckBox = new JCheckBox("Sans gluten");
+        isAlcoholCheckBox = new JCheckBox("Alcoolisé");
+
+        isAlcoholCheckBox.addItemListener(new IsAlcoholItemListener());
     }
 
     //Créé le formulaire
@@ -80,8 +81,8 @@ public class EditProductPanel extends JPanel {
         formPanel.add(new JLabel("Minimum avant notification :"));
         formPanel.add(treshold);
 
-        formPanel.add(glutenFree);
-        formPanel.add(isAlcohol);
+        formPanel.add(glutenFreeCheckBox);
+        formPanel.add(isAlcoholCheckBox);
 
         formPanel.add(new JLabel("Pourcentage d'alcool :"));
         formPanel.add(alcoholPercentage);
@@ -111,8 +112,8 @@ public class EditProductPanel extends JPanel {
         supplierName.setText(product.getSupplierLabel());
         supplierPhone.setText(String.valueOf(product.getSupplierPhoneNumber()));
 
-        glutenFree.setSelected(!product.getGlutenFree());
-        isAlcohol.setSelected(product.getAlcoholPercentage() != null);
+        glutenFreeCheckBox.setSelected(product.getGlutenFree());
+        isAlcoholCheckBox.setSelected(product.getAlcoholPercentage() != null);
 
         if (product.getAlcoholPercentage() != null) {
             alcoholPercentage.setText(String.valueOf(product.getAlcoholPercentage()));
@@ -128,38 +129,35 @@ public class EditProductPanel extends JPanel {
             category.setSelectedIndex(-1);
         }
 
-        category.setEnabled(!(glutenFree.isSelected() || isAlcohol.isSelected()));
+        category.setEnabled(!(isAlcoholCheckBox.isSelected()));
     }
 
-    private class GlutenFreeItemListener implements ItemListener {
+    private class IsAlcoholItemListener implements ItemListener {
         @Override
         public void itemStateChanged(ItemEvent e) {
-            if (glutenFree.isSelected()) {
-                isAlcohol.setSelected(false);
+            if (isAlcoholCheckBox.isSelected()) {
+                alcoholPercentage.setEnabled(true);
+                category.setSelectedItem("Boisson alcoolisée");
+                category.setEnabled(false);
+            } else {
                 alcoholPercentage.setText("");
                 alcoholPercentage.setEnabled(false);
-                category.setSelectedItem("Sans gluten");
-                category.setEnabled(false);
-            } else if (!isAlcohol.isSelected()) {
                 category.setSelectedIndex(-1);
                 category.setEnabled(true);
             }
         }
     }
 
-    private class IsAlcoholItemListener implements ItemListener {
+    //si il choisit alcool comme caté alors la radio devient true
+    private class CategoryItemListener implements ItemListener {
         @Override
         public void itemStateChanged(ItemEvent e) {
-            if (isAlcohol.isSelected()) {
-                glutenFree.setSelected(false);
-                alcoholPercentage.setEnabled(true);
-                category.setSelectedItem("Boisson alcoolisée");
-                category.setEnabled(false);
-            } else if (!glutenFree.isSelected()) {
-                alcoholPercentage.setText("");
-                alcoholPercentage.setEnabled(false);
-                category.setSelectedIndex(-1);
-                category.setEnabled(true);
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                String selected = (String) e.getItem();
+                if ("Boisson alcoolisée".equals(selected)) {
+                    isAlcoholCheckBox.setSelected(true);
+                    category.setEnabled(false);
+                }
             }
         }
     }
@@ -179,24 +177,44 @@ public class EditProductPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                String newLabel = label.getText();
-                Double newPrice = Double.parseDouble(price.getText());
-                Integer newStock = Integer.parseInt(nbStock.getText());
-                Integer newTreshold = Integer.parseInt(treshold.getText());
-                Boolean newGlutenFree = glutenFree.isSelected();
-                String newDescription = description.getText();
-                String newSupplierName = supplierName.getText();
+                String newLabel = label.getText().trim();
+                Double newPrice = Double.parseDouble(price.getText().trim());
+                Integer newStock = Integer.parseInt(nbStock.getText().trim());
+                Integer newTreshold = Integer.parseInt(treshold.getText().trim());
+                Boolean newGlutenFree = glutenFreeCheckBox.isSelected();  // Checkbox indépendante
+                String newDescription = description.getText().trim();
+                String newSupplierName = supplierName.getText().trim();
                 String newSupplierPhone = supplierPhone.getText().trim();
 
                 Double newAlcoholPercentage = null;
-                if (isAlcohol.isSelected()) {
-                    newAlcoholPercentage = Double.parseDouble(alcoholPercentage.getText());
+                if (isAlcoholCheckBox.isSelected()) {
+                    String alcText = alcoholPercentage.getText().trim();
+                    if (!alcText.isEmpty()) {
+                        try {
+                            newAlcoholPercentage = Double.parseDouble(alcText);
+                            if (newAlcoholPercentage < 1 || newAlcoholPercentage > 100) {
+                                JOptionPane.showMessageDialog(EditProductPanel.this, "Le taux d'alcool doit être entre 1 et 100%.", "Erreur...", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(EditProductPanel.this, "Le taux d'alcool doit être un nombre valide.", "Erreur...", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(EditProductPanel.this, "Veuillez entrer un taux d'alcool.", "Erreur...", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                 }
 
                 String newCategory = (String) category.getSelectedItem();
+                if (newCategory == null || newCategory.isEmpty()) {
+                    JOptionPane.showMessageDialog(EditProductPanel.this, "Veuillez sélectionner une catégorie.", "Erreur...", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
                 LocalDate distributionDate = product.getDistributionDate();
                 LocalDate lastRestockDate = product.getLastRestockDate();
+
                 if (!product.getNbInStock().equals(newStock)) {
                     lastRestockDate = LocalDate.now();
                 }
@@ -216,21 +234,25 @@ public class EditProductPanel extends JPanel {
                         newSupplierPhone,
                         newCategory
                 );
+
                 productController.updateProduct(updatedProduct);
                 JOptionPane.showMessageDialog(EditProductPanel.this, "Produit mis à jour avec succès !");
                 removeAll();
                 add(new UpdateProductPanel());
                 revalidate();
                 repaint();
+
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(EditProductPanel.this, "Erreur : vérifiez les champs numériques.");
+                JOptionPane.showMessageDialog(EditProductPanel.this, "Erreur : vérifiez les champs numériques.", "Erreur", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(EditProductPanel.this, "Erreur inattendue : " + ex.getMessage());
+                JOptionPane.showMessageDialog(EditProductPanel.this, "Erreur inattendue : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
-
+    public void setCategoryController(CategoryController categoryController) {
+        this.categoryController = categoryController;
+    }
 
     public void setProductController(ProductController productController) {
         this.productController = productController;
