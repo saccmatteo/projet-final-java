@@ -10,4 +10,5 @@ public interface ProductDataAccess {
     void deleteProduct(int productId);
     void createProduct(Product product);
     void updateProduct(Product product);
+    void updateStock(Product product, int newStock);
 }

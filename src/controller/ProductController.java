@@ -34,4 +34,5 @@ public class ProductController {
     public void updateProduct(Product product) {
         manager.updateProduct(product);
     }
+    public void updateStock(Product product, int newStock) {manager.updateStock(product, newStock);}
 }

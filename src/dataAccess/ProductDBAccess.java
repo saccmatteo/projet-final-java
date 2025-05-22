@@ -162,4 +162,17 @@ public class ProductDBAccess implements ProductDataAccess {
             System.out.println(e.getMessage());
         }
     }
+    public void updateStock(Product product, int newStock) {
+        try {
+            String sql = "UPDATE product SET nb_in_stock = ? WHERE id = ?";
+            PreparedStatement preparedStatement = SingletonConnection.getInstance().prepareStatement(sql);
+
+            preparedStatement.setInt(1, newStock);
+            preparedStatement.setInt(2, product.getId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

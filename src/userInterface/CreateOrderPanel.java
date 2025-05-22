@@ -17,7 +17,7 @@ public class CreateOrderPanel extends JPanel {
 
     // Composants
     private JPanel usersPanel, formPanel, productPanel, commandPanel, middlePanel, buttonPanel;
-    private JLabel usersLabel, commentsLabel, discountLabel;
+    private JLabel usersLabel, commentsLabel, discountLabel, cartLabel;
     private JTextField commentsText, discountField, priceField;
     private JButton addProdButton, deleteProdButton, submitButton, resetButton;
     private JCheckBox happyHourRadio;
@@ -28,12 +28,14 @@ public class CreateOrderPanel extends JPanel {
     private UserController userController;
     private OrderController orderController;
     private OrderLineController orderLineController;
+    private ProductController productController;
     private ListingProductPanel listingProductPanel;
 
     public CreateOrderPanel() {
         setUserController(new UserController());
         setOrderController(new OrderController());
         setOrderLineController(new OrderLineController());
+        setProductController(new ProductController());
 
         setLayout(new BorderLayout());
 
@@ -65,8 +67,12 @@ public class CreateOrderPanel extends JPanel {
 
         usersLabel = new JLabel("Utilisateur gérant la commande : ");
         usersLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        commentsLabel = new JLabel("Commentaires : ");
-        discountLabel = new JLabel("Réduction : ");
+        commentsLabel = new JLabel("    Commentaires : ");
+        commentsLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        discountLabel = new JLabel("    Réduction : ");
+        discountLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        cartLabel = new JLabel("Panier : ");
+        cartLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
         commentsText = new JTextField();
         discountField = new JTextField();
@@ -82,14 +88,19 @@ public class CreateOrderPanel extends JPanel {
         priceField = new JTextField(priceText + totalPrice);
         priceField.setEnabled(false);
 
-        happyHourRadio = new JCheckBox("Happy hour");
+        happyHourRadio = new JCheckBox("   Happy hour  ");
+        happyHourRadio.setHorizontalTextPosition(SwingConstants.LEFT);
+        happyHourRadio.setFont(new Font("Arial", Font.BOLD, 16));
 
         users = new JComboBox<>(userController.getAllUsers().toArray(new User[0]));
+        users.setFont(new Font("Arial", Font.BOLD, 16));
         users.setSelectedIndex(-1);
         users.setPreferredSize(new Dimension(500, 50));
 
         commandListModel = new DefaultListModel<>();
         commandList = new JList<>(commandListModel);
+        commandList.setFixedCellHeight(50);
+        commandList.setFont(new Font("Arial", Font.BOLD, 24));
 
         listingProductPanel = new ListingProductPanel();
     }
@@ -107,7 +118,7 @@ public class CreateOrderPanel extends JPanel {
         formPanel.add(commentsText);
 
         JScrollPane commandScroll = new JScrollPane(commandList);
-        commandPanel.add(new JLabel("Panier :"), BorderLayout.NORTH);
+        commandPanel.add(cartLabel, BorderLayout.NORTH);
         commandPanel.add(commandScroll, BorderLayout.CENTER);
 
         productPanel.add(listingProductPanel);
@@ -133,6 +144,10 @@ public class CreateOrderPanel extends JPanel {
 
     public void setUserController(UserController userController) {
         this.userController = userController;
+    }
+
+    public void setProductController(ProductController productController) {
+        this.productController = productController;
     }
 
     public void setOrderLineController(OrderLineController orderLineController) {
@@ -180,6 +195,19 @@ public class CreateOrderPanel extends JPanel {
                     JOptionPane.showMessageDialog(null, "La quantité doit être supérieure à 0.", "Erreur", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+
+                //pour gérer le nombre dans la commande depasse pas le stock
+                int alreadyInOrder = 0;
+                OrderLine existingOl = findOrderLine(selectedProd);
+                if (existingOl != null) {
+                    alreadyInOrder = existingOl.getQuantity();
+                }
+                int totalRequested = alreadyInOrder + nbProd;
+                if (totalRequested > selectedProd.getNbInStock()) {
+                    JOptionPane.showMessageDialog(null, "Quantité totale (" + totalRequested + ") dépasse le stock disponible (" + selectedProd.getNbInStock() + ").", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Veuillez entrer un nombre valide.", "Erreur", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -267,7 +295,18 @@ public class CreateOrderPanel extends JPanel {
                 for (int i = 0; i < commandListModel.getSize(); i++) {
                     OrderLine orderLine = commandListModel.getElementAt(i);
                     orderLineController.createOrderLine(orderLine, orderId);
+
+                    //Récupérer le produit
+                    Product product = orderLine.getProduct();
+
+                    //Calculer newStock
+                    int newStock = product.getNbInStock() - orderLine.getQuantity();
+
+                    // Mettre à jour en base (adapter selon ta méthode dans ProductDBAccess)
+                    productController.updateStock(product, newStock);
+                    listingProductPanel.refreshAndFilter();
                 }
+
                 JOptionPane.showMessageDialog(null, "Commande enregistrée avec succès !");
                 new ResetButtonListener().actionPerformed(null);
             } catch (Exception exception) {

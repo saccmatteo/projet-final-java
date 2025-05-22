@@ -36,4 +36,5 @@ public class ProductManager {
     public void updateProduct(Product product) {
         dao.updateProduct(product);
     }
+    public void updateStock(Product product, int newStock) {dao.updateStock(product, newStock);}
 }
