@@ -19,7 +19,7 @@ public class CreateOrderPanel extends JPanel {
     private JPanel usersPanel, formPanel, productPanel, commandPanel, middlePanel, buttonPanel;
     private JLabel usersLabel, commentsLabel, discountLabel, cartLabel;
     private JTextField commentsText, discountField, priceField;
-    private JButton addProdButton, deleteProdButton, submitButton, resetButton;
+    private JButton addProdButton, deleteProdButton, submitButton, resetButton, cancelButton;
     private JCheckBox happyHourRadio;
     private JComboBox<User> users;
     private JList<OrderLine> commandList;
@@ -51,6 +51,7 @@ public class CreateOrderPanel extends JPanel {
         deleteProdButton.addActionListener(new DeleteButtonListener());
         submitButton.addActionListener(new SubmitButtonListener());
         resetButton.addActionListener(new ResetButtonListener());
+        cancelButton.addActionListener(new CancelButtonListener());
         happyHourRadio.addItemListener(new HappyHourListener());
     }
 
@@ -82,6 +83,7 @@ public class CreateOrderPanel extends JPanel {
         deleteProdButton = new JButton("Supprimer produit");
         submitButton = new JButton("Valider commande");
         resetButton = new JButton("Réinitialiser");
+        cancelButton = new JButton("Annuler");
 
         priceText = "Prix total : ";
         totalPrice = 0.0;
@@ -132,6 +134,7 @@ public class CreateOrderPanel extends JPanel {
         leftButtons.add(deleteProdButton);
         leftButtons.add(submitButton);
         leftButtons.add(resetButton);
+        leftButtons.add(cancelButton);
 
         buttonPanel.add(leftButtons, BorderLayout.WEST);
         buttonPanel.add(priceField, BorderLayout.EAST);
@@ -165,6 +168,16 @@ public class CreateOrderPanel extends JPanel {
                 discountField.setText("");
                 discountField.setEnabled(true);
             }
+        }
+    }
+
+    private class CancelButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            removeAll();
+            add(new ListingOrderPanel());
+
+            revalidate();
+            repaint();
         }
     }
 

@@ -17,7 +17,7 @@ public class OrderDBAccess implements OrderDataAccess {
             sqlInstruction =
                     "SELECT `order`.*, user.last_name, user.first_name " +
                     "FROM `order` JOIN user ON `order`.user_id = user.id " +
-                    "WHERE `order`.status_label = ?" +
+                    "WHERE `order`.status_label = ? " +
                     "Order by `order`.order_date DESC, `order`.id DESC";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             preparedStatement.setString(1, OrderStatus.IN_PROGRESS.getLabel());
