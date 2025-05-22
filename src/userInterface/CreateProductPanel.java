@@ -1,5 +1,6 @@
 package userInterface;
 
+import controller.CategoryController;
 import controller.ProductController;
 import controller.SupplierController;
 import model.Product;
@@ -12,46 +13,55 @@ import java.awt.event.*;
 import java.time.LocalDate;
 
 public class CreateProductPanel extends JPanel {
-    private final String[] categories = {
-            "Boisson alcoolisée", "Soft", "Snacks",
-            "Boisson chaude", "Glace"
-    };
-
-    private ProductController productController;
-    private SupplierController supplierController;
-
+    private JPanel buttonsPanel, formPanel;
     private JTextField labelField, priceField, alcoholPercentageField, tresholdField, supplierNameField,
-            supplierPhoneField, nbStockField, descriptionField;
+    supplierPhoneField, nbStockField, descriptionField;
     private JComboBox<String> categoryBox;
     private JCheckBox glutenFreeCheckBox, isAlcoholCheckBox;
     private JButton cancelButton, submitButton, resetButton;
 
+    private ProductController productController;
+    private SupplierController supplierController;
+    private CategoryController categoryController;
+
     public CreateProductPanel() {
         setLayout(new BorderLayout());
-        this.productController = new ProductController();
-        this.supplierController = new SupplierController();
+        setProductController( new ProductController());
+        setSupplierController(new SupplierController());
+        setCategoryController(new CategoryController());
 
         initFormComponents();
+        createFormPanel();
 
-        cancelButton = new JButton("Annuler");
-        resetButton = new JButton("Réinitialiser");
-        submitButton = new JButton("Ajouter le produit");
-
-        cancelButton.addActionListener(new CancelButtonListener());
-        resetButton.addActionListener(new ResetButtonListener());
-        submitButton.addActionListener(new SubmitButtonListener());
-        supplierNameField.getDocument().addDocumentListener(new RefreshPhoneNumbeListener());
-
-        JPanel buttonsPanel = new JPanel(new FlowLayout());
-        buttonsPanel.add(cancelButton);
-        buttonsPanel.add(resetButton);
-        buttonsPanel.add(submitButton);
-
-        add(createFormPanel(), BorderLayout.CENTER);
+        add(formPanel, BorderLayout.CENTER);
         add(buttonsPanel, BorderLayout.SOUTH);
     }
 
-    //initialiser les composants
+    // SETTERS
+    public void setProductController(ProductController productController) {
+        this.productController = productController;
+    }
+    public void setCategoryController(CategoryController categoryController) {
+        this.categoryController = categoryController;
+    }
+    public void setSupplierController(SupplierController supplierController) {
+        this.supplierController = supplierController;
+    }
+
+    public void setExistingPhoneNumber(){
+        String phoneNumberExisting = supplierController.getSupplierPhoneNumberByName(supplierNameField.getText());
+
+        if (phoneNumberExisting != null && !phoneNumberExisting.isEmpty()) {
+            supplierPhoneField.setText(phoneNumberExisting);
+            supplierPhoneField.setEnabled(false);
+        } else {
+            supplierPhoneField.setEnabled(true);
+            supplierPhoneField.setText("");
+        }
+    }
+
+    // METHODES
+        // Déclare les composants
     private void initFormComponents() {
         labelField = new JTextField();
         priceField = new JTextField();
@@ -63,19 +73,30 @@ public class CreateProductPanel extends JPanel {
         supplierNameField = new JTextField();
         supplierPhoneField = new JTextField();
 
-        categoryBox = new JComboBox<>(categories);
+        categoryBox = new JComboBox<>(categoryController.getAllCategories().toArray(new String[0]));
         categoryBox.setSelectedIndex(-1);
-        categoryBox.addItemListener(new CategoryItemListener());
 
         glutenFreeCheckBox = new JCheckBox("Sans gluten");
         isAlcoholCheckBox = new JCheckBox("Alcoolisé");
 
-        isAlcoholCheckBox.addItemListener(new IsAlcoholItemListener());
-    }
+        cancelButton = new JButton("Annuler");
+        resetButton = new JButton("Réinitialiser");
+        submitButton = new JButton("Ajouter le produit");
 
-    //créé le formulaire
-    private JPanel createFormPanel() {
-        JPanel formPanel = new JPanel(new GridLayout(11, 2, 10, 10));
+
+        // Listeners
+        supplierNameField.getDocument().addDocumentListener(new RefreshPhoneNumbeListener());
+
+        categoryBox.addItemListener(new CategoryItemListener());
+        isAlcoholCheckBox.addItemListener(new IsAlcoholItemListener());
+
+        cancelButton.addActionListener(new CancelButtonListener());
+        resetButton.addActionListener(new ResetButtonListener());
+        submitButton.addActionListener(new SubmitButtonListener());
+    }
+        // Créé le formulaire
+    private void createFormPanel() {
+        formPanel = new JPanel(new GridLayout(11, 2, 10, 10));
 
         formPanel.add(new JLabel("Nom du produit :"));
         formPanel.add(labelField);
@@ -107,9 +128,14 @@ public class CreateProductPanel extends JPanel {
         formPanel.add(new JLabel("Numéro du fournisseur :"));
         formPanel.add(supplierPhoneField);
 
-        return formPanel;
+        buttonsPanel = new JPanel(new FlowLayout());
+        buttonsPanel.add(cancelButton);
+        buttonsPanel.add(resetButton);
+        buttonsPanel.add(submitButton);
+
     }
 
+    // LISTENERS
     private class RefreshPhoneNumbeListener implements DocumentListener {
         @Override
         public void insertUpdate(DocumentEvent e) {
@@ -126,19 +152,6 @@ public class CreateProductPanel extends JPanel {
             // Pas utile dans notre cas
         }
     }
-
-    public void setExistingPhoneNumber(){
-        String phoneNumberExisting = supplierController.getSupplierPhoneNumberByName(supplierNameField.getText());
-
-        if (phoneNumberExisting != null && !phoneNumberExisting.isEmpty()) {
-            supplierPhoneField.setText(phoneNumberExisting);
-            supplierPhoneField.setEnabled(false);
-        } else {
-            supplierPhoneField.setEnabled(true);
-            supplierPhoneField.setText("");
-        }
-    }
-
     private class CategoryItemListener implements ItemListener {
         @Override
         public void itemStateChanged(ItemEvent e) {
@@ -151,7 +164,6 @@ public class CreateProductPanel extends JPanel {
             }
         }
     }
-
     private class IsAlcoholItemListener implements ItemListener {
         @Override
         public void itemStateChanged(ItemEvent e) {
@@ -167,7 +179,6 @@ public class CreateProductPanel extends JPanel {
             }
         }
     }
-
     private class CancelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -178,7 +189,6 @@ public class CreateProductPanel extends JPanel {
             repaint();
         }
     }
-
     private class ResetButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -198,69 +208,70 @@ public class CreateProductPanel extends JPanel {
             supplierPhoneField.setEnabled(true);
         }
     }
-
     private class SubmitButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                String productLabel = labelField.getText().trim();
+                String productLabel = labelField.getText();
                 double productPrice = Double.parseDouble(priceField.getText().trim());
                 int stock = Integer.parseInt(nbStockField.getText().trim());
                 int productThreshold = Integer.parseInt(tresholdField.getText().trim());
                 boolean withGluten = glutenFreeCheckBox.isSelected();
                 String productDescription = descriptionField.getText();
-                String supplierLabel = supplierNameField.getText().trim();
+                String supplierLabel = supplierNameField.getText();
                 String supplierPhoneNb = supplierPhoneField.getText().trim();
 
                 String productCategory = (String) categoryBox.getSelectedItem();
                 if (productCategory == null || productCategory.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Veuillez sélectionner une catégorie.", "Erreur...", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
+                }else{
+                    LocalDate today = LocalDate.now();
 
-                LocalDate today = LocalDate.now();
-
-                Double alcoholPct = null;
-                if (isAlcoholCheckBox.isSelected()) {
-                    String alcoholText = alcoholPercentageField.getText().trim();
-                    if (alcoholText.isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Veuillez entrer un taux d'alcool entre 1 et 100.", "Erreur...", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                    try {
-                        alcoholPct = Double.parseDouble(alcoholText);
-                        if (alcoholPct < 1 || alcoholPct > 100) {
-                            JOptionPane.showMessageDialog(null, "Le taux d'alcool doit être entre 1 et 100%.", "Erreur...", JOptionPane.ERROR_MESSAGE);
-                            return;
+                    Double alcoholPct = null;
+                    if (isAlcoholCheckBox.isSelected()) {
+                        String alcoholText = alcoholPercentageField.getText().trim();
+                        if (alcoholText.isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Veuillez entrer un taux d'alcool entre 1 et 100.", "Erreur...", JOptionPane.ERROR_MESSAGE);
+                        }else{
+                            try {
+                                alcoholPct = Double.parseDouble(alcoholText);
+                                if (alcoholPct < 1 || alcoholPct > 100) {
+                                    JOptionPane.showMessageDialog(null, "Le taux d'alcool doit être entre 1 et 100%.", "Erreur...", JOptionPane.ERROR_MESSAGE);
+                                    return;
+                                }
+                            } catch (NumberFormatException ex) {
+                                JOptionPane.showMessageDialog(null, "Le taux d'alcool doit être un nombre valide.", "Erreur...", JOptionPane.ERROR_MESSAGE);
+                            }
                         }
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(null, "Le taux d'alcool doit être un nombre valide.", "Erreur...", JOptionPane.ERROR_MESSAGE);
-                        return;
+                    }
+
+                    // Création produit + gestion exceptions
+                    try {
+                        Product newProduct = new Product(
+                                productLabel,
+                                productPrice,
+                                stock,
+                                productThreshold,
+                                withGluten,
+                                alcoholPct,
+                                today,
+                                today,
+                                productDescription,
+                                supplierLabel,
+                                supplierPhoneNb,
+                                productCategory
+                        );
+                        productController.createProduct(newProduct);
+                        JOptionPane.showMessageDialog(null, "Produit créé avec succès !");
+
+                        new ResetButtonListener().actionPerformed(null);
+                    } catch (Exception exception) {
+                        JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur...", JOptionPane.ERROR_MESSAGE);
                     }
                 }
 
-                // Création produit + gestion exceptions
-                try {
-                    Product newProduct = new Product(
-                            productLabel,
-                            productPrice,
-                            stock,
-                            productThreshold,
-                            withGluten,
-                            alcoholPct,
-                            today,
-                            today,
-                            productDescription,
-                            supplierLabel,
-                            supplierPhoneNb,
-                            productCategory
-                    );
-                    productController.createProduct(newProduct);
-                    JOptionPane.showMessageDialog(null, "Produit créé avec succès !");
-                    new ResetButtonListener().actionPerformed(null);
-                } catch (Exception exception) {
-                    JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur...", JOptionPane.ERROR_MESSAGE);
-                }
+
+
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Erreur : Veuillez entrer des valeurs numériques valides pour les champs concernés.", "Erreur", JOptionPane.ERROR_MESSAGE);
             }

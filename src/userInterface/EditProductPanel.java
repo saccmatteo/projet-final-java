@@ -13,43 +13,68 @@ import java.awt.event.*;
 import java.time.LocalDate;
 
 public class EditProductPanel extends JPanel {
-    private Product product;
-    private ProductController productController;
-
     private JTextField label, price, alcoholPercentage, treshold, supplierName, supplierPhone, nbStock, description;
     private JComboBox<String> category;
     private JCheckBox glutenFreeCheckBox, isAlcoholCheckBox;
     private JButton cancelButton, saveButton;
+
+    private Product product;
+    private ProductController productController;
     private CategoryController categoryController;
     private SupplierController supplierController;
 
     public EditProductPanel(Product product) {
-        this.product = product;
+        setLayout(new BorderLayout());
         setProductController(new ProductController());
         setCategoryController(new CategoryController());
         setSupplierController(new SupplierController());
+        this.product = product;
 
-
-        setLayout(new BorderLayout());
-
+        // Création du panel global
         initFormComponents();
         loadFields();
 
+        // Panel des boutons
         JPanel buttonsPanel = new JPanel(new FlowLayout());
         cancelButton = new JButton("Annuler");
         saveButton = new JButton("Enregistrer");
-
+            // Listeners
         cancelButton.addActionListener(new CancelButtonListener());
         saveButton.addActionListener(new SaveButtonListener());
-
+        // Ajout au ButtonsPanel
         buttonsPanel.add(cancelButton);
         buttonsPanel.add(saveButton);
 
+        // Ajout au EditProductPanel
         add(createFormPanel(), BorderLayout.CENTER);
         add(buttonsPanel, BorderLayout.SOUTH);
     }
 
-    //initialiser les composants du formulaire
+    // SETTERS
+    public void setCategoryController(CategoryController categoryController) {
+        this.categoryController = categoryController;
+    }
+    public void setProductController(ProductController productController) {
+        this.productController = productController;
+    }
+    public void setSupplierController(SupplierController supplierController) {
+        this.supplierController = supplierController;
+    }
+    public void setExistingPhoneNumber(){
+        SwingUtilities.invokeLater(() -> {
+            String phone = supplierController.getSupplierPhoneNumberByName(supplierName.getText().trim());
+            if (phone != null && !phone.isEmpty()) {
+                supplierPhone.setText(phone);
+                supplierPhone.setEnabled(false);
+            } else {
+                supplierPhone.setEnabled(true);
+                supplierPhone.setText("");
+            }
+        });
+    }
+
+    // METHODES
+        // Déclare les composants du formulaire
     private void initFormComponents() {
         label = new JTextField();
         price = new JTextField();
@@ -58,19 +83,19 @@ public class EditProductPanel extends JPanel {
         nbStock = new JTextField();
         description = new JTextField();
         supplierName = new JTextField();
-        supplierName.getDocument().addDocumentListener(new RefreshPhoneNumbeListener());
         supplierPhone = new JTextField();
 
-
-        category = new JComboBox<>(categoryController.getAllCategories().toArray(new String[0]));
-        category.addItemListener(new CategoryItemListener());
         glutenFreeCheckBox = new JCheckBox("Sans gluten");
         isAlcoholCheckBox = new JCheckBox("Alcoolisé");
 
+        category = new JComboBox<>(categoryController.getAllCategories().toArray(new String[0]));
+
+        // Listeners
+        supplierName.getDocument().addDocumentListener(new RefreshPhoneNumbeListener());
+        category.addItemListener(new CategoryItemListener());
         isAlcoholCheckBox.addItemListener(new IsAlcoholItemListener());
     }
-
-    //Créé le formulaire
+        // Créé le formulaire
     private JPanel createFormPanel() {
         JPanel formPanel = new JPanel(new GridLayout(11, 2));
 
@@ -106,8 +131,7 @@ public class EditProductPanel extends JPanel {
 
         return formPanel;
     }
-
-    //va remplir les textFields du formulaire
+        // Remplie les textFields du formulaire
     private void loadFields() {
         label.setText(product.getLabel());
         price.setText(String.valueOf(product.getPrice()));
@@ -115,15 +139,16 @@ public class EditProductPanel extends JPanel {
         treshold.setText(String.valueOf(product.getMinTreshold()));
         description.setText(product.getDescription());
         supplierName.setText(product.getSupplierLabel());
-        supplierPhone.setText(String.valueOf(product.getSupplierPhoneNumber()));
+        supplierPhone.setText(product.getSupplierPhoneNumber());
 
         glutenFreeCheckBox.setSelected(product.getGlutenFree());
-        isAlcoholCheckBox.setSelected(product.getAlcoholPercentage() != null);
-
+        // Si non-null -> est alcoolisé
         if (product.getAlcoholPercentage() != null) {
+            isAlcoholCheckBox.setSelected(true);
             alcoholPercentage.setText(String.valueOf(product.getAlcoholPercentage()));
             alcoholPercentage.setEnabled(true);
         } else {
+            isAlcoholCheckBox.setSelected(false);
             alcoholPercentage.setText("");
             alcoholPercentage.setEnabled(false);
         }
@@ -137,6 +162,7 @@ public class EditProductPanel extends JPanel {
         category.setEnabled(!(isAlcoholCheckBox.isSelected()));
     }
 
+    // LISTENERS
     private class IsAlcoholItemListener implements ItemListener {
         @Override
         public void itemStateChanged(ItemEvent e) {
@@ -152,8 +178,7 @@ public class EditProductPanel extends JPanel {
             }
         }
     }
-
-    //si il choisit alcool comme caté alors la radio devient true
+        // Si il choisit alcool comme catégorie alors la radio devient true
     private class CategoryItemListener implements ItemListener {
         @Override
         public void itemStateChanged(ItemEvent e) {
@@ -166,29 +191,27 @@ public class EditProductPanel extends JPanel {
             }
         }
     }
-
     private class CancelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             removeAll();
-            UpdateProductPanel updateProductPanel = new UpdateProductPanel();
-            add(updateProductPanel, BorderLayout.CENTER);
+            add(new UpdateProductPanel(), BorderLayout.CENTER);
+
             revalidate();
             repaint();
         }
     }
-
     private class SaveButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                String newLabel = label.getText().trim();
+                String newLabel = label.getText();
                 Double newPrice = Double.parseDouble(price.getText().trim());
                 Integer newStock = Integer.parseInt(nbStock.getText().trim());
                 Integer newTreshold = Integer.parseInt(treshold.getText().trim());
                 Boolean newGlutenFree = glutenFreeCheckBox.isSelected();  // Checkbox indépendante
-                String newDescription = description.getText().trim();
-                String newSupplierName = supplierName.getText().trim();
+                String newDescription = description.getText();
+                String newSupplierName = supplierName.getText();
                 String newSupplierPhone = supplierPhone.getText().trim();
 
                 Double newAlcoholPercentage = null;
@@ -203,7 +226,6 @@ public class EditProductPanel extends JPanel {
                             }
                         } catch (NumberFormatException ex) {
                             JOptionPane.showMessageDialog(EditProductPanel.this, "Le taux d'alcool doit être un nombre valide.", "Erreur...", JOptionPane.ERROR_MESSAGE);
-                            return;
                         }
                     } else {
                         JOptionPane.showMessageDialog(EditProductPanel.this, "Veuillez entrer un taux d'alcool.", "Erreur...", JOptionPane.ERROR_MESSAGE);
@@ -239,14 +261,13 @@ public class EditProductPanel extends JPanel {
                         newSupplierPhone,
                         newCategory
                 );
-
                 productController.updateProduct(updatedProduct);
                 JOptionPane.showMessageDialog(EditProductPanel.this, "Produit mis à jour avec succès !");
+
                 removeAll();
                 add(new UpdateProductPanel());
                 revalidate();
                 repaint();
-
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(EditProductPanel.this, "Erreur : vérifiez les champs numériques.", "Erreur", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
@@ -254,7 +275,6 @@ public class EditProductPanel extends JPanel {
             }
         }
     }
-
     private class RefreshPhoneNumbeListener implements DocumentListener {
         @Override
         public void insertUpdate(DocumentEvent e) {
@@ -270,30 +290,5 @@ public class EditProductPanel extends JPanel {
         public void changedUpdate(DocumentEvent e) {
             // Pas utile dans notre cas
         }
-    }
-
-    public void setExistingPhoneNumber(){
-        SwingUtilities.invokeLater(() -> {
-            String phone = supplierController.getSupplierPhoneNumberByName(supplierName.getText().trim());
-            if (phone != null && !phone.isEmpty()) {
-                supplierPhone.setText(phone);
-                supplierPhone.setEnabled(false);
-            } else {
-                supplierPhone.setEnabled(true);
-                supplierPhone.setText("");
-            }
-        });
-    }
-
-    public void setCategoryController(CategoryController categoryController) {
-        this.categoryController = categoryController;
-    }
-
-    public void setProductController(ProductController productController) {
-        this.productController = productController;
-    }
-
-    public void setSupplierController(SupplierController supplierController) {
-        this.supplierController = supplierController;
     }
 }

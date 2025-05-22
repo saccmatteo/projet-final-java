@@ -16,21 +16,25 @@ public class DeleteProductPanel extends JPanel {
     public DeleteProductPanel() {
         this.setLayout(new BorderLayout());
         this.listingProductPanel = new ListingProductPanel();
-        this.add(listingProductPanel, BorderLayout.CENTER);
 
+        // Déclaration + style
         deleteButton = new JButton("Supprimer le produit");
         deleteButton.setFont(new Font("Arial", Font.BOLD, 20));
         deleteButton.setBorder(new EmptyBorder(10, 15, 10, 15));
-
+            // Listeners
         deleteButton.addActionListener(new DeleteButtonListener());
+
+        // Ajout
+        this.add(listingProductPanel, BorderLayout.CENTER);
         this.add(deleteButton, BorderLayout.SOUTH);
     }
+
+    // LISTENERS
     private class DeleteButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Product selected = listingProductPanel.getProductJList().getSelectedValue();
-
-            if (selected != null) {
+            Product selectedProd = listingProductPanel.getProductJList().getSelectedValue();
+            if (selectedProd != null) {
                 int reponse = JOptionPane.showOptionDialog(
                         null,
                         "Voulez-vous supprimer ce produit ?",
@@ -41,7 +45,7 @@ public class DeleteProductPanel extends JPanel {
                         null
                 );
                 if (reponse == JOptionPane.YES_OPTION) {
-                    listingProductPanel.getProductController().deleteProduct(selected.getId());
+                    listingProductPanel.getProductController().deleteProduct(selectedProd.getId());
                     listingProductPanel.refreshAndFilter();
 
                     JOptionPane.showMessageDialog(null, "Produit supprimée avec succès", "Suppression confirmée", JOptionPane.INFORMATION_MESSAGE);

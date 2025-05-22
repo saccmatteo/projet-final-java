@@ -1,8 +1,6 @@
 package userInterface;
 
-import controller.CategoryController;
-import controller.ProductController;
-import jdk.jfr.Category;
+import controller.*;
 import model.Product;
 
 import javax.swing.*;
@@ -33,24 +31,23 @@ public class ListingProductPanel extends JPanel {
         categoryList = categoryController.getAllCategories();
         productsList = productController.getAllProducts();
 
-        //gestion du panel combobox
+        // CategoryPanel
         categoryPanel = new JPanel(new FlowLayout());
         categoryLabel = new JLabel("Sélectionnez une catégorie : ");
         categoryComboBox = new JComboBox<>(categoryList.toArray(new String[0]));
         categoryComboBox.setSelectedIndex(-1);
+            // Listeners
         categoryComboBox.addActionListener(new CategoryComboboxListener());
-
-        //categoryPanel apparence
+            // Style
         categoryPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         categoryLabel.setFont(new Font("Arial", Font.BOLD, 20));
         categoryComboBox.setFont(new Font("Arial", Font.PLAIN, 18));
         categoryComboBox.setPreferredSize(new Dimension(250, 35));
-
-        //ajout au panel du choix de category
+            // Ajout au CategoryPanel
         categoryPanel.add(categoryLabel);
         categoryPanel.add(categoryComboBox);
 
-        //Jlist et apparence
+        // ProductList et apparence
         productJList = new JList<>();
         productJList.setFont(new Font("Arial", Font.BOLD, 28)); // Agrandir la taille de la police
         productJList.setFixedCellHeight(50); // agrandir les lignes de la JList
@@ -67,30 +64,52 @@ public class ListingProductPanel extends JPanel {
             }
         });
 
-        //Scrollpane et apparence
+        // Scrollpane
         productScrollPane = new JScrollPane(productJList);
         productScrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        //ajout au panel global
+        // Ajout au panel global
         this.add(categoryPanel, BorderLayout.NORTH);
         this.add(productScrollPane, BorderLayout.CENTER);
     }
+
+    // GETTERS
+    public ProductController getProductController() {
+        return productController;
+    }
+    public JComboBox<String> getCategoryComboBox() {
+        return categoryComboBox;
+    }
+    public JList<Product> getProductJList() {
+        return productJList;
+    }
+
+    // SETTERS
+    public void setCategoryController(CategoryController categoryController) {
+        this.categoryController = categoryController;
+    }
+    public void setProductController(ProductController productController) {
+        this.productController = productController;
+    }
+
+    // METHODES
     private void updateProductList(String category) {
-        //nouvelle liste filtrée avec ceux qui ont la mm categorie que la combobox
+        // Nouvelle liste filtrée avec produits qui ont la mm categorie selectedCategory
         ArrayList<Product> filteredProducts = new ArrayList<>();
 
-        //pour chaque produits de la db on check la category si elle equals la combobox
+        // Pour chaque produit de la db on check si category = selectedCategory -> add dans ArrayList
         for (Product product : productsList) {
             if (product.getCategoryLabel().equals(category)) {
                 filteredProducts.add(product);
             }
         }
-        //on setListData avec la nouvelle ArrayList filtrée
+        // SetListData avec la nouvelle ArrayList (MAJ)
         productJList.setListData(filteredProducts.toArray(new Product[0]));
     }
-    //ici on update la list avec la category puis on réaffiche
+
+        //ici on update la list avec la category puis on réaffiche
     public void refreshAndFilter() {
-        this.productsList = productController.getAllProducts();
+        this.productsList = productController.getAllProducts(); // Pour MAJ la liste
         String selectedCategory = (String) categoryComboBox.getSelectedItem();
         if (selectedCategory != null) {
             updateProductList(selectedCategory);
@@ -98,32 +117,14 @@ public class ListingProductPanel extends JPanel {
             productJList.setListData(new Product[0]);
         }
     }
+
+    // LISTENERS
     private class CategoryComboboxListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            //CASTING OBLIGATOIRE CAR LE SELECTED ITEM EST UN OBJECT ET PAS UN STRING
             String selectedCategory = (String) categoryComboBox.getSelectedItem();
             updateProductList(selectedCategory);
         }
     }
 
-    public void setCategoryController(CategoryController categoryController) {
-        this.categoryController = categoryController;
-    }
-
-    public void setProductController(ProductController productController) {
-        this.productController = productController;
-    }
-
-    public JComboBox<String> getCategoryComboBox() {
-        return categoryComboBox;
-    }
-
-    public JList<Product> getProductJList() {
-        return productJList;
-    }
-
-    public ProductController getProductController() {
-        return productController;
-    }
 }

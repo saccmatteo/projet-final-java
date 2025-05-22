@@ -25,6 +25,7 @@ public class CreateOrderPanel extends JPanel {
     private JList<OrderLine> commandList;
     private DefaultListModel<OrderLine> commandListModel;
 
+    // Controllers
     private UserController userController;
     private OrderController orderController;
     private OrderLineController orderLineController;
@@ -32,12 +33,11 @@ public class CreateOrderPanel extends JPanel {
     private ListingProductPanel listingProductPanel;
 
     public CreateOrderPanel() {
+        this.setLayout(new BorderLayout());
         setUserController(new UserController());
         setOrderController(new OrderController());
         setOrderLineController(new OrderLineController());
         setProductController(new ProductController());
-
-        setLayout(new BorderLayout());
 
         initFormComponents();
         createFormPanel();
@@ -45,26 +45,20 @@ public class CreateOrderPanel extends JPanel {
         add(usersPanel, BorderLayout.NORTH);
         add(middlePanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
-
-        addProdButton.addActionListener(new AddButtonListener());
-        deleteProdButton.addActionListener(new DeleteButtonListener());
-        submitButton.addActionListener(new SubmitButtonListener());
-        resetButton.addActionListener(new ResetButtonListener());
-        cancelButton.addActionListener(new CancelButtonListener());
-        happyHourRadio.addItemListener(new HappyHourListener());
     }
 
     //itialise les composants du form
     // initFormComponents
     private void initFormComponents() {
+        // Panels
         usersPanel = new JPanel();
         formPanel = new JPanel(new GridLayout(3, 2, 10, 10));
         productPanel = new JPanel(new GridLayout(1, 2, 10, 10));
         commandPanel = new JPanel(new BorderLayout());
         middlePanel = new JPanel(new BorderLayout());
-
         buttonPanel = new JPanel(new BorderLayout());
 
+        // JLabel
         usersLabel = new JLabel("Utilisateur gérant la commande : ");
         usersLabel.setFont(new Font("Arial", Font.BOLD, 24));
         commentsLabel = new JLabel("    Commentaires : ");
@@ -104,6 +98,16 @@ public class CreateOrderPanel extends JPanel {
         commandList.setFont(new Font("Arial", Font.BOLD, 24));
 
         listingProductPanel = new ListingProductPanel();
+
+        // Listeners
+        happyHourRadio.addItemListener(new HappyHourListener());
+
+        addProdButton.addActionListener(new AddButtonListener());
+        deleteProdButton.addActionListener(new DeleteButtonListener());
+        submitButton.addActionListener(new SubmitButtonListener());
+        resetButton.addActionListener(new ResetButtonListener());
+        cancelButton.addActionListener(new CancelButtonListener());
+
     }
 
     // createFormPanel
