@@ -27,12 +27,12 @@ public class ProductController {
         manager.createProduct(product);
     }
 
-    public void deleteProduct(int productId) {
+    public void deleteProduct(Integer productId) {
         manager.deleteProduct(productId);
     }
 
     public void updateProduct(Product product) {
         manager.updateProduct(product);
     }
-    public void updateStock(Product product, int newStock) {manager.updateStock(product, newStock);}
+    public void updateStock(Product product, Integer newStock) {manager.updateStock(product, newStock);}
 }

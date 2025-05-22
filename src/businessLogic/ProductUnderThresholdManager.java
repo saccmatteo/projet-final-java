@@ -16,7 +16,7 @@ public class ProductUnderThresholdManager {
         this.dao = dao;
     }
 
-    public ArrayList<ProductsUnderThreshold> getAllProductsUnderThreshold(int threshold) {
+    public ArrayList<ProductsUnderThreshold> getAllProductsUnderThreshold(Integer threshold) {
         return dao.getAllProductsUnderTreshold(threshold);
     }
 }

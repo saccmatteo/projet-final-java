@@ -23,7 +23,7 @@ public class OrderManager {
         return dao.getAllOrders();
     }
 
-    public int createOrder(Order order) {
+    public Integer createOrder(Order order) {
         return dao.createOrder(order);
     }
 

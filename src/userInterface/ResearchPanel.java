@@ -58,10 +58,8 @@ public class ResearchPanel extends JPanel {
         this.add(researchPanel, BorderLayout.NORTH);
             // CENTER
         this.add(dynamicPanel, BorderLayout.CENTER);
-        dynamicPanel.setBorder(new EmptyBorder(25, 0, 0,0));
             // SOUTH
         this.add(tablePanel, BorderLayout.SOUTH);
-        tablePanel.setBorder(new EmptyBorder(0, 0, 25, 0));
 
         this.setVisible(true);
     }
@@ -87,7 +85,6 @@ public class ResearchPanel extends JPanel {
         productJList.setVisibleRowCount(5);
         // JScrollPane
         listScroll = new JScrollPane(productJList);
-        listScroll.setPreferredSize(new Dimension(300, 60));
         listScroll.setVisible(false);
 
         // Category Label
@@ -104,13 +101,14 @@ public class ResearchPanel extends JPanel {
         dynamicPanel.add(categoryComboBox);
     }
     private void showTable(AbstractTableModel model) {
+        tablePanel.removeAll();
+
         table = new JTable(model);
         table.setEnabled(false);
         table.setRowHeight(50);
 
         // MAJ de la ScrollPane avec le nouveau tableau
         scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(750, 750));
             // Ajout pcq c'était remove
         tablePanel.add(scrollPane);
 
@@ -293,7 +291,6 @@ public class ResearchPanel extends JPanel {
             if (currentYear > LocalDate.now().getYear()) {
                 yearModel.setValue(LocalDate.now().getYear());
             }
-
         }
     }
 }

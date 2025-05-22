@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public interface OrderDataAccess {
      ArrayList<Order> getAllOrders();
-     int createOrder(Order order);
+     Integer createOrder(Order order);
      void deleteOrder(Integer commandId);
      void updateClosedOrder(LocalDate paymentDate, Integer commandId, PaymentMethod method);
      void updateOrder(Order order);

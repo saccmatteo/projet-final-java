@@ -230,12 +230,12 @@ public class CreateProductPanel extends JPanel {
                 if (productCategory == null || productCategory.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Veuillez sélectionner une catégorie.", "Erreur...", JOptionPane.ERROR_MESSAGE);
                 }else{
-
                     Double alcoholPct = null;
                     if (isAlcoholCheckBox.isSelected()) {
                         String alcoholText = alcoholPercentageField.getText().trim();
                         if (alcoholText.isEmpty()) { // Si alcoholText pas vide
                             JOptionPane.showMessageDialog(null, "Veuillez entrer un taux d'alcool entre 1 et 100.", "Erreur...", JOptionPane.ERROR_MESSAGE);
+                            return;
                         }else{
                             try {
                                 alcoholPct = Double.parseDouble(alcoholText);
@@ -245,33 +245,33 @@ public class CreateProductPanel extends JPanel {
                                 }
                             } catch (NumberFormatException ex) {
                                 JOptionPane.showMessageDialog(null, "Le taux d'alcool doit être un nombre valide.", "Erreur...", JOptionPane.ERROR_MESSAGE);
+                                return;
                             }
                         }
                     }
+                        // Création produit + gestion exceptions
+                        try {
+                            Product newProduct = new Product(
+                                    productLabel,
+                                    productPrice,
+                                    stock,
+                                    productThreshold,
+                                    withGluten,
+                                    alcoholPct,
+                                    LocalDate.now(),
+                                    LocalDate.now(),
+                                    productDescription,
+                                    supplierLabel,
+                                    supplierPhoneNb,
+                                    productCategory
+                            );
+                            productController.createProduct(newProduct);
+                            JOptionPane.showMessageDialog(null, "Produit créé avec succès !");
 
-                    // Création produit + gestion exceptions
-                    try {
-                        Product newProduct = new Product(
-                                productLabel,
-                                productPrice,
-                                stock,
-                                productThreshold,
-                                withGluten,
-                                alcoholPct,
-                                LocalDate.now(),
-                                LocalDate.now(),
-                                productDescription,
-                                supplierLabel,
-                                supplierPhoneNb,
-                                productCategory
-                        );
-                        productController.createProduct(newProduct);
-                        JOptionPane.showMessageDialog(null, "Produit créé avec succès !");
-
-                        new ResetButtonListener().actionPerformed(null);
-                    } catch (Exception exception) {
-                        JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur...", JOptionPane.ERROR_MESSAGE);
-                    }
+                            new ResetButtonListener().actionPerformed(null);
+                        } catch (Exception exception) {
+                            JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur...", JOptionPane.ERROR_MESSAGE);
+                        }
                 }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Erreur : Veuillez entrer des valeurs numériques valides pour les champs concernés.", "Erreur", JOptionPane.ERROR_MESSAGE);

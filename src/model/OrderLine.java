@@ -6,7 +6,6 @@ public class OrderLine {
     private Integer quantity;
     private Double unitPrice;
     private Product product;
-    private Order order;
 
     public OrderLine(Integer quantity, Double unitPrice, Product product) throws OrderLineQuantityException {
         setQuantity(quantity);
@@ -14,23 +13,18 @@ public class OrderLine {
         this.product = product;
     }
 
-    // Getters
-    public Double getUnitPrice() {
-        return unitPrice;
-    }
-
+    // GETTERES
     public Integer getQuantity() {
         return quantity;
+    }
+    public Double getUnitPrice() {
+        return unitPrice;
     }
     public Product getProduct() {
         return product;
     }
 
-    public Order getOrder() {
-        return order;
-    }
-
-    // Setters
+    // SETTERS
     public void setQuantity(Integer quantity) throws OrderLineQuantityException {
         if (quantity == null ) {
             throw new OrderLineQuantityException(null, "La quantité est obligatoire.");
@@ -41,11 +35,11 @@ public class OrderLine {
         this.quantity = quantity;
     }
 
+    // METHODES
     public void addQuantity(Integer quantity) {
         this.quantity += quantity;
     }
 
-    // Methodes
     public String toString(){
         return quantity + " " + product.getLabel() + " - " + String.format("%.2f", unitPrice * quantity) + "€";
     }

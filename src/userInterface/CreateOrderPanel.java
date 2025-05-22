@@ -254,14 +254,9 @@ public class CreateOrderPanel extends JPanel {
                             if (nbProd <= 0) { // Si nbProd est > 0 -> OK
                                 JOptionPane.showMessageDialog(null, "La quantité doit être supérieure à 0.", "Erreur", JOptionPane.ERROR_MESSAGE);
                             } else {
-
-//                                int alreadyInOrder = 0;
-//                                if (existingOl != null) {
-//                                    alreadyInOrder = existingOl.getQuantity();
-//                                }
                                 OrderLine existingOl = findOrderLine(selectedProd);
-                                // Si le produit sélectionné est déjà présente dans le panier,
-                                //      alors on prend sa quantité
+                                    // Si le produit sélectionné est déjà présente dans le panier,
+                                    //      alors on prend sa quantité
                                 int alreadyInOrder = existingOl != null ? existingOl.getQuantity() : 0;
                                 int totalRequested = alreadyInOrder + nbProd; // Quantité du produit sélectionné + nb d'ajout souhaité
 
@@ -344,6 +339,7 @@ public class CreateOrderPanel extends JPanel {
                         discount = val;
                     } catch (NumberFormatException ex) {
                         JOptionPane.showMessageDialog(null, "Le pourcentage de remise doit être un nombre valide.", "Erreur...", JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
                 }
 

@@ -236,38 +236,39 @@ public class EditProductPanel extends JPanel {
                 String newCategory = (String) category.getSelectedItem();
                 if (newCategory == null || newCategory.isEmpty()) {
                     JOptionPane.showMessageDialog(EditProductPanel.this, "Veuillez sélectionner une catégorie.", "Erreur...", JOptionPane.ERROR_MESSAGE);
-                    return;
+                } else {
+                    LocalDate distributionDate = product.getDistributionDate();
+                    LocalDate lastRestockDate = product.getLastRestockDate();
+
+                    if (!product.getNbInStock().equals(newStock)) {
+                        lastRestockDate = LocalDate.now();
+                    }
+
+                    Product updatedProduct = new Product(
+                            product.getId(),
+                            newLabel,
+                            newPrice,
+                            newStock,
+                            newTreshold,
+                            newGlutenFree,
+                            newAlcoholPercentage,
+                            distributionDate,
+                            lastRestockDate,
+                            newDescription,
+                            newSupplierName,
+                            newSupplierPhone,
+                            newCategory
+                    );
+                    productController.updateProduct(updatedProduct);
+                    JOptionPane.showMessageDialog(EditProductPanel.this, "Produit mis à jour avec succès !");
+
+                    removeAll();
+                    add(new UpdateProductPanel());
+                    revalidate();
+                    repaint();
                 }
 
-                LocalDate distributionDate = product.getDistributionDate();
-                LocalDate lastRestockDate = product.getLastRestockDate();
 
-                if (!product.getNbInStock().equals(newStock)) {
-                    lastRestockDate = LocalDate.now();
-                }
-
-                Product updatedProduct = new Product(
-                        product.getId(),
-                        newLabel,
-                        newPrice,
-                        newStock,
-                        newTreshold,
-                        newGlutenFree,
-                        newAlcoholPercentage,
-                        distributionDate,
-                        lastRestockDate,
-                        newDescription,
-                        newSupplierName,
-                        newSupplierPhone,
-                        newCategory
-                );
-                productController.updateProduct(updatedProduct);
-                JOptionPane.showMessageDialog(EditProductPanel.this, "Produit mis à jour avec succès !");
-
-                removeAll();
-                add(new UpdateProductPanel());
-                revalidate();
-                repaint();
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(EditProductPanel.this, "Erreur : vérifiez les champs numériques.", "Erreur", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {

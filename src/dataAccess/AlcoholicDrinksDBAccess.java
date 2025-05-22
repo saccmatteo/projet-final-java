@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class AlcoholicDrinksDBAccess implements AlcoholicDrinkDataAccess {
     private String sqlInstruction;
     private PreparedStatement preparedStatement;
-    ResultSet data;
+    private ResultSet data;
 
     public ArrayList<AlcoholicDrinksInfos> getAlcDrinksBeforeDate(LocalDate date) {
         ArrayList<AlcoholicDrinksInfos> alcoholicDrinks = new ArrayList<>();
