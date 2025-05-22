@@ -5,8 +5,7 @@ import model.Order;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class UpdateOrderPanel extends JPanel {
     private ListingOrderPanel listingOrderPanel;
@@ -15,28 +14,33 @@ public class UpdateOrderPanel extends JPanel {
     public UpdateOrderPanel () {
         this.setLayout(new BorderLayout());
         this.listingOrderPanel = new ListingOrderPanel();
-        this.add(listingOrderPanel, BorderLayout.CENTER);
 
+        // Déclaration + style
         updateButton = new JButton("Modifier la commande");
         updateButton.setFont(new Font("Arial", Font.BOLD, 20));
         updateButton.setBorder(new EmptyBorder(10, 15, 10, 15));
-
+            // Listeners
         updateButton.addActionListener(new UpdateButtonListener());
+
+        // Ajout
+        this.add(listingOrderPanel, BorderLayout.CENTER);
         this.add(updateButton, BorderLayout.SOUTH);
     }
+
+    // LISTENERS
     private class UpdateButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Order selected = listingOrderPanel.getOrdersList().getSelectedValue();
-            if (selected == null) {
+            Order selectedOrder = listingOrderPanel.getOrdersList().getSelectedValue();
+            if (selectedOrder != null) {
+                removeAll();
+                add(new EditOrderPanel(selectedOrder), BorderLayout.CENTER);
+
+                revalidate();
+                repaint();
+            }else{
                 JOptionPane.showMessageDialog(null, "Veuillez sélectionner une commande");
-                return;
             }
-            removeAll();
-            EditOrderPanel editOrderPanel = new EditOrderPanel(selected);
-            add(editOrderPanel, BorderLayout.CENTER);
-            revalidate();
-            repaint();
         }
     }
 }

@@ -208,17 +208,25 @@ public class CreateOrderPanel extends JPanel {
                     return;
                 }
 
-                //pour gérer le nombre dans la commande depasse pas le stock
                 int alreadyInOrder = 0;
                 OrderLine existingOl = findOrderLine(selectedProd);
                 if (existingOl != null) {
                     alreadyInOrder = existingOl.getQuantity();
                 }
                 int totalRequested = alreadyInOrder + nbProd;
+
+                // TRESHOLD
+                if (selectedProd.getNbInStock() - totalRequested <= selectedProd.getMinTreshold()) {
+                    JOptionPane.showMessageDialog(null, "La quantite demande depasse le seuil. Veuillez faire attention au stock.");
+                }
+
+                // pour gérer le nombre dans la commande depasse pas le stock
                 if (totalRequested > selectedProd.getNbInStock()) {
                     JOptionPane.showMessageDialog(null, "Quantité totale (" + totalRequested + ") dépasse le stock disponible (" + selectedProd.getNbInStock() + ").", "Erreur", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+
+
 
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Veuillez entrer un nombre valide.", "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -309,13 +317,12 @@ public class CreateOrderPanel extends JPanel {
                     OrderLine orderLine = commandListModel.getElementAt(i);
                     orderLineController.createOrderLine(orderLine, orderId);
 
-                    //Récupérer le produit
+                    // MAJ en stock
+                        //Récupérer le produit
                     Product product = orderLine.getProduct();
-
-                    //Calculer newStock
+                        //Calculer newStock
                     int newStock = product.getNbInStock() - orderLine.getQuantity();
-
-                    // Mettre à jour en base (adapter selon ta méthode dans ProductDBAccess)
+                        // Mettre à jour en base (adapter selon ta méthode dans ProductDBAccess)
                     productController.updateStock(product, newStock);
                     listingProductPanel.refreshAndFilter();
                 }
