@@ -7,17 +7,17 @@ import model.OrderInfos;
 import java.util.ArrayList;
 
 public class OrderInfosManager {
-    OrderInfosDataAccess dao;
+    private OrderInfosDataAccess dao;
 
     public OrderInfosManager() {
         setDao(new OrderInfosDBAccess());
     }
 
-    public void setDao(OrderInfosDataAccess dao) {
+    public void setDao(OrderInfosDBAccess dao) {
         this.dao = dao;
     }
 
-    public ArrayList<OrderInfos> getAllOrdersInfos(int productId) {
+    public ArrayList<OrderInfos> getAllOrdersInfos(Integer productId) {
         return dao.getAllOrdersInfos(productId);
     }
 }

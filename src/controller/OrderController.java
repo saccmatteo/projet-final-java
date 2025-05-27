@@ -25,11 +25,11 @@ public class OrderController {
         return manager.createOrder(order);
     }
 
-    public void deleteOrder(int commandId) {
+    public void deleteOrder(Integer commandId) {
         manager.deleteOrder(commandId);
     }
 
-    public void updateClosedOrder(int commandId, PaymentMethod method) {
+    public void updateClosedOrder(Integer commandId, PaymentMethod method) {
         manager.updateClosedOrder(commandId, method);
     }
 

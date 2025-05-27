@@ -12,11 +12,11 @@ public class ProductUnderThresholdManager {
         setDao(new ProductUnderThresholdDBAccess());
     }
 
-    public void setDao(ProductUnderThresholdDataAccess dao) {
+    public void setDao(ProductUnderThresholdDBAccess dao) {
         this.dao = dao;
     }
 
-    public ArrayList<ProductsUnderThreshold> getAllProductsUnderThreshold(int threshold) {
+    public ArrayList<ProductsUnderThreshold> getAllProductsUnderThreshold(Integer threshold) {
         return dao.getAllProductsUnderTreshold(threshold);
     }
 }

@@ -12,8 +12,8 @@ public class CategoryManager {
         setDao(new CategoryDBAccess());
     }
 
-    public void setDao(CategoryDBAccess categoryDBAccess) {
-        this.dao = categoryDBAccess;
+    public void setDao(CategoryDBAccess dao) {
+        this.dao = dao;
     }
 
     public ArrayList<String> getAllCategories() {

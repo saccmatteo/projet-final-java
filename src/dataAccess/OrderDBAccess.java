@@ -77,7 +77,7 @@ public class OrderDBAccess implements OrderDataAccess {
         return -1;
     }
 
-    public void deleteOrder(int orderId) {
+    public void deleteOrder(Integer orderId) {
         try {
             sqlInstruction = "DElETE FROM orderline WHERE order_id = ?";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
@@ -93,7 +93,7 @@ public class OrderDBAccess implements OrderDataAccess {
             System.out.println(e.getMessage());
         }
     }
-    public void updateClosedOrder(int orderId, PaymentMethod method) {
+    public void updateClosedOrder(Integer orderId, PaymentMethod method) {
         try {
             sqlInstruction = "UPDATE `order` SET status_label = ?, payment_method_label = ? WHERE id = ?";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);

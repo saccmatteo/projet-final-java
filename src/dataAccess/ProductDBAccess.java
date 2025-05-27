@@ -72,7 +72,7 @@ public class ProductDBAccess implements ProductDataAccess {
         return products;
     }
 
-    public void deleteProduct(int productId) {
+    public void deleteProduct(Integer productId) {
         try {
             sqlInstruction = "DELETE FROM product WHERE id = ?";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
@@ -162,7 +162,7 @@ public class ProductDBAccess implements ProductDataAccess {
             System.out.println(e.getMessage());
         }
     }
-    public void updateStock(Product product, int newStock) {
+    public void updateStock(Product product, Integer newStock) {
         try {
             String sql = "UPDATE product SET nb_in_stock = ? WHERE id = ?";
             PreparedStatement preparedStatement = SingletonConnection.getInstance().prepareStatement(sql);

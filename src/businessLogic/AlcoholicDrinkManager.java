@@ -14,7 +14,7 @@ public class AlcoholicDrinkManager {
         setDao(new AlcoholicDrinksDBAccess());
     }
 
-    public void setDao(AlcoholicDrinkDataAccess dao) {
+    public void setDao(AlcoholicDrinksDBAccess dao) {
         this.dao = dao;
     }
 

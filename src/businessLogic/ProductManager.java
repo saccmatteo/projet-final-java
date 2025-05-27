@@ -13,8 +13,8 @@ public class ProductManager {
         setDao(new ProductDBAccess());
     }
 
-    public void setDao(ProductDBAccess productDBAccess) {
-        this.dao = productDBAccess;
+    public void setDao(ProductDBAccess dao) {
+        this.dao = dao;
     }
 
     public Integer getAllProductSelledLast6Months(Integer idProduct) {
@@ -29,12 +29,12 @@ public class ProductManager {
         dao.createProduct(product);
     }
 
-    public void deleteProduct(int productId) {
+    public void deleteProduct(Integer productId) {
         dao.deleteProduct(productId);
     }
 
     public void updateProduct(Product product) {
         dao.updateProduct(product);
     }
-    public void updateStock(Product product, int newStock) {dao.updateStock(product, newStock);}
+    public void updateStock(Product product, Integer newStock) {dao.updateStock(product, newStock);}
 }
