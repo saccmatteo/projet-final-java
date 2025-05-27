@@ -219,7 +219,7 @@ public class EditProductPanel extends JPanel {
                 Integer newStock = Integer.parseInt(nbStock.getText().trim());
                 Integer newTreshold = Integer.parseInt(treshold.getText().trim());
                 Boolean newGlutenFree = glutenFreeCheckBox.isSelected();  // Checkbox indépendante
-                String newDescription = description.getText();
+                String newDescription;
                 String newSupplierName = supplierName.getText();
                 String newSupplierPhone = supplierPhone.getText().trim();
 
@@ -256,6 +256,12 @@ public class EditProductPanel extends JPanel {
                     lastRestockDate = LocalDate.now();
                 }
 
+                if (description.getText().trim().isEmpty()) {
+                    newDescription = null;
+                } else {
+                    newDescription  = description.getText();
+                }
+
                 Product updatedProduct = new Product(
                         product.getId(),
                         newLabel,
@@ -279,9 +285,9 @@ public class EditProductPanel extends JPanel {
                 revalidate();
                 repaint();
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(EditProductPanel.this, "Erreur : vérifiez les champs numériques.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Erreur : vérifiez les champs numériques.", "Erreur", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(EditProductPanel.this, "Erreur inattendue : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Erreur inattendue : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

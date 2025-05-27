@@ -49,10 +49,12 @@ public class OrderDBAccessTest {
                 users.get(0)
         );
         int generatedId = orderController.createOrder(order);
-        Assertions.assertTrue(generatedId > 0); // Vérifie qu'elle a bien été insérée
+        System.out.println("Création effectuée");
+        Assertions.assertTrue(generatedId > 0);
 
         //Mettre à jour (status + paiement)
         orderController.updateClosedOrder(generatedId, PaymentMethod.CASH, LocalDate.now());
+        System.out.println("Finalisation effectuée");
 
         // Mettre à jour complètement
         Order updatedOrder = new Order(
@@ -67,8 +69,10 @@ public class OrderDBAccessTest {
                 users.get(1)
         );
         orderController.updateOrder(updatedOrder);
+        System.out.println("Modification effectuée");
 
         //Supprimer l'order direct
         orderController.deleteOrder(generatedId);
+        System.out.println("Suppression effectuée");
     }
 }

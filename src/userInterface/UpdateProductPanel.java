@@ -38,7 +38,7 @@ public class UpdateProductPanel extends JPanel {
 
                 revalidate();
                 repaint();
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Veuillez sélectionner un produit");
             }
         }

@@ -127,8 +127,14 @@ public class EditOrderPanel extends JPanel {
                     newDiscount = val;
                 }
 
-                String newComment = commentField.getText();
+                String newComment;
                 Boolean newHappyHour = happyHourCheckBox.isSelected();
+
+                if (commentField.getText().trim().isEmpty()) {
+                    newComment = null;
+                } else {
+                    newComment = commentField.getText();
+                }
 
                 Order updatedOrder = new Order(
                         order.getId(),

@@ -78,15 +78,15 @@ INSERT INTO `order` (
     is_happy_hour, status_label, user_id, payment_method_label
 ) VALUES
       ('2025-04-01', NULL,  NULL,'RAS',           FALSE,'En cours', 1,'Pas payée'),
-      ('2025-04-01', NULL, 50,'',              TRUE, 'En cours', 2,'Pas payée'),
+      ('2025-04-01', NULL, 50, NULL,              TRUE, 'En cours', 2,'Pas payée'),
       ('2025-04-02', NULL,  5,'Client fidèle', FALSE,'En cours', 1,'Pas payée'),
-      ('2025-04-02', NULL,  NULL,'',              TRUE, 'En cours', 3,'Pas payée'),
-      ('2025-04-03', NULL,  NULL,'',              FALSE,'En cours', 2,'Pas payée'),
+      ('2025-04-02', NULL,  NULL, NULL,              TRUE, 'En cours', 3,'Pas payée'),
+      ('2025-04-03', NULL,  NULL, NULL,              FALSE,'En cours', 2,'Pas payée'),
       ('2025-04-03', NULL, 50,'Promo spéciale', TRUE, 'En cours', 1,'Pas payée'),
-      ('2025-04-04', NULL,  NULL,'',              FALSE,'En cours', 3,'Pas payée'),
-      ('2025-04-04', NULL, 50,'',              TRUE, 'En cours', 2,'Pas payée'),
+      ('2025-04-04', NULL,  NULL, NULL,              FALSE,'En cours', 3,'Pas payée'),
+      ('2025-04-04', NULL, 50, NULL,              TRUE, 'En cours', 2,'Pas payée'),
       ('2025-04-05', NULL,  NULL,'Commande rapide',FALSE,'En cours', 1,'Pas payée'),
-      ('2025-04-06', NULL,  NULL,'',              FALSE,'En cours', 3,'Pas payée');
+      ('2025-04-06', NULL,  NULL, NULL,              FALSE,'En cours', 3,'Pas payée');
 
 -- 9) Lignes de commande
 INSERT INTO orderLine (order_id, product_id, quantity, unit_price) VALUES

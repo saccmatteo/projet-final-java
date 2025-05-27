@@ -58,6 +58,7 @@ public class ProductDBAccessTest {
 
         //Création
         productController.createProduct(product);
+        System.out.println("Création effectuée");
 
         //Récupérer l'ID du produit inséré + filtré pour sélectionné le produit créé juste avant
         ArrayList<Product> allProducts = productController.getAllProducts();
@@ -86,11 +87,14 @@ public class ProductDBAccessTest {
                 categories.get(3)
         );
         productController.updateProduct(updated);
+        System.out.println("Modification effectuée");
 
         //Update stock
         productController.updateStock(updated, 300);
+        System.out.println("Modification du stock effectuée");
 
         //Supprimer
         productController.deleteProduct(productId);
+        System.out.println("Suppression effectuée");
     }
 }

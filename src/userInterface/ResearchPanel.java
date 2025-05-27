@@ -257,8 +257,6 @@ public class ResearchPanel extends JPanel {
                                     "Veuillez sélectionner un produit.",
                                     "Aucun produit sélectionné",
                                     JOptionPane.WARNING_MESSAGE);
-
-
                         }
                         break;
                     case 3:
@@ -267,7 +265,6 @@ public class ResearchPanel extends JPanel {
                                 int selectedProductId = productJList.getSelectedValue().getId();
                                 averageProductSelledByMonthLabel.setText("Moyenne mensuelle des ventes de " + productJList.getSelectedValue().getLabel() + " sur les 6 derniers mois : " + String.format("%.2f", productController.calcAverageSalesLast6Months(selectedProductId)));
                                 averageProductSelledByMonthLabel.setFont(new Font("Arial", Font.BOLD, 24));
-
                                 tablePanel.add(averageProductSelledByMonthLabel);
                                 tablePanel.revalidate();
                                 tablePanel.repaint();

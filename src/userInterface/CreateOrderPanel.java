@@ -305,12 +305,19 @@ public class CreateOrderPanel extends JPanel {
                 }
             }
 
+            String comments;
+            if (commentsText.getText().trim().isEmpty()) {
+                comments = null;
+            } else {
+                comments = commentsText.getText();
+            }
+
 
             try {
                 Order order = new Order(LocalDate.now(),
                         null,
                         discount,
-                        commentsText.getText(),
+                        comments,
                         happyHourRadio.isSelected(),
                         OrderStatus.IN_PROGRESS.getLabel(),
                         PaymentMethod.NOTPAID.getLabel(),

@@ -226,7 +226,7 @@ public class CreateProductPanel extends JPanel {
                 int stock = Integer.parseInt(nbStockField.getText().trim());
                 int productThreshold = Integer.parseInt(tresholdField.getText().trim());
                 boolean withGluten = glutenFreeCheckBox.isSelected();
-                String productDescription = descriptionField.getText();
+                String productDescription;
                 String supplierLabel = supplierNameField.getText();
                 String supplierPhoneNb = supplierPhoneField.getText().trim();
 
@@ -251,8 +251,15 @@ public class CreateProductPanel extends JPanel {
                                 }
                             } catch (NumberFormatException ex) {
                                 JOptionPane.showMessageDialog(null, "Le taux d'alcool doit être un nombre valide.", "Erreur...", JOptionPane.ERROR_MESSAGE);
+                                return;
                             }
                         }
+                    }
+
+                    if (descriptionField.getText().trim().isEmpty()) {
+                        productDescription = null;
+                    } else {
+                        productDescription = descriptionField.getText();
                     }
 
                     // Création produit + gestion exceptions
