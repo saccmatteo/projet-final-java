@@ -48,51 +48,49 @@ public class ProductDBAccessTest {
     }
 
     @Test
-    void createProduct()
-            throws DAOException, ProductLabelException, ProductPriceException, ProductNbInStockException, ProductMinTresholdException, ProductAlcoholPercentageException, ProductDescriptionException, ProductSupplierLabelException, ProductSupplierPhoneNumberException{
+        //le but ici c'est de creer puis modifier et enfin supprimer directement pour ne pas tacher la database
+    void createUpdateDeleteProduct()
+            throws DAOException, ProductLabelException, ProductPriceException, ProductNbInStockException,
+            ProductMinTresholdException, ProductAlcoholPercentageException, ProductDescriptionException,
+            ProductSupplierLabelException, ProductSupplierPhoneNumberException {
+
         setUp();
 
+        //Création
         productController.createProduct(product);
-    }
 
-    @Test
-    void deleteProduct()
-            throws DAOException, ProductLabelException, ProductPriceException, ProductNbInStockException, ProductMinTresholdException, ProductAlcoholPercentageException, ProductDescriptionException, ProductSupplierLabelException, ProductSupplierPhoneNumberException{
-        setUp();
+        //Récupérer l'ID du produit inséré + filtré pour sélectionné le produit créé juste avant
+        ArrayList<Product> allProducts = productController.getAllProducts();
+        Product inserted = allProducts.stream()
+                .filter(p -> p.getLabel().equals("Caviar") && p.getDescription().equals("Test product create"))
+                .findFirst()
+                .orElse(null);
 
-        productController.deleteProduct(19);
-    }
+        Assertions.assertNotNull(inserted);
+        int productId = inserted.getId();
 
-    @Test
-    void updateProduct()
-            throws DAOException, ProductLabelException, ProductPriceException, ProductNbInStockException, ProductMinTresholdException, ProductAlcoholPercentageException, ProductDescriptionException, ProductSupplierLabelException, ProductSupplierPhoneNumberException {
-        setUp();
-
-
-
-        productController.updateProduct(new Product(
-                19,
-                "Caviar de riche",
-                100.0,
-                200,
-                1,
+        //Update
+        Product updated = new Product(
+                productId,
+                "Caviar modifié",
+                150.0,
+                250,
+                5,
                 true,
                 null,
                 LocalDate.now(),
                 LocalDate.now(),
-                "Test product update",
+                "Description modifiée",
                 "Henallux",
                 "0484845549",
                 categories.get(3)
-        ));
-    }
+        );
+        productController.updateProduct(updated);
 
-    @Test
-    void updateStock()
-            throws DAOException, ProductLabelException, ProductPriceException, ProductNbInStockException, ProductMinTresholdException, ProductAlcoholPercentageException, ProductDescriptionException, ProductSupplierLabelException, ProductSupplierPhoneNumberException{
-        setUp();
+        //Update stock
+        productController.updateStock(updated, 300);
 
-        product.setId(19);
-        productController.updateStock(product, 20);
+        //Supprimer
+        productController.deleteProduct(productId);
     }
 }

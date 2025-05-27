@@ -31,51 +31,44 @@ public class OrderDBAccessTest {
             setOrderController(new OrderController());
             setUserController(new UserController());
             users = new ArrayList<>(userController.getAllUsers());
-        }
-
-        @Test
-        public void createOrder () throws DAOException, OrderDiscountException, OrderCommentException {
-            setUp();
-
-            Order order = new Order(
-                    LocalDate.now(),
-                    null,
-                    49,
-                    "Test unitaire creation",
-                    false,
-                    OrderStatus.IN_PROGRESS.getLabel(),
-                    PaymentMethod.NOTPAID.getLabel(),
-                    users.get(0)
-            );
-            orderController.createOrder(order);
-        }
-
-        @Test
-        public void deleteOrder () throws DAOException {
-            setUp();
-            orderController.deleteOrder(9);
-        }
-
-        @Test
-        public void updateClosedOrder () throws DAOException {
-            setUp();
-            orderController.updateClosedOrder(11, PaymentMethod.CASH, LocalDate.now());
-        }
-
-
-        @Test
-        public void updateOrder () throws DAOException, OrderDiscountException, OrderCommentException {
-            setUp();
-
-            orderController.updateOrder(new Order(11,
-                    LocalDate.now(),
-                    LocalDate.now(),
-                    null,
-                    "Test unitaire update",
-                    true,
-                    OrderStatus.COMPLETED.getLabel(),
-                    PaymentMethod.CASH.getLabel(),
-                    users.get(1)
-            ));
-        }
     }
+    @Test
+    //le but ici c'est de creer puis modifier et enfin supprimer directement pour ne pas tacher la database
+    public void createUpdateDeleteOrder() throws DAOException, OrderDiscountException, OrderCommentException {
+        setUp();
+
+        //Créer une commande de test
+        Order order = new Order(
+                LocalDate.now(),
+                null,
+                49,
+                "Test unitaire TEMP",
+                false,
+                OrderStatus.IN_PROGRESS.getLabel(),
+                PaymentMethod.NOTPAID.getLabel(),
+                users.get(0)
+        );
+        int generatedId = orderController.createOrder(order);
+        Assertions.assertTrue(generatedId > 0); // Vérifie qu'elle a bien été insérée
+
+        //Mettre à jour (status + paiement)
+        orderController.updateClosedOrder(generatedId, PaymentMethod.CASH, LocalDate.now());
+
+        // Mettre à jour complètement
+        Order updatedOrder = new Order(
+                generatedId,
+                LocalDate.now(),
+                LocalDate.now(),
+                null,
+                "Test modifié",
+                true,
+                OrderStatus.COMPLETED.getLabel(),
+                PaymentMethod.CASH.getLabel(),
+                users.get(1)
+        );
+        orderController.updateOrder(updatedOrder);
+
+        //Supprimer l'order direct
+        orderController.deleteOrder(generatedId);
+    }
+}

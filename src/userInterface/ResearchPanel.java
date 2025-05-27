@@ -114,7 +114,7 @@ public class ResearchPanel extends JPanel {
 
         // MAJ de la ScrollPane avec le nouveau tableau
         scrollPane = new JScrollPane(table);
-            // Ajout pcq c'était remove
+        tablePanel.removeAll();
         tablePanel.add(scrollPane);
 
         tablePanel.revalidate();
@@ -232,6 +232,7 @@ public class ResearchPanel extends JPanel {
                         } catch (DAOException daoException) {
                             JOptionPane.showMessageDialog(null, "Erreur lors de la récupération des ventes des boissons alcoolisées");
                         }
+                        break;
                     case 1:
                         try {
                             int treshold = (int) tresholdSpinner.getValue();
@@ -240,6 +241,7 @@ public class ResearchPanel extends JPanel {
                         } catch (DAOException daoException) {
                             JOptionPane.showMessageDialog(null, "Erreur lors de la récupération des produits");
                         }
+                        break;
                     case 2:
                         if (productJList.getSelectedValue() != null) {
                             try{
@@ -272,7 +274,7 @@ public class ResearchPanel extends JPanel {
                             } catch (DAOException daoException) {
                                 JOptionPane.showMessageDialog(null, "Erreur lors du calcul des ventes mensuelles");
                             }
-                        }else{
+                        } else {
                             JOptionPane.showMessageDialog(null,
                                     "Veuillez sélectionner un produit.",
                                     "Aucun produit sélectionné",
