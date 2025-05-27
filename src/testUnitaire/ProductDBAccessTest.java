@@ -68,8 +68,10 @@ public class ProductDBAccessTest {
             throws DAOException, ProductLabelException, ProductPriceException, ProductNbInStockException, ProductMinTresholdException, ProductAlcoholPercentageException, ProductDescriptionException, ProductSupplierLabelException, ProductSupplierPhoneNumberException {
         setUp();
 
+
+
         productController.updateProduct(new Product(
-                1,
+                19,
                 "Caviar de riche",
                 100.0,
                 200,

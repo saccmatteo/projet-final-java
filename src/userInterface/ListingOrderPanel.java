@@ -27,7 +27,7 @@ public class ListingOrderPanel extends JPanel {
             this.orders = orderController.getAllOrders();
 
             //cas où la ArrayList est vide
-            if (orders == null || orders.isEmpty()) { // C'est la meme les 2 ?
+            if (orders == null || orders.isEmpty()) {
                 commandLabel.setText("Aucune commande à afficher.");
             }else {
                 // Methode qui SET le prix total de TOUTES les commandes

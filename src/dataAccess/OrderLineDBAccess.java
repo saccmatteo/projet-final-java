@@ -59,7 +59,6 @@ public class OrderLineDBAccess implements OrderLineDataAccess {
             preparedStatement.executeUpdate();
         }
         catch(SQLException e){
-            e.printStackTrace();
             throw new DAOException(e, "Erreur lors de la création de la ligne de commande");
         }
     }
