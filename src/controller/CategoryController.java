@@ -1,6 +1,7 @@
 package controller;
 
 import businessLogic.CategoryManager;
+import exceptions.DAOException;
 
 import java.util.ArrayList;
 
@@ -15,7 +16,7 @@ public class CategoryController {
         this.manager = manager;
     }
 
-    public ArrayList<String> getAllCategories() {
+    public ArrayList<String> getAllCategories() throws DAOException {
         return manager.getAllCategories();
     }
 }

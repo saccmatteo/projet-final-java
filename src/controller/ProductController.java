@@ -1,6 +1,7 @@
 package controller;
 
 import businessLogic.ProductManager;
+import exceptions.DAOException;
 import model.Product;
 import java.util.ArrayList;
 
@@ -11,11 +12,11 @@ public class ProductController {
         setManager(new ProductManager());
     }
 
-    public Integer getAllProductSelledLast6Months(Integer idProduct) {
-        return manager.getAllProductSelledLast6Months(idProduct);
+    public Double calcAverageSalesLast6Months(Integer productId) throws DAOException {
+        return manager.calcAverageSalesLast6Months(productId);
     }
 
-    public ArrayList<Product> getAllProducts() {
+    public ArrayList<Product> getAllProducts() throws DAOException {
         return manager.getAllProducts();
     }
 
@@ -23,16 +24,17 @@ public class ProductController {
         this.manager = manager;
     }
 
-    public void createProduct(Product product) {
+    public void createProduct(Product product) throws DAOException {
         manager.createProduct(product);
     }
 
-    public void deleteProduct(Integer productId) {
+    public void deleteProduct(Integer productId) throws DAOException {
         manager.deleteProduct(productId);
     }
 
-    public void updateProduct(Product product) {
+    public void updateProduct(Product product) throws DAOException {
         manager.updateProduct(product);
     }
-    public void updateStock(Product product, Integer newStock) {manager.updateStock(product, newStock);}
+    public void updateStock(Product product, Integer newStock) throws DAOException {
+        manager.updateStock(product, newStock);}
 }

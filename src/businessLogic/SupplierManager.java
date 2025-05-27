@@ -1,6 +1,7 @@
 package businessLogic;
 
 import dataAccess.SupplierDBAccess;
+import exceptions.DAOException;
 import interfaces.SupplierDataAccess;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class SupplierManager {
         this.dao = dao;
     }
 
-    public String getSupplierPhoneNumberByName(String supplierName) {
+    public String getSupplierPhoneNumberByName(String supplierName) throws DAOException {
         return dao.getSupplierPhoneNumberByName(supplierName);
     }
 

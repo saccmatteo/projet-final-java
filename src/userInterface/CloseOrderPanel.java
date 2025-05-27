@@ -1,5 +1,6 @@
 package userInterface;
 
+import exceptions.DAOException;
 import model.Order;
 import model.PaymentMethod;
 
@@ -8,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 
 public class CloseOrderPanel extends JPanel {
     private ListingOrderPanel listOrderPanel;
@@ -58,10 +60,13 @@ public class CloseOrderPanel extends JPanel {
             }
 
             PaymentMethod chosenMethod = (response == JOptionPane.YES_OPTION) ? PaymentMethod.CARD : PaymentMethod.CASH;
-            listOrderPanel.getOrderController().updateClosedOrder(selected.getId(), chosenMethod);
-            listOrderPanel.refreshOrders(); //rafraichir list via methode
-
-            JOptionPane.showMessageDialog(null, "Commande clôturée avec succès.", "Succès", JOptionPane.INFORMATION_MESSAGE );
+            try {
+                listOrderPanel.getOrderController().updateClosedOrder(selected.getId(), chosenMethod, LocalDate.now());
+                listOrderPanel.refreshOrders(); //rafraichir list via methode
+                JOptionPane.showMessageDialog(null, "Commande clôturée avec succès.", "Succès", JOptionPane.INFORMATION_MESSAGE );
+            } catch (DAOException daoException) {
+                JOptionPane.showMessageDialog(null, "Erreur lors de la finalisation de la commande");
+            }
         }
     }
 }

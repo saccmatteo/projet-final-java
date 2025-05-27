@@ -1,6 +1,7 @@
 package userInterface;
 
 import controller.*;
+import exceptions.DAOException;
 import model.Order;
 
 import javax.swing.*;
@@ -92,11 +93,15 @@ public class ListingOrderPanel extends JPanel {
     // METHODES
     // Methode pour refresh l'affichage
     public void refreshOrders() {
-        this.orders = orderController.getAllOrders();
-        for (Order order : orders) {
-            order.setTotaPrice(orderLineController.getTotalPriceOrderLine(order.getId()));
+        try {
+            this.orders = orderController.getAllOrders();
+            for (Order order : orders) {
+                order.setTotaPrice(orderLineController.getTotalPriceOrderLine(order.getId()));
+            }
+            ordersList.setListData(orders.toArray(new Order[0]));
+        } catch (DAOException daoException) {
+            JOptionPane.showMessageDialog(null, "Erreur lors de la récupération de liste des commandes");
         }
-        ordersList.setListData(orders.toArray(new Order[0]));
     }
 
 

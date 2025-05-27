@@ -1,5 +1,6 @@
 package dataAccess;
 
+import exceptions.DAOException;
 import interfaces.OrderInfosDataAccess;
 import model.OrderInfos;
 import java.sql.PreparedStatement;
@@ -12,7 +13,7 @@ public class OrderInfosDBAccess implements OrderInfosDataAccess {
     private PreparedStatement preparedStatement;
     private ResultSet data;
 
-    public ArrayList<OrderInfos> getAllOrdersInfos(Integer productID){
+    public ArrayList<OrderInfos> getAllOrdersInfos(Integer productID) throws DAOException {
         ArrayList<OrderInfos> ordersInfos = new ArrayList<>();
         try {
             sqlInstruction =
@@ -44,7 +45,7 @@ public class OrderInfosDBAccess implements OrderInfosDataAccess {
                 ordersInfos.add(orderInfos);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DAOException(e, "Erreur lors de la récupération des informations de la commande");
         }
         return ordersInfos;
     }

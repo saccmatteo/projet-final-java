@@ -1,5 +1,6 @@
 package dataAccess;
 
+import exceptions.DAOException;
 import exceptions.ProductLabelException;
 import model.Product;
 import interfaces.ProductDataAccess;
@@ -13,7 +14,7 @@ public class ProductDBAccess implements ProductDataAccess {
     private PreparedStatement preparedStatement;
     private ResultSet data;
 
-    public Integer getAllProductSelledLast6Months(Integer idProduct){
+    public Integer getAllProductSelledLast6Months(Integer idProduct) throws DAOException {
         Integer totalProductSelled = 0;
         try{
             sqlInstruction =
@@ -31,12 +32,12 @@ public class ProductDBAccess implements ProductDataAccess {
             }
         }
         catch(SQLException e){
-            System.out.println(e.getMessage());
+            throw new DAOException(e, "Erreur lors de la récupération des produits des 6 derniers mois");
         }
         return totalProductSelled;
     }
 
-    public ArrayList<Product> getAllProducts() {
+    public ArrayList<Product> getAllProducts() throws DAOException {
         ArrayList<Product> products = new ArrayList<>();
         try {
             sqlInstruction = "SELECT product.*, supplier.phone_number FROM product INNER JOIN supplier ON supplier.label = product.supplier_label INNER JOIN category ON category.label = product.category_label";
@@ -67,12 +68,12 @@ public class ProductDBAccess implements ProductDataAccess {
             }
         }
         catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DAOException(e, "Erreur lors de la récupération des produits");
         }
         return products;
     }
 
-    public void deleteProduct(Integer productId) {
+    public void deleteProduct(Integer productId) throws DAOException {
         try {
             sqlInstruction = "DELETE FROM product WHERE id = ?";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
@@ -86,11 +87,11 @@ public class ProductDBAccess implements ProductDataAccess {
             preparedStatement.close();
         }
         catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DAOException(e, "Erreur lors de la suppression du produit");
         }
 
     }
-    public void createProduct(Product product) {
+    public void createProduct(Product product) throws DAOException {
         try{
             // Category
             sqlInstruction = "INSERT INTO category (label) " +
@@ -135,11 +136,11 @@ public class ProductDBAccess implements ProductDataAccess {
             preparedStatement.executeUpdate();
         }
         catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DAOException(e, "Erreur lors de la création du produit");
         }
     }
 
-    public void updateProduct(Product product) {
+    public void updateProduct(Product product) throws DAOException {
         try {
             sqlInstruction = "UPDATE product SET label = ?, price = ?, nb_in_stock = ?, min_treshold = ?, is_gluten_free = ?, alcohol_percentage = ?, distribution_date = ?, last_restock_date = ?, description = ?, category_label = ?, supplier_label = ? WHERE id = ?";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
@@ -159,10 +160,10 @@ public class ProductDBAccess implements ProductDataAccess {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DAOException(e, "Erreur lors de la modification du produit");
         }
     }
-    public void updateStock(Product product, Integer newStock) {
+    public void updateStock(Product product, Integer newStock) throws DAOException {
         try {
             String sql = "UPDATE product SET nb_in_stock = ? WHERE id = ?";
             PreparedStatement preparedStatement = SingletonConnection.getInstance().prepareStatement(sql);
@@ -172,7 +173,7 @@ public class ProductDBAccess implements ProductDataAccess {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DAOException(e, "Erreur lors de la mise à jour du stock");
         }
     }
 }

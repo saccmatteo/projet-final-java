@@ -1,6 +1,7 @@
 package userInterface;
 
 import controller.*;
+import exceptions.DAOException;
 import model.Product;
 
 import javax.swing.*;
@@ -81,27 +82,30 @@ public class ResearchPanel extends JPanel {
 
     // METHODES
     public void createProductList(){
-        // Product JList
-        ArrayList<Product> products = productController.getAllProducts();
-        productJList = new JList<>(products.toArray(new Product[0]));
-        productJList.setVisibleRowCount(5);
-        // JScrollPane
-        listScroll = new JScrollPane(productJList);
-        listScroll.setPreferredSize(new Dimension(300, 60));
-        listScroll.setVisible(false);
+        try {
+            // Product JList
+            ArrayList<Product> products = productController.getAllProducts();
+            productJList = new JList<>(products.toArray(new Product[0]));
+            productJList.setVisibleRowCount(5);
+            // JScrollPane
+            listScroll = new JScrollPane(productJList);
+            listScroll.setVisible(false);
 
-        // Category Label
-        categoryLabel = new JLabel("Choisir un produit :");
-        categoryLabel.setVisible(false);
-        // Category ComboBox
-        categoryComboBox = new JComboBox(categoryController.getAllCategories().toArray(new String[0]));
-        categoryComboBox.setSelectedIndex(-1);
-        categoryComboBox.addActionListener(new CategoryComboBoxListener());
+            // Category Label
+            categoryLabel = new JLabel("Choisir un produit :");
+            categoryLabel.setVisible(false);
+            // Category ComboBox
+            categoryComboBox = new JComboBox(categoryController.getAllCategories().toArray(new String[0]));
+            categoryComboBox.setSelectedIndex(-1);
+            categoryComboBox.addActionListener(new CategoryComboBoxListener());
 
-        // Ajout au DynamicPanel
-        dynamicPanel.add(categoryLabel);
-        dynamicPanel.add(listScroll);
-        dynamicPanel.add(categoryComboBox);
+            // Ajout au DynamicPanel
+            dynamicPanel.add(categoryLabel);
+            dynamicPanel.add(listScroll);
+            dynamicPanel.add(categoryComboBox);
+        } catch (DAOException daoException) {
+            JOptionPane.showMessageDialog(null, "Erreur lors de la création la liste des produits");
+        }
     }
     private void showTable(AbstractTableModel model) {
         table = new JTable(model);
@@ -110,28 +114,31 @@ public class ResearchPanel extends JPanel {
 
         // MAJ de la ScrollPane avec le nouveau tableau
         scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(750, 750));
             // Ajout pcq c'était remove
         tablePanel.add(scrollPane);
 
         tablePanel.revalidate();
         tablePanel.repaint();
     }
-    private void updateProductList(String category) {
-        // Nouvelle liste filtrée avec produit : categorie = selectedCategory dans combobox
-        ArrayList<Product> filteredProducts = new ArrayList<>();
-        ArrayList<Product> products = productController.getAllProducts();
+    private void updateProductList(String category) throws DAOException {
+        try {
+            // Nouvelle liste filtrée avec produit : categorie = selectedCategory dans combobox
+            ArrayList<Product> filteredProducts = new ArrayList<>();
+            ArrayList<Product> products = productController.getAllProducts();
 
-        // Pour chaque produit de la db on check SI p.category = selectedCategory dans combobox
-        for (Product product : products) {
-            if (product.getCategoryLabel().equals(category)) {
-                filteredProducts.add(product);
+            // Pour chaque produit de la db on check SI p.category = selectedCategory dans combobox
+            for (Product product : products) {
+                if (product.getCategoryLabel().equals(category)) {
+                    filteredProducts.add(product);
+                }
             }
+            categoryLabel.setVisible(true);
+            listScroll.setVisible(true);
+            // On setListData avec la nouvelle ArrayList (MAJ)
+            productJList.setListData(filteredProducts.toArray(new Product[0]));
+        } catch (DAOException daoException) {
+            JOptionPane.showMessageDialog(null, "Erreur lors de la récupération des catégories");
         }
-        categoryLabel.setVisible(true);
-        listScroll.setVisible(true);
-        // On setListData avec la nouvelle ArrayList (MAJ)
-        productJList.setListData(filteredProducts.toArray(new Product[0]));
     }
 
     // LISTENERS
@@ -219,21 +226,30 @@ public class ResearchPanel extends JPanel {
                         int year = (int) yearSpinner.getValue();
                         LocalDate date = LocalDate.of(year, month, day);
 
-                        alcoholicDrinksModel = new AlcoholicDrinksModel(researchesController.getAlcDrinksBeforeDate(date));
-                        showTable(alcoholicDrinksModel);
-                        break;
+                        try {
+                            alcoholicDrinksModel = new AlcoholicDrinksModel(researchesController.getAlcDrinksBeforeDate(date));
+                            showTable(alcoholicDrinksModel);
+                        } catch (DAOException daoException) {
+                            JOptionPane.showMessageDialog(null, "Erreur lors de la récupération des ventes des boissons alcoolisées");
+                        }
                     case 1:
-                        int treshold = (int) tresholdSpinner.getValue();
-
-                        productsUnderThresholdModel = new ProductsUnderThresholdModel(researchesController.getProductsUnderThreshold(treshold));
-                        showTable(productsUnderThresholdModel);
-                        break;
+                        try {
+                            int treshold = (int) tresholdSpinner.getValue();
+                            productsUnderThresholdModel = new ProductsUnderThresholdModel(researchesController.getProductsUnderThreshold(treshold));
+                            showTable(productsUnderThresholdModel);
+                        } catch (DAOException daoException) {
+                            JOptionPane.showMessageDialog(null, "Erreur lors de la récupération des produits");
+                        }
                     case 2:
                         if (productJList.getSelectedValue() != null) {
-                            int selectedProductId = productJList.getSelectedValue().getId();
+                            try{
+                                int selectedProductId = productJList.getSelectedValue().getId();
 
-                            orderInfosModel = new OrderInfosModel(researchesController.getAllOrdersInfos(selectedProductId));
-                            showTable(orderInfosModel);
+                                orderInfosModel = new OrderInfosModel(researchesController.getAllOrdersInfos(selectedProductId));
+                                showTable(orderInfosModel);
+                            } catch (DAOException daoException) {
+                                JOptionPane.showMessageDialog(null, "Erreur lors de la récupération des informations de la commande");
+                            }
                         }else{
                             JOptionPane.showMessageDialog(null,
                                     "Veuillez sélectionner un produit.",
@@ -245,13 +261,17 @@ public class ResearchPanel extends JPanel {
                         break;
                     case 3:
                         if (productJList.getSelectedValue() != null) {
-                            int selectedProductId = productJList.getSelectedValue().getId();
-                            averageProductSelledByMonthLabel.setText("Moyenne mensuelle des ventes de " + productJList.getSelectedValue().getLabel() + " sur les 6 derniers mois : " + String.format("%.2f", productController.getAllProductSelledLast6Months(selectedProductId) / 6.0));
-                            averageProductSelledByMonthLabel.setFont(new Font("Arial", Font.BOLD, 24));
+                            try {
+                                int selectedProductId = productJList.getSelectedValue().getId();
+                                averageProductSelledByMonthLabel.setText("Moyenne mensuelle des ventes de " + productJList.getSelectedValue().getLabel() + " sur les 6 derniers mois : " + String.format("%.2f", productController.calcAverageSalesLast6Months(selectedProductId)));
+                                averageProductSelledByMonthLabel.setFont(new Font("Arial", Font.BOLD, 24));
 
-                            tablePanel.add(averageProductSelledByMonthLabel);
-                            tablePanel.revalidate();
-                            tablePanel.repaint();
+                                tablePanel.add(averageProductSelledByMonthLabel);
+                                tablePanel.revalidate();
+                                tablePanel.repaint();
+                            } catch (DAOException daoException) {
+                                JOptionPane.showMessageDialog(null, "Erreur lors du calcul des ventes mensuelles");
+                            }
                         }else{
                             JOptionPane.showMessageDialog(null,
                                     "Veuillez sélectionner un produit.",
@@ -268,8 +288,12 @@ public class ResearchPanel extends JPanel {
     private class CategoryComboBoxListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String selectedCategory = (String) categoryComboBox.getSelectedItem();
-            updateProductList(selectedCategory);
+            try {
+                String selectedCategory = (String) categoryComboBox.getSelectedItem();
+                updateProductList(selectedCategory);
+            } catch (DAOException daoException) {
+                JOptionPane.showMessageDialog(null, "Erreur lors de la mise à jour de la liste de produit");
+            }
         }
     }
     private class DateChangeListener implements ChangeListener {

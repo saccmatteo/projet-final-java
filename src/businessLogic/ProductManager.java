@@ -1,6 +1,7 @@
 package businessLogic;
 
 import dataAccess.ProductDBAccess;
+import exceptions.DAOException;
 import model.Product;
 import interfaces.ProductDataAccess;
 
@@ -17,24 +18,24 @@ public class ProductManager {
         this.dao = dao;
     }
 
-    public Integer getAllProductSelledLast6Months(Integer idProduct) {
-        return dao.getAllProductSelledLast6Months(idProduct);
+    public Double calcAverageSalesLast6Months(Integer productId) throws DAOException {
+        return dao.getAllProductSelledLast6Months(productId) / 6.0;
     }
 
-    public ArrayList<Product> getAllProducts (){
+    public ArrayList<Product> getAllProducts () throws DAOException {
         return dao.getAllProducts();
     }
 
-    public void createProduct(Product product) {
+    public void createProduct(Product product) throws DAOException  {
         dao.createProduct(product);
     }
 
-    public void deleteProduct(Integer productId) {
+    public void deleteProduct(Integer productId) throws DAOException {
         dao.deleteProduct(productId);
     }
 
-    public void updateProduct(Product product) {
+    public void updateProduct(Product product) throws DAOException {
         dao.updateProduct(product);
     }
-    public void updateStock(Product product, Integer newStock) {dao.updateStock(product, newStock);}
+    public void updateStock(Product product, Integer newStock) throws DAOException {dao.updateStock(product, newStock);}
 }

@@ -1,15 +1,16 @@
 package userInterface;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import controller.*;
+import exceptions.DAOException;
 import model.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class CreateOrderPanel extends JPanel {
     private Double totalPrice;
@@ -80,17 +81,22 @@ public class CreateOrderPanel extends JPanel {
 
         priceText = "Prix total : ";
         totalPrice = 0.0;
-        priceField = new JTextField(priceText + totalPrice);
+        priceField = new JTextField(priceText + totalPrice + "€");
+        priceField.setPreferredSize(new Dimension(200, 20));
         priceField.setEnabled(false);
 
         happyHourRadio = new JCheckBox("   Happy hour  ");
         happyHourRadio.setHorizontalTextPosition(SwingConstants.LEFT);
         happyHourRadio.setFont(new Font("Arial", Font.BOLD, 16));
 
-        users = new JComboBox<>(userController.getAllUsers().toArray(new User[0]));
-        users.setFont(new Font("Arial", Font.BOLD, 16));
-        users.setSelectedIndex(-1);
-        users.setPreferredSize(new Dimension(500, 50));
+        try {
+            users = new JComboBox<>(userController.getAllUsers().toArray(new User[0]));
+            users.setFont(new Font("Arial", Font.BOLD, 16));
+            users.setSelectedIndex(-1);
+            users.setPreferredSize(new Dimension(500, 50));
+        } catch (DAOException daoException) {
+            JOptionPane.showMessageDialog(null, "Erreur lors de la récupération des utilisateurs");
+        }
 
         commandListModel = new DefaultListModel<>();
         commandList = new JList<>(commandListModel);
@@ -107,7 +113,6 @@ public class CreateOrderPanel extends JPanel {
         submitButton.addActionListener(new SubmitButtonListener());
         resetButton.addActionListener(new ResetButtonListener());
         cancelButton.addActionListener(new CancelButtonListener());
-
     }
 
     // createFormPanel
@@ -219,19 +224,16 @@ public class CreateOrderPanel extends JPanel {
                 }
                 int totalRequested = alreadyInOrder + nbProd;
 
-                // TRESHOLD
-                if (selectedProd.getNbInStock() - totalRequested <= selectedProd.getMinTreshold()) {
-                    JOptionPane.showMessageDialog(null, "La quantite demande depasse le seuil. Veuillez faire attention au stock.");
-                }
-
                 // pour gérer le nombre dans la commande depasse pas le stock
                 if (totalRequested > selectedProd.getNbInStock()) {
                     JOptionPane.showMessageDialog(null, "Quantité totale (" + totalRequested + ") dépasse le stock disponible (" + selectedProd.getNbInStock() + ").", "Erreur", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-
-
+                // TRESHOLD
+                if (selectedProd.getNbInStock() - totalRequested <= selectedProd.getMinTreshold()) {
+                    JOptionPane.showMessageDialog(null, "Veuillez faire attention au stock de ce produit");
+                }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Veuillez entrer un nombre valide.", "Erreur", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -244,7 +246,7 @@ public class CreateOrderPanel extends JPanel {
                 } else {
                     existingOl.addQuantity(nbProd);
                 }
-                calcTotalPrice();
+                refreshPriceField();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "Quantité invalide", JOptionPane.ERROR_MESSAGE);
             }
@@ -257,7 +259,7 @@ public class CreateOrderPanel extends JPanel {
             OrderLine selected = commandList.getSelectedValue();
             if (selected != null) {
                 commandListModel.removeElement(selected);
-                calcTotalPrice();
+                refreshPriceField();
             }
         }
     }
@@ -272,7 +274,7 @@ public class CreateOrderPanel extends JPanel {
             happyHourRadio.setSelected(false);
             listingProductPanel.getCategoryComboBox().setSelectedIndex(-1);
             commandListModel.clear();
-            calcTotalPrice();
+            refreshPriceField();
         }
     }
 
@@ -342,12 +344,12 @@ public class CreateOrderPanel extends JPanel {
     private class RefreshPriceListener implements DocumentListener {
         @Override
         public void insertUpdate(DocumentEvent e) {
-            calcTotalPrice();
+            refreshPriceField();
         }
 
         @Override
         public void removeUpdate(DocumentEvent e) {
-            calcTotalPrice();
+            refreshPriceField();
         }
 
         @Override
@@ -365,37 +367,23 @@ public class CreateOrderPanel extends JPanel {
         }
         return null;
     }
-
-    private void calcTotalPrice() {
-        // 1) Calcul du total brut
-        double rawTotal = 0;
-        for (int i = 0; i < commandListModel.getSize(); i++) {
-            OrderLine ol = commandListModel.getElementAt(i);
-            rawTotal += ol.getProduct().getPrice() * ol.getQuantity();
+    public void refreshPriceField() {
+        ArrayList<OrderLine> orderLines = new ArrayList<>();
+        for (int i = 0; i < commandListModel.size(); i++) {
+            orderLines.add(commandListModel.get(i));
         }
 
-        // Calcul du pourcentage de remise
-        int discountPct = 0;
-        String txt = discountField.getText().trim();
-
-        if (!txt.isEmpty()) {
-            try {
-                int val = Integer.parseInt(txt);
-                if (val >= 0 && val <= 100) {
-                    discountPct = val;
-                } else {
-                    discountPct = 0;
-                }
-            } catch (NumberFormatException e) {
-                discountPct = 0;
+        Integer discount = null;
+        try {
+            String discountText = discountField.getText().trim();
+            if (!discountText.isEmpty()) {
+                discount = Integer.parseInt(discountText);
             }
+        } catch (NumberFormatException e) {
+            discount = 0;
         }
 
-        // Application de la remise
-        double net = (100 - discountPct) / 100.0 * rawTotal;
-        // Affichage
-        priceField.setText(priceText + String.format("%.2f€", net));
-        revalidate();
-        repaint();
+        double newTotal = orderController.calculateTotalPrice(orderLines, discount);
+        priceField.setText(priceText + newTotal + "€");
     }
 }

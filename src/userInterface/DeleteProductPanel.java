@@ -1,5 +1,6 @@
 package userInterface;
 
+import exceptions.DAOException;
 import model.Order;
 import model.Product;
 
@@ -45,10 +46,13 @@ public class DeleteProductPanel extends JPanel {
                         null
                 );
                 if (reponse == JOptionPane.YES_OPTION) {
-                    listingProductPanel.getProductController().deleteProduct(selectedProd.getId());
-                    listingProductPanel.refreshAndFilter();
-
-                    JOptionPane.showMessageDialog(null, "Produit supprimée avec succès", "Suppression confirmée", JOptionPane.INFORMATION_MESSAGE);
+                    try {
+                        listingProductPanel.getProductController().deleteProduct(selectedProd.getId());
+                        listingProductPanel.refreshAndFilter();
+                        JOptionPane.showMessageDialog(null, "Produit supprimée avec succès", "Suppression confirmée", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (DAOException daoException) {
+                        JOptionPane.showMessageDialog(null, "Erreur lors de la suppression du produit");
+                    }
                 }
             }
             else {

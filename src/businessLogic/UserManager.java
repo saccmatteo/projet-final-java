@@ -1,6 +1,7 @@
 package businessLogic;
 
 import dataAccess.*;
+import exceptions.DAOException;
 import model.User;
 import interfaces.UserDataAccess;
 
@@ -17,7 +18,7 @@ public class UserManager {
         this.dao = dao;
     }
 
-    public ArrayList<User> getAllUsers() {
+    public ArrayList<User> getAllUsers() throws DAOException {
         return dao.getAllUsers();
     }
 }

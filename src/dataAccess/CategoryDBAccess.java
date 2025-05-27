@@ -1,7 +1,9 @@
 package dataAccess;
 
+import exceptions.DAOException;
 import interfaces.CategoryDataAccess;
 
+import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +14,7 @@ public class CategoryDBAccess implements CategoryDataAccess {
     private PreparedStatement preparedStatement;
     private ResultSet data;
 
-    public ArrayList<String> getAllCategories() {
+    public ArrayList<String> getAllCategories() throws DAOException {
         ArrayList<String> categories = new ArrayList<>();
         try {
             sqlInstruction = "SELECT * FROM category";
@@ -23,7 +25,7 @@ public class CategoryDBAccess implements CategoryDataAccess {
                 categories.add(data.getString("label"));
             }
         } catch (SQLException e) {
-            e.getMessage();
+            throw new DAOException(e, "Erreur lors de la récupération des catégories");
         }
         return categories;
     }

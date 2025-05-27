@@ -1,6 +1,7 @@
 package businessLogic;
 
 import dataAccess.ProductUnderThresholdDBAccess;
+import exceptions.DAOException;
 import interfaces.ProductUnderThresholdDataAccess;
 import model.ProductsUnderThreshold;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class ProductUnderThresholdManager {
         this.dao = dao;
     }
 
-    public ArrayList<ProductsUnderThreshold> getAllProductsUnderThreshold(Integer threshold) {
+    public ArrayList<ProductsUnderThreshold> getAllProductsUnderThreshold(Integer threshold) throws DAOException {
         return dao.getAllProductsUnderTreshold(threshold);
     }
 }

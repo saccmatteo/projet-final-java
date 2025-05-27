@@ -1,5 +1,6 @@
 package dataAccess;
 
+import exceptions.DAOException;
 import interfaces.ProductUnderThresholdDataAccess;
 import model.ProductsUnderThreshold;
 import java.sql.PreparedStatement;
@@ -13,7 +14,7 @@ public class ProductUnderThresholdDBAccess implements ProductUnderThresholdDataA
     private ResultSet data;
 
     @Override
-    public ArrayList<ProductsUnderThreshold> getAllProductsUnderTreshold(Integer threshold) {
+    public ArrayList<ProductsUnderThreshold> getAllProductsUnderTreshold(Integer threshold) throws DAOException{
         ArrayList<ProductsUnderThreshold> productsUnderThreshold = new ArrayList<>();
         try {
             sqlInstruction =
@@ -45,7 +46,7 @@ public class ProductUnderThresholdDBAccess implements ProductUnderThresholdDataA
                 productsUnderThreshold.add(newProductUnderThreshold);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DAOException(e, "Erreur lors de la récupération des produits");
         }
         return productsUnderThreshold;
     }

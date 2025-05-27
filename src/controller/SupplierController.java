@@ -1,6 +1,7 @@
 package controller;
 
 import businessLogic.SupplierManager;
+import exceptions.DAOException;
 
 import java.util.ArrayList;
 
@@ -15,7 +16,7 @@ public class SupplierController {
         this.manager = manager;
     }
 
-    public String getSupplierPhoneNumberByName(String supplierName) {
+    public String getSupplierPhoneNumberByName(String supplierName) throws DAOException {
         return manager.getSupplierPhoneNumberByName(supplierName);
     }
 }

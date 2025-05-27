@@ -1,6 +1,7 @@
 package businessLogic;
 
 import dataAccess.OrderLineDBAccess;
+import exceptions.DAOException;
 import interfaces.OrderLineDataAccess;
 import model.OrderLine;
 
@@ -15,14 +16,10 @@ public class OrderLineManager {
         this.dao = dao;
     }
 
-    public Double getTotalPriceOrderLine(Integer idOrder){
+    public Double getTotalPriceOrderLine(Integer idOrder) throws DAOException {
         return dao.getTotalPriceOrderLine(idOrder);
     }
-    public void createOrderLine(OrderLine orderLine, Integer orderId){
+    public void createOrderLine(OrderLine orderLine, Integer orderId) throws DAOException {
         dao.createOrderLine(orderLine, orderId);
-    }
-
-    public void updateOrderLine(Integer newQuantity, Integer orderId, Integer productId) {
-        dao.updateOrderLine(newQuantity, orderId, productId);
     }
 }

@@ -3,6 +3,7 @@ package userInterface;
 import controller.CategoryController;
 import controller.ProductController;
 import controller.SupplierController;
+import exceptions.DAOException;
 import model.Product;
 
 import javax.swing.*;
@@ -49,14 +50,18 @@ public class CreateProductPanel extends JPanel {
     }
 
     public void setExistingPhoneNumber(){
-        String phoneNumberExisting = supplierController.getSupplierPhoneNumberByName(supplierNameField.getText());
+        try {
+            String phoneNumberExisting = supplierController.getSupplierPhoneNumberByName(supplierNameField.getText());
 
-        if (phoneNumberExisting != null && !phoneNumberExisting.isEmpty()) {
-            supplierPhoneField.setText(phoneNumberExisting);
-            supplierPhoneField.setEnabled(false);
-        } else {
-            supplierPhoneField.setEnabled(true);
-            supplierPhoneField.setText("");
+            if (phoneNumberExisting != null && !phoneNumberExisting.isEmpty()) {
+                supplierPhoneField.setText(phoneNumberExisting);
+                supplierPhoneField.setEnabled(false);
+            } else {
+                supplierPhoneField.setEnabled(true);
+                supplierPhoneField.setText("");
+            }
+        } catch (DAOException daoException) {
+            JOptionPane.showMessageDialog(null, "Erreur lors de la récupération du numéro de téléphone");
         }
     }
 
@@ -73,8 +78,12 @@ public class CreateProductPanel extends JPanel {
         supplierNameField = new JTextField();
         supplierPhoneField = new JTextField();
 
-        categoryBox = new JComboBox<>(categoryController.getAllCategories().toArray(new String[0]));
-        categoryBox.setSelectedIndex(-1);
+        try {
+            categoryBox = new JComboBox<>(categoryController.getAllCategories().toArray(new String[0]));
+            categoryBox.setSelectedIndex(-1);
+        } catch (DAOException daoException) {
+            JOptionPane.showMessageDialog(null, "Erreur lors de la récupération des catégories");
+        }
 
         glutenFreeCheckBox = new JCheckBox("Sans gluten");
         isAlcoholCheckBox = new JCheckBox("Alcoolisé");
@@ -224,7 +233,7 @@ public class CreateProductPanel extends JPanel {
                 String productCategory = (String) categoryBox.getSelectedItem();
                 if (productCategory == null || productCategory.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Veuillez sélectionner une catégorie.", "Erreur...", JOptionPane.ERROR_MESSAGE);
-                }else{
+                } else {
                     LocalDate today = LocalDate.now();
 
                     Double alcoholPct = null;
@@ -232,7 +241,8 @@ public class CreateProductPanel extends JPanel {
                         String alcoholText = alcoholPercentageField.getText().trim();
                         if (alcoholText.isEmpty()) {
                             JOptionPane.showMessageDialog(null, "Veuillez entrer un taux d'alcool entre 1 et 100.", "Erreur...", JOptionPane.ERROR_MESSAGE);
-                        }else{
+                            return;
+                        } else {
                             try {
                                 alcoholPct = Double.parseDouble(alcoholText);
                                 if (alcoholPct < 1 || alcoholPct > 100) {
@@ -269,9 +279,6 @@ public class CreateProductPanel extends JPanel {
                         JOptionPane.showMessageDialog(null, exception.getMessage(), "Erreur...", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-
-
-
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Erreur : Veuillez entrer des valeurs numériques valides pour les champs concernés.", "Erreur", JOptionPane.ERROR_MESSAGE);
             }

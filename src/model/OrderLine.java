@@ -44,7 +44,6 @@ public class OrderLine {
     public void addQuantity(Integer quantity) {
         this.quantity += quantity;
     }
-
     // Methodes
     public String toString(){
         return quantity + " " + product.getLabel() + " - " + String.format("%.2f", unitPrice * quantity) + "€";

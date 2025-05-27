@@ -1,8 +1,10 @@
 package dataAccess;
 
+import exceptions.DAOException;
 import interfaces.OrderDataAccess;
 import model.*;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class OrderDBAccess implements OrderDataAccess {
@@ -11,7 +13,7 @@ public class OrderDBAccess implements OrderDataAccess {
     private PreparedStatement preparedStatement;
     private ResultSet data;
 
-    public ArrayList<Order> getAllOrders() {
+    public ArrayList<Order> getAllOrders() throws DAOException {
         orders = new ArrayList<>();
         try {
             sqlInstruction =
@@ -50,7 +52,7 @@ public class OrderDBAccess implements OrderDataAccess {
         return orders;
     }
 
-    public int createOrder(Order order){
+    public int createOrder(Order order) throws DAOException {
         try {
             sqlInstruction = "INSERT INTO `order`(order_date, payment_date, discount_percentage, comment, is_happy_hour, status_label, user_id, payment_method_label) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction, Statement.RETURN_GENERATED_KEYS);
@@ -72,12 +74,12 @@ public class OrderDBAccess implements OrderDataAccess {
                 return generatedId;
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DAOException(e, "Erreur lors de la création de la commande");
         }
         return -1;
     }
 
-    public void deleteOrder(Integer orderId) {
+    public void deleteOrder(Integer orderId) throws DAOException {
         try {
             sqlInstruction = "DElETE FROM orderline WHERE order_id = ?";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
@@ -90,24 +92,25 @@ public class OrderDBAccess implements OrderDataAccess {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DAOException(e, "Erreur lors de la suppression de la commande");
         }
     }
-    public void updateClosedOrder(Integer orderId, PaymentMethod method) {
+    public void updateClosedOrder(Integer orderId, PaymentMethod method, LocalDate paymentDate) throws DAOException {
         try {
-            sqlInstruction = "UPDATE `order` SET status_label = ?, payment_method_label = ? WHERE id = ?";
+            sqlInstruction = "UPDATE `order` SET status_label = ?, payment_method_label = ?, payment_date = ? WHERE id = ?";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
             preparedStatement.setString(1, OrderStatus.COMPLETED.toString());
             preparedStatement.setString(2, method.getLabel());
-            preparedStatement.setInt(3, orderId);
+            preparedStatement.setDate(3, Date.valueOf(paymentDate));
+            preparedStatement.setInt(4, orderId);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DAOException(e, "Erreur lors de la finalisation de la commande");
         }
     }
 
-    public void updateOrder(Order order) {
+    public void updateOrder(Order order) throws DAOException {
         try {
             sqlInstruction = "UPDATE `order` SET order_date = ?, payment_date = ?, discount_percentage = ?, comment = ?, is_happy_hour = ?, status_label = ?, user_id = ?, payment_method_label = ? WHERE id = ?";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
@@ -124,7 +127,7 @@ public class OrderDBAccess implements OrderDataAccess {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DAOException(e, "Erreur lors de la mise à jour de la commande");
         }
     }
 }

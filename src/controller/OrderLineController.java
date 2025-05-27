@@ -1,6 +1,7 @@
 package controller;
 
 import businessLogic.OrderLineManager;
+import exceptions.DAOException;
 import model.OrderLine;
 
 public class OrderLineController {
@@ -14,15 +15,11 @@ public class OrderLineController {
         this.manager = manager;
     }
 
-    public Double getTotalPriceOrderLine(Integer idOrder){
+    public Double getTotalPriceOrderLine(Integer idOrder) throws DAOException{
         return manager.getTotalPriceOrderLine(idOrder);
     }
 
-    public void createOrderLine(OrderLine orderLine, Integer orderId){
+    public void createOrderLine(OrderLine orderLine, Integer orderId) throws DAOException {
         manager.createOrderLine(orderLine, orderId);
-    }
-
-    public void updateOrderLine(Integer newQuantity, Integer orderId, Integer productId) {
-        manager.updateOrderLine(newQuantity, orderId, productId);
     }
 }

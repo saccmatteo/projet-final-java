@@ -1,5 +1,6 @@
 package userInterface;
 
+import exceptions.DAOException;
 import model.Order;
 
 import javax.swing.*;
@@ -44,12 +45,15 @@ public class DeleteOrderPanel extends JPanel {
                         null
                 );
                 if (reponse == JOptionPane.YES_OPTION) {
-                    listingOrderPanel.getOrderController().deleteOrder(selectedOrder.getId());
-                    listingOrderPanel.refreshOrders();
-
-                    JOptionPane.showMessageDialog(null, "Commande supprimée avec succès", "Suppression confirmée", JOptionPane.INFORMATION_MESSAGE);
+                    try {
+                        listingOrderPanel.getOrderController().deleteOrder(selectedOrder.getId());
+                        listingOrderPanel.refreshOrders();
+                        JOptionPane.showMessageDialog(null, "Commande supprimée avec succès", "Suppression confirmée", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (DAOException daoException) {
+                        JOptionPane.showMessageDialog(null, "Erreur lors de la suppression de la commande");
+                    }
                 }
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Aucune commande sélectionnée.", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
 

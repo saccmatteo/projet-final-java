@@ -1,5 +1,6 @@
 package dataAccess;
 
+import exceptions.DAOException;
 import interfaces.UserDataAccess;
 import model.User;
 import java.sql.PreparedStatement;
@@ -13,7 +14,7 @@ public class UserDBAccess implements UserDataAccess {
     private PreparedStatement preparedStatement;
     private ResultSet data;
 
-    public ArrayList<User> getAllUsers() {
+    public ArrayList<User> getAllUsers() throws DAOException {
         ArrayList<User> users = new ArrayList<>();
         try{
             sqlInstruction = "SELECT id, last_name, first_name FROM user";
@@ -28,7 +29,7 @@ public class UserDBAccess implements UserDataAccess {
                 users.add(newUser);
             }
         } catch (SQLException e){
-            System.out.println(e.getMessage());
+            throw new DAOException(e, "Erreur lors de la récupération des utilisateurs");
         }
         return users;
     }

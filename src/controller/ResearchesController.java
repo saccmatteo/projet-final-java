@@ -3,6 +3,7 @@ package controller;
 import businessLogic.AlcoholicDrinkManager;
 import businessLogic.OrderInfosManager;
 import businessLogic.ProductUnderThresholdManager;
+import exceptions.DAOException;
 import model.AlcoholicDrinksInfos;
 import model.OrderInfos;
 import model.ProductsUnderThreshold;
@@ -32,15 +33,15 @@ public class ResearchesController {
         this.orderInfosManager = orderInfosManager;
     }
 
-    public ArrayList<AlcoholicDrinksInfos> getAlcDrinksBeforeDate(LocalDate date) {
+    public ArrayList<AlcoholicDrinksInfos> getAlcDrinksBeforeDate(LocalDate date) throws DAOException {
         return alcoholicDrinkManager.getAlcDrinksBeforeDate(date);
     }
 
-    public ArrayList<ProductsUnderThreshold> getProductsUnderThreshold(Integer threshold) {
+    public ArrayList<ProductsUnderThreshold> getProductsUnderThreshold(Integer threshold) throws DAOException {
         return productUnderThresholdManager.getAllProductsUnderThreshold(threshold);
     }
 
-    public ArrayList<OrderInfos> getAllOrdersInfos(Integer productId) {
+    public ArrayList<OrderInfos> getAllOrdersInfos(Integer productId) throws DAOException {
         return orderInfosManager.getAllOrdersInfos(productId);
     }
 }

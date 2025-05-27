@@ -3,6 +3,7 @@ package userInterface;
 import controller.CategoryController;
 import controller.ProductController;
 import controller.SupplierController;
+import exceptions.DAOException;
 import model.Product;
 
 import javax.swing.*;
@@ -62,13 +63,17 @@ public class EditProductPanel extends JPanel {
     }
     public void setExistingPhoneNumber(){
         SwingUtilities.invokeLater(() -> {
-            String phone = supplierController.getSupplierPhoneNumberByName(supplierName.getText().trim());
-            if (phone != null && !phone.isEmpty()) {
-                supplierPhone.setText(phone);
-                supplierPhone.setEnabled(false);
-            } else {
-                supplierPhone.setEnabled(true);
-                supplierPhone.setText("");
+            try {
+                String phone = supplierController.getSupplierPhoneNumberByName(supplierName.getText().trim());
+                if (phone != null && !phone.isEmpty()) {
+                    supplierPhone.setText(phone);
+                    supplierPhone.setEnabled(false);
+                } else {
+                    supplierPhone.setEnabled(true);
+                    supplierPhone.setText("");
+                }
+            } catch (DAOException daoException) {
+                JOptionPane.showMessageDialog(null, "Erreur lors de la récupération du numéro du fournisseur");
             }
         });
     }
@@ -88,7 +93,11 @@ public class EditProductPanel extends JPanel {
         glutenFreeCheckBox = new JCheckBox("Sans gluten");
         isAlcoholCheckBox = new JCheckBox("Alcoolisé");
 
-        category = new JComboBox<>(categoryController.getAllCategories().toArray(new String[0]));
+        try {
+            category = new JComboBox<>(categoryController.getAllCategories().toArray(new String[0]));
+        } catch (DAOException daoException) {
+            JOptionPane.showMessageDialog(null, "Erreur lors de la récupération des catégories");
+        }
 
         // Listeners
         supplierName.getDocument().addDocumentListener(new RefreshPhoneNumbeListener());
@@ -226,6 +235,7 @@ public class EditProductPanel extends JPanel {
                             }
                         } catch (NumberFormatException ex) {
                             JOptionPane.showMessageDialog(EditProductPanel.this, "Le taux d'alcool doit être un nombre valide.", "Erreur...", JOptionPane.ERROR_MESSAGE);
+                            return;
                         }
                     } else {
                         JOptionPane.showMessageDialog(EditProductPanel.this, "Veuillez entrer un taux d'alcool.", "Erreur...", JOptionPane.ERROR_MESSAGE);

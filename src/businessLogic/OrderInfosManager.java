@@ -1,6 +1,7 @@
 package businessLogic;
 
 import dataAccess.OrderInfosDBAccess;
+import exceptions.DAOException;
 import interfaces.OrderInfosDataAccess;
 import model.OrderInfos;
 
@@ -17,7 +18,7 @@ public class OrderInfosManager {
         this.dao = dao;
     }
 
-    public ArrayList<OrderInfos> getAllOrdersInfos(Integer productId) {
+    public ArrayList<OrderInfos> getAllOrdersInfos(Integer productId) throws DAOException {
         return dao.getAllOrdersInfos(productId);
     }
 }

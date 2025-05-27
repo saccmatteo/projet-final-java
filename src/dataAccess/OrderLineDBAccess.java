@@ -1,5 +1,6 @@
 package dataAccess;
 
+import exceptions.DAOException;
 import interfaces.OrderLineDataAccess;
 import model.OrderLine;
 import java.sql.PreparedStatement;
@@ -11,7 +12,7 @@ public class OrderLineDBAccess implements OrderLineDataAccess {
     private PreparedStatement preparedStatement;
     private ResultSet data;
 
-    public Double getTotalPriceOrderLine(Integer idOrder){
+    public Double getTotalPriceOrderLine(Integer idOrder) throws DAOException {
         Double totalPrice = 0.0;
         Double discount = 0.0;
 
@@ -36,7 +37,7 @@ public class OrderLineDBAccess implements OrderLineDataAccess {
                 discount = data.getDouble("discount_percentage");
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DAOException(e, "Erreur lors du calcul du prix de la ligne de commande");
         }
         //si y a une discount alors je l'applique avant de return
         if (discount > 0) {
@@ -46,7 +47,7 @@ public class OrderLineDBAccess implements OrderLineDataAccess {
         return totalPrice;
     }
 
-    public void createOrderLine(OrderLine orderLine, Integer orderId){
+    public void createOrderLine(OrderLine orderLine, Integer orderId) throws DAOException{
         try{
             sqlInstruction = "INSERT INTO orderline(order_id, product_id, quantity, unit_price) VALUES(?, ?, ?, ?)";
             preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
@@ -58,22 +59,8 @@ public class OrderLineDBAccess implements OrderLineDataAccess {
             preparedStatement.executeUpdate();
         }
         catch(SQLException e){
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void updateOrderLine(Integer newQuantity, Integer orderId, Integer productId) {
-        try {
-            sqlInstruction = "UPDATE orderline SET quantity = ? WHERE order_id = ? AND product_id = ?";
-            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
-
-            preparedStatement.setInt(1, newQuantity);
-            preparedStatement.setInt(2, orderId);
-            preparedStatement.setInt(3, productId);
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
+            throw new DAOException(e, "Erreur lors de la création de la ligne de commande");
         }
     }
 }

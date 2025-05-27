@@ -1,6 +1,7 @@
 package businessLogic;
 
 import dataAccess.AlcoholicDrinksDBAccess;
+import exceptions.DAOException;
 import interfaces.AlcoholicDrinkDataAccess;
 import model.AlcoholicDrinksInfos;
 
@@ -18,7 +19,7 @@ public class AlcoholicDrinkManager {
         this.dao = dao;
     }
 
-    public ArrayList<AlcoholicDrinksInfos> getAlcDrinksBeforeDate(LocalDate date) {
+    public ArrayList<AlcoholicDrinksInfos> getAlcDrinksBeforeDate(LocalDate date) throws DAOException {
         return dao.getAlcDrinksBeforeDate(date);
     }
 }

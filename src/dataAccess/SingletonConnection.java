@@ -1,5 +1,6 @@
 package dataAccess;
 
+import exceptions.DAOException;
 import interfaces.ConnectionDataAccess;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,7 +9,7 @@ import java.sql.SQLException;
 public class SingletonConnection implements ConnectionDataAccess {
     private static Connection connection;
 
-    public static Connection getInstance(){
+    public static Connection getInstance() throws DAOException {
         if (connection == null) {
             try {
                 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db", "root", "Tigrou007");

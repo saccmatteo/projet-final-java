@@ -1,5 +1,6 @@
 package dataAccess;
 
+import exceptions.DAOException;
 import interfaces.SupplierDataAccess;
 
 import java.sql.PreparedStatement;
@@ -12,7 +13,7 @@ public class SupplierDBAccess implements SupplierDataAccess {
     private PreparedStatement preparedStatement;
     private ResultSet data;
 
-    public String getSupplierPhoneNumberByName(String supplierName) {
+    public String getSupplierPhoneNumberByName(String supplierName) throws DAOException {
         String phoneNumber = null;
         try{
             sqlInstruction = "SELECT phone_number FROM supplier WHERE label = ?";
@@ -25,7 +26,7 @@ public class SupplierDBAccess implements SupplierDataAccess {
             }
         }
         catch (SQLException e){
-            System.out.println(e.getMessage());
+            throw new DAOException(e, "Erreur lors de la récupération du numéro de téléphone");
         }
 
         return phoneNumber;

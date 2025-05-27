@@ -1,5 +1,6 @@
 package dataAccess;
 
+import exceptions.DAOException;
 import interfaces.AlcoholicDrinkDataAccess;
 import model.AlcoholicDrinksInfos;
 import java.sql.PreparedStatement;
@@ -13,7 +14,7 @@ public class AlcoholicDrinksDBAccess implements AlcoholicDrinkDataAccess {
     private PreparedStatement preparedStatement;
     private ResultSet data;
 
-    public ArrayList<AlcoholicDrinksInfos> getAlcDrinksBeforeDate(LocalDate date) {
+    public ArrayList<AlcoholicDrinksInfos> getAlcDrinksBeforeDate(LocalDate date) throws DAOException {
         ArrayList<AlcoholicDrinksInfos> alcoholicDrinks = new ArrayList<>();
         java.sql.Date sqlDate = java.sql.Date.valueOf(date);
         try {
@@ -49,7 +50,7 @@ public class AlcoholicDrinksDBAccess implements AlcoholicDrinkDataAccess {
                 alcoholicDrinks.add(newAlcoholicDrink);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DAOException(e, "Erreur lors de la récupération des ventes des boissons alcoolisées");
         }
         return alcoholicDrinks;
     }

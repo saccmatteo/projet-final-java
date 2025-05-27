@@ -47,9 +47,11 @@ public class Product {
     }
     // GETTERS
     public Integer getId() {
-        if (id == null)
-            return -1;
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getLabel() {
@@ -172,8 +174,8 @@ public class Product {
         if (supplierPhoneNumber == null || supplierPhoneNumber.trim().isEmpty()) {
             throw new ProductSupplierPhoneNumberException(supplierPhoneNumber, "Le numéro du fournisseur est obligatoire.");
         }
-        if (supplierPhoneNumber.length() > 20) {
-            throw new ProductSupplierPhoneNumberException(supplierPhoneNumber, "Le numéro du fournisseur ne peut pas dépasser 20 caractères.");
+        if (supplierPhoneNumber.length() > 20 || supplierPhoneNumber.length() < 8) {
+            throw new ProductSupplierPhoneNumberException(supplierPhoneNumber, "Le numéro du fournisseur n'a pas une taille valide.");
         }
         if (!supplierPhoneNumber.matches("\\d+")) {
             throw new ProductSupplierPhoneNumberException(supplierPhoneNumber, "Le numéro du fournisseur doit contenir uniquement des chiffres.");
