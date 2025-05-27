@@ -12,8 +12,8 @@ public class ConnectionManager {
         setConnection(new SingletonConnection());
     }
 
-    public void setConnection(ConnectionDataAccess connection) {
-        this.dao = connection;
+    public void setConnection(SingletonConnection dao) {
+        this.dao = dao;
     }
 
     public void closeConnection() {

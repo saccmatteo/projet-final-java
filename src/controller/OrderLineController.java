@@ -18,11 +18,11 @@ public class OrderLineController {
         return manager.getTotalPriceOrderLine(idOrder);
     }
 
-    public void createOrderLine(OrderLine orderLine, int orderId){
+    public void createOrderLine(OrderLine orderLine, Integer orderId){
         manager.createOrderLine(orderLine, orderId);
     }
 
-    public void updateOrderLine(int newQuantity, int orderId, int productId) {
+    public void updateOrderLine(Integer newQuantity, Integer orderId, Integer productId) {
         manager.updateOrderLine(newQuantity, orderId, productId);
     }
 }

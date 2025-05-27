@@ -12,7 +12,7 @@ public class SupplierManager {
         setDao(new SupplierDBAccess());
     }
 
-    public void setDao(SupplierDataAccess dao) {
+    public void setDao(SupplierDBAccess dao) {
         this.dao = dao;
     }
 

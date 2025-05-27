@@ -8,12 +8,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ProductUnderThresholdDBAccess implements ProductUnderThresholdDataAccess {
-    String sqlInstruction;
-    PreparedStatement preparedStatement;
-    ResultSet data;
+    private String sqlInstruction;
+    private PreparedStatement preparedStatement;
+    private ResultSet data;
 
     @Override
-    public ArrayList<ProductsUnderThreshold> getAllProductsUnderTreshold(int threshold) {
+    public ArrayList<ProductsUnderThreshold> getAllProductsUnderTreshold(Integer threshold) {
         ArrayList<ProductsUnderThreshold> productsUnderThreshold = new ArrayList<>();
         try {
             sqlInstruction =

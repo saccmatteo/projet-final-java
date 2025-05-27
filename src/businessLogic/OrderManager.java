@@ -26,11 +26,11 @@ public class OrderManager {
         return dao.createOrder(order);
     }
 
-    public void deleteOrder(int commandId) {
+    public void deleteOrder(Integer commandId) {
         dao.deleteOrder(commandId);
     }
 
-    public void updateClosedOrder(int commandId, PaymentMethod method) {
+    public void updateClosedOrder(Integer commandId, PaymentMethod method) {
         dao.updateClosedOrder(commandId, method);
     }
 
