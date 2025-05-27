@@ -8,11 +8,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OrderInfosDBAccess implements OrderInfosDataAccess {
-    String sqlInstruction;
-    PreparedStatement preparedStatement;
-    ResultSet data;
+    private String sqlInstruction;
+    private PreparedStatement preparedStatement;
+    private ResultSet data;
 
-    public ArrayList<OrderInfos> getAllOrdersInfos(int productID){
+    public ArrayList<OrderInfos> getAllOrdersInfos(Integer productID){
         ArrayList<OrderInfos> ordersInfos = new ArrayList<>();
         try {
             sqlInstruction =

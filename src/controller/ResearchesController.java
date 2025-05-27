@@ -11,25 +11,36 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ResearchesController {
-    AlcoholicDrinkManager alcoholicDrinkManager;
-    ProductUnderThresholdManager productUnderThresholdManager;
-    OrderInfosManager orderInfosManager;
+    private AlcoholicDrinkManager alcoholicDrinkManager;
+    private ProductUnderThresholdManager productUnderThresholdManager;
+    private OrderInfosManager orderInfosManager;
 
     public ResearchesController() {
-        this.alcoholicDrinkManager = new AlcoholicDrinkManager();
-        this.productUnderThresholdManager = new ProductUnderThresholdManager();
-        this.orderInfosManager = new OrderInfosManager();
+        setAlcoholicDrinkManager(new AlcoholicDrinkManager());
+        setProductUnderThresholdManager(new ProductUnderThresholdManager());
+        setOrderInfosManager(new OrderInfosManager());
+    }
+
+    // SETTERS
+    public void setAlcoholicDrinkManager(AlcoholicDrinkManager alcoholicDrinkManager) {
+        this.alcoholicDrinkManager = alcoholicDrinkManager;
+    }
+    public void setProductUnderThresholdManager(ProductUnderThresholdManager productUnderThresholdManager) {
+        this.productUnderThresholdManager = productUnderThresholdManager;
+    }
+    public void setOrderInfosManager(OrderInfosManager orderInfosManager) {
+        this.orderInfosManager = orderInfosManager;
     }
 
     public ArrayList<AlcoholicDrinksInfos> getAlcDrinksBeforeDate(LocalDate date) {
         return alcoholicDrinkManager.getAlcDrinksBeforeDate(date);
     }
 
-    public ArrayList<ProductsUnderThreshold> getProductsUnderThreshold(int threshold) {
+    public ArrayList<ProductsUnderThreshold> getProductsUnderThreshold(Integer threshold) {
         return productUnderThresholdManager.getAllProductsUnderThreshold(threshold);
     }
 
-    public ArrayList<OrderInfos> getAllOrdersInfos(int productId) {
+    public ArrayList<OrderInfos> getAllOrdersInfos(Integer productId) {
         return orderInfosManager.getAllOrdersInfos(productId);
     }
 }
