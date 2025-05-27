@@ -21,8 +21,4 @@ public class OrderLineController {
     public void createOrderLine(OrderLine orderLine, Integer orderId){
         manager.createOrderLine(orderLine, orderId);
     }
-
-    public void updateOrderLine(Integer newQuantity, Integer orderId, Integer productId) {
-        manager.updateOrderLine(newQuantity, orderId, productId);
-    }
 }

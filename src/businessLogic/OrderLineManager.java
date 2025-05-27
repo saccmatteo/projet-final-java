@@ -22,7 +22,4 @@ public class OrderLineManager {
         dao.createOrderLine(orderLine, orderId);
     }
 
-    public void updateOrderLine(Integer newQuantity, Integer orderId, Integer productId) {
-        dao.updateOrderLine(newQuantity, orderId, productId);
-    }
 }

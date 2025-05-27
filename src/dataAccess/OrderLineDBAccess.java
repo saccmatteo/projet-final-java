@@ -61,19 +61,4 @@ public class OrderLineDBAccess implements OrderLineDataAccess {
             System.out.println(e.getMessage());
         }
     }
-
-    public void updateOrderLine(Integer newQuantity, Integer orderId, Integer productId) {
-        try {
-            sqlInstruction = "UPDATE orderline SET quantity = ? WHERE order_id = ? AND product_id = ?";
-            preparedStatement = SingletonConnection.getInstance().prepareStatement(sqlInstruction);
-
-            preparedStatement.setInt(1, newQuantity);
-            preparedStatement.setInt(2, orderId);
-            preparedStatement.setInt(3, productId);
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
 }
